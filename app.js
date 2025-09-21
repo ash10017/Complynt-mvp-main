@@ -29,3 +29,24 @@ signupBtn.addEventListener("click", async () => {
     alert(err.message);
   }
 });
+
+// Reveal on scroll
+const faders = document.querySelectorAll(".fade-in-up, .fade-in-left, .fade-in-right");
+
+const appearOptions = {
+  threshold: 0.2,
+  rootMargin: "0px 0px -50px 0px"
+};
+
+const appearOnScroll = new IntersectionObserver((entries, observer) => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    entry.target.classList.add("show");
+    observer.unobserve(entry.target);
+  });
+}, appearOptions);
+
+faders.forEach(el => {
+  appearOnScroll.observe(el);
+});
+
