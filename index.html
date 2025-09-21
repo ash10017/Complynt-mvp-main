@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Complynt MVP</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">Complynt</div>
+    <button class="settings-btn">⚙️ Settings</button>
+  </nav>
+
+  <!-- Dashboard -->
+  <main class="dashboard">
+    <h1>Your Compliance Checklist</h1>
+    <div id="compliance-list" class="card-grid"></div>
+  </main>
+
+  <!-- Modal -->
+  <div id="compliance-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2 id="modal-title"></h2>
+      <p id="modal-description"></p>
+      <ul id="modal-documents"></ul>
+      <div class="modal-actions">
+        <button id="close-btn" class="btn">Close</button>
+        <button id="done-btn" class="btn primary">Mark as Done</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="data/compliances.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

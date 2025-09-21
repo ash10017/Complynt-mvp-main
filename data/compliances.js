@@ -1,0 +1,36 @@
+window.compliances = [
+    {
+      id: 1,
+      name: "Trade License Renewal",
+      authority: "BBMP",
+      category: "Local Authority",
+      frequency: "Annual",
+      description: "Mandatory trade license from BBMP for restaurants/bars.",
+      documents: ["Application Form", "Previous Trade License", "Fee Receipt"],
+      dueDate: "2025-12-31",
+      status: "Pending",
+    },
+    {
+      id: 2,
+      name: "FSSAI Food License",
+      authority: "FSSAI",
+      category: "Food Safety",
+      frequency: "Annual",
+      description: "License required for handling and serving food.",
+      documents: ["Identity Proof", "Kitchen Layout", "Fee Receipt"],
+      dueDate: "2025-10-30",
+      status: "Pending",
+    },
+    {
+      id: 3,
+      name: "Excise License Renewal",
+      authority: "State Excise Dept",
+      category: "Liquor",
+      frequency: "Annual",
+      description: "Permit to sell/serve alcohol in Bangalore.",
+      documents: ["Old License", "Rental Agreement", "Tax Receipts"],
+      dueDate: "2025-09-30",
+      status: "Overdue",
+    },
+  ];
+  
