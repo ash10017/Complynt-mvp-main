@@ -50,3 +50,18 @@ faders.forEach(el => {
   appearOnScroll.observe(el);
 });
 
+// Mobile navbar toggle
+const hamburger = document.getElementById("hamburger");
+const navLinks = document.querySelector(".nav-links");
+
+hamburger.addEventListener("click", () => {
+  navLinks.classList.toggle("show");
+});
+// Close nav on link click (mobile)
+document.querySelectorAll(".nav-links a").forEach(link => {
+  link.addEventListener("click", () => {
+    if (navLinks.classList.contains("show")) {
+      navLinks.classList.remove("show");
+    }
+  });
+});
