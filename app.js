@@ -180,144 +180,80 @@
   /* ===============================
      Testimonials carousel (infinite)
      =============================== */
-  function setupTestimonialsCarousel() {
-    if (!testTrack || !carouselViewport) return;
-
-    // Save originals (clone nodes so we can rebuild on resize)
-    const originals = Array.from(testTrack.children).map(n => n.cloneNode(true));
-
-    let perView = 3;
-    let index = 0;
-    let itemWidth = 320;
-    let gap = parseFloat(getComputedStyle(testTrack).gap) || 16;
-    let autoplay = null;
-    let itemsCountOriginal = originals.length;
-
-    function computePerView() {
-      const w = window.innerWidth;
-      if (w >= 1100) return 3;
-      if (w >= 800) return 2;
-      return 1;
-    }
-
-    // Build DOM: clonesStart + originals + clonesEnd
-    function build() {
-      perView = computePerView();
-      gap = parseFloat(getComputedStyle(testTrack).gap) || 16;
-
-      // clear track
-      testTrack.innerHTML = '';
-
-      const frag = document.createDocumentFragment();
-      const n = originals.length;
-
-      // clones at start: last perView originals
-      const startSlice = originals.slice(-perView);
-      startSlice.forEach(node => frag.appendChild(node.cloneNode(true)));
-
-      // originals in order
-      originals.forEach(node => frag.appendChild(node.cloneNode(true)));
-
-      // clones at end: first perView originals
-      const endSlice = originals.slice(0, perView);
-      endSlice.forEach(node => frag.appendChild(node.cloneNode(true)));
-
-      testTrack.appendChild(frag);
-
-      // now items array (includes clones)
-      const items = Array.from(testTrack.children);
-
-      // calculate item width based on viewport width
-      const viewportWidth = carouselViewport.clientWidth || Math.floor(window.innerWidth * 0.7);
-      itemWidth = Math.floor((viewportWidth - gap * (perView - 1)) / perView);
-
-      items.forEach(it => {
-        it.style.flex = `0 0 ${itemWidth}px`;
-      });
-
-      // set starting index to first real item (accounting for prepended clones)
-      index = perView;
-      // place track without transition
-      testTrack.style.transition = 'none';
-      const offset = index * (itemWidth + gap);
-      testTrack.style.transform = `translateX(-${offset}px)`;
-      // force reflow then re-enable transition
-      void testTrack.offsetWidth;
-      testTrack.style.transition = 'transform 0.6s cubic-bezier(.2,.9,.3,1)';
-
-      // attach transitionend handler for loop fix
-      testTrack.removeEventListener('transitionend', onTransitionEnd);
-      testTrack.addEventListener('transitionend', onTransitionEnd);
-    }
-
-    function onTransitionEnd() {
-      const items = Array.from(testTrack.children);
-      const N_orig = itemsCountOriginal;
-      // if index has moved into clones at the end
-      if (index >= perView + N_orig) {
-        index -= N_orig;
-        testTrack.style.transition = 'none';
+     function setupTestimonialsCarousel() {
+      if (!testTrack || !carouselViewport) return;
+    
+      const originals = Array.from(testTrack.children).map(n => n.cloneNode(true));
+    
+      let perView = 3;
+      let index = 0;
+      let itemWidth = 320;
+      let gap = parseFloat(getComputedStyle(testTrack).gap) || 16;
+      let autoplay = null;
+    
+      function computePerView() {
+        const w = window.innerWidth;
+        if (w < 760) return 1; // always 1 on phone
+        if (w < 1100) return 2;
+        return 3;
+      }
+    
+      function build() {
+        perView = computePerView();
+        gap = parseFloat(getComputedStyle(testTrack).gap) || 16;
+        testTrack.innerHTML = '';
+        const frag = document.createDocumentFragment();
+        originals.forEach(node => frag.appendChild(node.cloneNode(true)));
+        testTrack.appendChild(frag);
+    
+        const items = Array.from(testTrack.children);
+        const viewportWidth = carouselViewport.clientWidth || Math.floor(window.innerWidth * 0.9);
+        itemWidth = Math.floor((viewportWidth - gap * (perView - 1)) / perView);
+    
+        items.forEach(it => {
+          it.style.flex = `0 0 ${itemWidth}px`;
+        });
+    
+        index = 0;
+        testTrack.style.transform = `translateX(0)`;
+      }
+    
+      function next() {
+        const items = Array.from(testTrack.children);
+        if (!items.length) return;
+        index = (index + 1) % items.length;
         const offset = index * (itemWidth + gap);
         testTrack.style.transform = `translateX(-${offset}px)`;
-        // force reflow then restore transition
-        void testTrack.offsetWidth;
-        testTrack.style.transition = 'transform 0.6s cubic-bezier(.2,.9,.3,1)';
       }
-      // if index has moved into clones at the start
-      if (index < perView) {
-        index += itemsCountOriginal;
-        testTrack.style.transition = 'none';
+    
+      function prev() {
+        const items = Array.from(testTrack.children);
+        if (!items.length) return;
+        index = (index - 1 + items.length) % items.length;
         const offset = index * (itemWidth + gap);
         testTrack.style.transform = `translateX(-${offset}px)`;
-        void testTrack.offsetWidth;
-        testTrack.style.transition = 'transform 0.6s cubic-bezier(.2,.9,.3,1)';
       }
+    
+      function startAutoplay() {
+        stopAutoplay();
+        autoplay = setInterval(next, 4000);
+      }
+      function stopAutoplay() {
+        if (autoplay) { clearInterval(autoplay); autoplay = null; }
+      }
+    
+      if (btnNext) btnNext.addEventListener('click', () => { next(); stopAutoplay(); startAutoplay(); });
+      if (btnPrev) btnPrev.addEventListener('click', () => { prev(); stopAutoplay(); startAutoplay(); });
+    
+      carouselViewport.addEventListener('mouseenter', stopAutoplay);
+      carouselViewport.addEventListener('mouseleave', startAutoplay);
+    
+      window.addEventListener('resize', build);
+    
+      build();
+      startAutoplay();
     }
-
-    function next() {
-      const items = Array.from(testTrack.children);
-      index++;
-      const offset = index * (itemWidth + gap);
-      testTrack.style.transform = `translateX(-${offset}px)`;
-    }
-    function prev() {
-      index--;
-      const offset = index * (itemWidth + gap);
-      testTrack.style.transform = `translateX(-${offset}px)`;
-    }
-
-    function startAutoplay() {
-      stopAutoplay();
-      autoplay = setInterval(() => {
-        next();
-      }, 4200);
-    }
-    function stopAutoplay() {
-      if (autoplay) { clearInterval(autoplay); autoplay = null; }
-    }
-
-    // wire buttons
-    if (btnNext) btnNext.addEventListener('click', () => { next(); stopAutoplay(); startAutoplay(); });
-    if (btnPrev) btnPrev.addEventListener('click', () => { prev(); stopAutoplay(); startAutoplay(); });
-
-    // pause on hover/focus
-    carouselViewport.addEventListener('mouseenter', stopAutoplay);
-    carouselViewport.addEventListener('mouseleave', startAutoplay);
-    carouselViewport.addEventListener('focusin', stopAutoplay);
-    carouselViewport.addEventListener('focusout', startAutoplay);
-
-    // rebuild on resize (debounced)
-    let resizeTimer = null;
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => build(), 180);
-    });
-
-    // initial build + autoplay
-    build();
-    startAutoplay();
-  }
-
+    
   // Signup
   function setupSignup() {
     if (!signupBtn) return;
