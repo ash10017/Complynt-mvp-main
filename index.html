@@ -3,157 +3,351 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Complynt | AI Compliance for Every Business</title>
+  <title>Complynt — AI Compliance for Every Business</title>
+  <meta name="description" content="Complynt is an AI compliance engine that automates licenses, predicts risk, optimizes staffing and ties compliance to financial impact." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <!-- Navbar -->
-  <nav class="navbar">
-    <div class="hamburger" id="hamburger">☰</div>
-    <div class="logo">Complynt</div>
-    <ul class="nav-links">
-      <li><a href="#features">Features</a></li>
-      <li><a href="#industries">Industries</a></li>
-      <li><a href="#how">How It Works</a></li>
-      <li><a href="#ai">AI in Action</a></li>
-      <li><a href="#why">Why Complynt</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <button id="login-btn" class="btn primary">Login</button>
-  </nav>
-
-  <!-- Hero -->
-  <section class="hero">
-    <div class="bg-art hero-bg">
-      <svg width="100%" height="100%">
-        <circle cx="50%" cy="50%" r="350" fill="#2563eb" opacity="0.15"/>
-      </svg>
-    </div>
-    <div class="hero-content">
-      <h1 id="typewriter"></h1>
-      <p>Complynt is the AI engine that automates compliance, reduces risks, and helps your business grow with confidence.</p>
-      <div class="cta-buttons">
-        <button class="btn large primary">Get Started</button>
-        <button class="btn large">Watch Demo</button>
+  <header class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="nav-left">
+      <div class="brand">
+        <svg class="brand-logo" width="36" height="36" viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="2" y="2" width="20" height="20" rx="5" fill="#fff" />
+          <path d="M6 15 L10 9 L14 15" stroke="#2563eb" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+        <span class="brand-name">Complynt</span>
       </div>
     </div>
-  </section>
 
-  <!-- Features -->
-  <section id="features" class="features fade-in-up">
-    <h2>Your AI Co-Founder for Compliance</h2>
-    <div class="grid">
-      <div class="card fade-in-up">⚖️ <h3>Compliance Tracking</h3><p>Never miss renewals, ever.</p></div>
-      <div class="card fade-in-up">📊 <h3>Risk Forecasting</h3><p>Spot penalties before they hit.</p></div>
-      <div class="card fade-in-up">👥 <h3>Workforce AI</h3><p>Smart rostering & cost savings.</p></div>
-      <div class="card fade-in-up">💰 <h3>Finance Insights</h3><p>See compliance impact on revenue.</p></div>
-      <div class="card fade-in-up">⚡ <h3>Vertical Expertise</h3><p>Tailored AI for your industry.</p></div>
+    <nav class="nav-center" aria-hidden="false">
+      <a href="#features">Features</a>
+      <a href="#industries">Industries</a>
+      <a href="#how">How</a>
+      <a href="#ai">AI Demo</a>
+      <a href="#why">Why</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="nav-right">
+      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌗</button>
+      <button id="login-btn" class="btn small primary">Request Demo</button>
+      <button id="hamburger" class="hamburger" aria-label="Open menu">☰</button>
     </div>
-  </section>
+  </header>
 
-  <!-- Industries -->
-  <section id="industries" class="industries fade-in-left">
-    <h2>Industries We Power</h2>
-    <div class="grid">
-      <div class="industry fade-in-up">🍽 Restaurants & Bars<br><span>Licensing, rostering, excise.</span></div>
-      <div class="industry fade-in-up">🏥 Healthcare<br><span>HIPAA, staffing, audits.</span></div>
-      <div class="industry fade-in-up">💸 Finance<br><span>RBI, SEBI, fraud detection.</span></div>
-      <div class="industry fade-in-up">🏭 Manufacturing<br><span>Worker safety, ISO certifications.</span></div>
-    </div>
-  </section>
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="home">
+      <div class="hero-inner">
+        <div class="hero-text">
+          <h1 id="typewriter" class="hero-title" aria-live="polite"></h1>
+          <p class="hero-sub">The AI compliance engine that automates regulation, predicts risk, and ties compliance to your finances — so you can scale with confidence.</p>
 
-  <!-- How it Works -->
-  <section id="how" class="how fade-in-up">
-    <h2>How It Works</h2>
-    <div class="timeline">
-      <div class="step fade-in-up">1️⃣ Track<br><span>Collect compliance data automatically.</span></div>
-      <div class="connector"><svg><line x1="0" y1="25" x2="100%" y2="25" stroke="#2563eb" stroke-width="4" stroke-dasharray="10,5"/></svg></div>
-      <div class="step fade-in-up">2️⃣ Predict<br><span>AI forecasts risks & costs.</span></div>
-      <div class="connector"><svg><line x1="0" y1="25" x2="100%" y2="25" stroke="#2563eb" stroke-width="4" stroke-dasharray="10,5"/></svg></div>
-      <div class="step fade-in-up">3️⃣ Grow<br><span>Operate confidently, expand seamlessly.</span></div>
-    </div>
-  </section>
+          <div class="hero-ctas">
+            <button class="btn large primary" id="cta-start">Get Started</button>
+            <button class="btn large ghost" id="cta-demo">Watch Demo</button>
+          </div>
 
-  <!-- AI Demo -->
-  <section id="ai" class="ai-demo fade-in-up">
-    <h2>AI in Action</h2>
-    <div class="chatbox">
-      <div class="chat-message user">What licenses do I need to renew?</div>
-      <div class="chat-message ai">Liquor License due June 1, FSSAI by Oct 30.</div>
-      <div class="chat-message user">What’s my compliance risk score?</div>
-      <div class="chat-message ai">Your score is 72/100. Improve it by uploading Fire NOC.</div>
-    </div>
-  </section>
+          <ul class="hero-stats" aria-hidden="true">
+            <li><strong class="metric" data-target="98">98%</strong><span>On-time renewals</span></li>
+            <li><strong class="metric" data-target="120">120</strong><span>Avg hours saved / month</span></li>
+            <li><strong class="metric" data-target="15">15%</strong><span>Avg payroll savings</span></li>
+          </ul>
+        </div>
 
-  <!-- Why -->
-  <section id="why" class="why fade-in-up">
-    <h2>Why Businesses Need Complynt</h2>
-    <div class="grid">
-      <div class="card fade-in-up">⏰ Save Time<br><span>Stop chasing deadlines, let AI remind you.</span></div>
-      <div class="card fade-in-up">💸 Save Money<br><span>Cut penalties, optimize staff, reduce waste.</span></div>
-      <div class="card fade-in-up">🛡 Reduce Risk<br><span>Stay compliant with zero guesswork.</span></div>
-      <div class="card fade-in-up">🚀 Scale Faster<br><span>Expand without compliance slowing you down.</span></div>
-    </div>
-  </section>
+        <div class="hero-mockup" aria-hidden="true">
+          <!-- SVG device mockup -->
+          <svg class="device" viewBox="0 0 600 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Product mockup">
+            <defs>
+              <linearGradient id="g1" x1="0" x2="1">
+                <stop offset="0" stop-color="#4f8cff" stop-opacity="1"/>
+                <stop offset="1" stop-color="#93c5fd" stop-opacity="1"/>
+              </linearGradient>
+              <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="22" stdDeviation="30" flood-color="#000" flood-opacity="0.12"/>
+              </filter>
+            </defs>
+            <rect x="10" y="10" rx="20" ry="20" width="580" height="400" fill="#0f172a" opacity="0.92" filter="url(#shadow)"/>
+            <rect x="36" y="36" rx="12" width="528" height="328" fill="#0b1220"/>
+            <rect x="46" y="48" rx="6" width="508" height="34" fill="#07122a"/>
+            <g transform="translate(46,96)">
+              <rect width="508" height="82" rx="10" fill="#0f172a" />
+              <rect y="96" width="508" height="120" rx="10" fill="#07122a" />
+              <circle cx="440" cy="48" r="34" stroke="url(#g1)" stroke-width="8" fill="none" stroke-linecap="round" />
+            </g>
+            <g transform="translate(420,30)">
+              <rect x="0" y="0" rx="8" width="120" height="36" fill="#fff" opacity="0.06"/>
+              <text x="18" y="23" fill="#fff" font-size="12">Demo Preview</text>
+            </g>
+          </svg>
+        </div>
+      </div>
 
-  <!-- Testimonials -->
-  <section class="testimonials fade-in-right">
-    <h2>Loved by Businesses</h2>
-    <div class="grid">
-      <div class="testimonial fade-in-up">“Complynt helped us avoid a ₹10L penalty. Game-changer!”</div>
-      <div class="testimonial fade-in-up">“Our staff scheduling costs dropped 15% thanks to AI.”</div>
-      <div class="testimonial fade-in-up">“The risk score dashboard is like having a compliance officer in my pocket.”</div>
-    </div>
-  </section>
+      <div class="hero-blob" aria-hidden="true" ></div>
+    </section>
 
-  <!-- Footer with wave -->
-  <div class="wave-divider">
-    <svg width="100%" height="200">
-      <defs>
-        <linearGradient id="footerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style="stop-color:#1e3a8a;stop-opacity:1" />
-          <stop offset="100%" style="stop-color:#2563eb;stop-opacity:1" />
-        </linearGradient>
-      </defs>
-      <path d="M0,120 C300,200 900,0 1200,120 L1200,0 L0,0 Z" fill="url(#footerGrad)" />
+    <!-- HEALTH SCORE -->
+    <section class="health reveal" id="health">
+      <div class="health-inner">
+        <div class="health-left">
+          <h2>Compliance Health</h2>
+          <p class="muted">Real-time compliance health score, based on renewals, document completeness and risk factors.</p>
+
+          <div class="health-controls">
+            <div class="radial" role="img" aria-label="Compliance health score">
+              <svg viewBox="0 0 120 120" class="radial-svg">
+                <circle class="radial-bg" cx="60" cy="60" r="50" fill="none" stroke="#e6eefc" stroke-width="10"/>
+                <circle class="radial-fg" cx="60" cy="60" r="50" fill="none" stroke="#34d399" stroke-width="10" stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="314"/>
+                <text x="60" y="66" text-anchor="middle" font-size="20" fill="#0f172a" class="radial-text">0</text>
+              </svg>
+            </div>
+
+            <div class="health-details">
+              <p class="big">Score: <strong id="health-score">0</strong>/100</p>
+              <p class="muted">Suggested action: <span id="health-action">Loading...</span></p>
+              <button class="btn ghost" id="improve-action">See Recommendations</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="health-right">
+          <div class="simulator card">
+            <h3>Scenario Simulator</h3>
+            <label for="delay-range">Delay in renewal (days): <strong id="delay-value">10</strong></label>
+            <input id="delay-range" type="range" min="0" max="60" value="10" />
+            <label for="monthly-revenue">Monthly revenue (₹):</label>
+            <input id="monthly-revenue" type="number" value="200000" min="0" step="1000" />
+            <div class="sim-result">
+              <p>Estimated monthly revenue impact: <strong id="sim-impact">₹0</strong></p>
+              <p class="muted small">This is a demo estimate; real models use your POS & history.</p>
+            </div>
+            <button class="btn primary" id="simulate-btn">Run Simulation</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section id="features" class="features reveal">
+      <h2>What Complynt Does</h2>
+      <div class="grid cards">
+        <article class="feature card">
+          <svg class="icon" viewBox="0 0 24 24"><path fill="#2563eb" d="M12 2L2 7l10 5 10-5-10-5z"/><path fill="#60a5fa" d="M2 17l10 5 10-5"/></svg>
+          <h3>Automated Renewals</h3>
+          <p>Auto-tracks license dates and files reminders or pre-filled forms.</p>
+        </article>
+
+        <article class="feature card">
+          <svg class="icon" viewBox="0 0 24 24"><path fill="#10b981" d="M12 2a10 10 0 110 20 10 10 0 010-20z"/></svg>
+          <h3>Risk Forecasting</h3>
+          <p>AI predicts inspection likelihood and financial impact from delays.</p>
+        </article>
+
+        <article class="feature card">
+          <svg class="icon" viewBox="0 0 24 24"><path fill="#f59e0b" d="M4 4h16v16H4z"/></svg>
+          <h3>Workforce Optimization</h3>
+          <p>Demand-driven rostering that stays compliant with labor rules.</p>
+        </article>
+
+        <article class="feature card">
+          <svg class="icon" viewBox="0 0 24 24"><path fill="#ef4444" d="M12 2l9 21H3L12 2z"/></svg>
+          <h3>Finance • Compliance</h3>
+          <p>See revenue exposure by license and get cash-flow recommendations.</p>
+        </article>
+
+        <article class="feature card">
+          <svg class="icon" viewBox="0 0 24 24"><path fill="#8b5cf6" d="M2 22h20V2"/></svg>
+          <h3>Vertical Intelligence</h3>
+          <p>Pre-trained modules for restaurants, healthcare, finance and manufacturing.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- AI DEMO (chat) -->
+    <section id="ai" class="ai-demo reveal">
+      <h2>AI Copilot (Demo)</h2>
+      <div class="chat-demo card">
+        <div class="chat-window" id="chat-window" aria-live="polite"></div>
+        <div class="chat-controls">
+          <button class="tag" data-query="What do I need to renew in June?">What do I need to renew in June?</button>
+          <button class="tag" data-query="How risky is my liquor license?">How risky is my liquor license?</button>
+          <input id="chat-input" placeholder="Ask Complynt..." />
+          <button id="chat-send" class="btn primary">Ask</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS (upgraded carousel with logos) -->
+    <section class="testimonials reveal" aria-label="Trusted testimonials">
+      <h2>Trusted by Bangalore’s finest</h2>
+
+      <div class="test-carousel card" id="test-carousel" aria-roledescription="carousel">
+        <button class="carousel-btn prev" id="carousel-prev" aria-label="Previous">‹</button>
+
+        <div class="carousel-viewport" id="carousel-viewport" tabindex="0" aria-live="polite">
+          <div class="test-track" id="test-track">
+            <!-- testimonial 1 -->
+            <div class="testimonial">
+              <div class="resto-logo">
+                <!-- Karavalli placeholder logo -->
+                <svg class="logo-svg" width="84" height="36" viewBox="0 0 84 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <rect width="84" height="36" rx="6" fill="#c7a24a"/>
+                  <text x="12" y="24" font-family="Inter, sans-serif" font-size="14" fill="#071329" font-weight="700">Karavalli</text>
+                </svg>
+              </div>
+              <p>“Complynt prevented a license lapse that would have cost us heavily — the automated reminders and document tracking saved our team weeks of work.”</p>
+              <cite>— Karavalli</cite>
+            </div>
+
+            <!-- testimonial 2 -->
+            <div class="testimonial">
+              <div class="resto-logo">
+                <!-- Rim Naam placeholder -->
+                <svg class="logo-svg" width="84" height="36" viewBox="0 0 84 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <rect width="84" height="36" rx="6" fill="#c7a24a"/>
+                  <text x="10" y="24" font-family="Inter, sans-serif" font-size="14" fill="#071329" font-weight="700">Rim Naam</text>
+                </svg>
+              </div>
+              <p>“The scenario simulator helped us budget for renewal fees and avoid cash crunch during peak season.”</p>
+              <cite>— Rim Naam</cite>
+            </div>
+
+            <!-- testimonial 3 -->
+            <div class="testimonial">
+              <div class="resto-logo">
+                <!-- Grasshopper placeholder -->
+                <svg class="logo-svg" width="84" height="36" viewBox="0 0 84 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <rect width="84" height="36" rx="6" fill="#c7a24a"/>
+                  <text x="10" y="24" font-family="Inter, sans-serif" font-size="14" fill="#071329" font-weight="700">Grasshopper</text>
+                </svg>
+              </div>
+              <p>“Rostering recommendations reduced overtime payouts by balancing compliance with demand — game changing.”</p>
+              <cite>— Grasshopper</cite>
+            </div>
+
+            <!-- testimonial 4 -->
+            <div class="testimonial">
+              <div class="resto-logo">
+                <!-- Wabi Sabi placeholder -->
+                <svg class="logo-svg" width="84" height="36" viewBox="0 0 84 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <rect width="84" height="36" rx="6" fill="#c7a24a"/>
+                  <text x="10" y="24" font-family="Inter, sans-serif" font-size="14" fill="#071329" font-weight="700">Wabi Sabi</text>
+                </svg>
+              </div>
+              <p>“Their compliance health score highlighted missing documents and reduced our audit prep time drastically.”</p>
+              <cite>— Wabi Sabi</cite>
+            </div>
+
+            <!-- testimonial 5 -->
+            <div class="testimonial">
+              <div class="resto-logo">
+                <!-- Le Cirque Signature placeholder -->
+                <svg class="logo-svg" width="84" height="36" viewBox="0 0 84 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <rect width="84" height="36" rx="6" fill="#c7a24a"/>
+                  <text x="8" y="24" font-family="Inter, sans-serif" font-size="12" fill="#071329" font-weight="700">Le Cirque Sig.</text>
+                </svg>
+              </div>
+              <p>“We connected our finance projections and Complynt showed us real revenue exposure per license — brilliant.”</p>
+              <cite>— Le Cirque Signature</cite>
+            </div>
+
+            <!-- testimonial 6 -->
+            <div class="testimonial">
+              <div class="resto-logo">
+                <!-- Yauatcha placeholder -->
+                <svg class="logo-svg" width="84" height="36" viewBox="0 0 84 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <rect width="84" height="36" rx="6" fill="#c7a24a"/>
+                  <text x="16" y="24" font-family="Inter, sans-serif" font-size="14" fill="#071329" font-weight="700">Yauatcha</text>
+                </svg>
+              </div>
+              <p>“Easy to use and the team is responsive — perfect for multi-outlet management.”</p>
+              <cite>— Yauatcha</cite>
+            </div>
+
+            <!-- testimonial 7 -->
+            <div class="testimonial">
+              <div class="resto-logo">
+                <!-- Jamavar placeholder -->
+                <svg class="logo-svg" width="84" height="36" viewBox="0 0 84 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <rect width="84" height="36" rx="6" fill="#c7a24a"/>
+                  <text x="18" y="24" font-family="Inter, sans-serif" font-size="14" fill="#071329" font-weight="700">Jamavar</text>
+                </svg>
+              </div>
+              <p>“Complynt reduced our payroll variability and made compliance checks painless before peak service nights.”</p>
+              <cite>— Jamavar</cite>
+            </div>
+
+          </div>
+        </div>
+
+        <button class="carousel-btn next" id="carousel-next" aria-label="Next">›</button>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta reveal" id="signup">
+      <div class="cta-inner card">
+        <h2>Ready to make compliance an advantage?</h2>
+        <p class="muted">Book a demo or start a free trial — tailored to your industry.</p>
+        <div class="cta-actions">
+          <input id="signup-email" type="email" placeholder="Work email" />
+          <button id="signup-btn" class="btn primary">Request a Demo</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- footer wave -->
+  <div class="wave-divider" aria-hidden="true">
+    <svg width="100%" height="180" viewBox="0 0 1440 180" preserveAspectRatio="none">
+      <path d="M0,80 C360,150 1080,0 1440,70 L1440,180 L0,180 Z" fill="#111827"></path>
     </svg>
   </div>
 
-  <footer id="contact">
-    <p>📧 contact@complynt.ai</p>
-    <p>© 2025 Complynt | AI Compliance Engine</p>
+  <footer id="contact" class="site-footer">
+    <div class="footer-inner">
+      <div class="f-left">
+        <div class="brand small">
+          <svg width="28" height="28" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" fill="#fff"/><path d="M6 15 L10 9 L14 15" stroke="#fff" stroke-width="1.6" fill="none"/></svg>
+          <span>Complynt</span>
+        </div>
+        <p class="muted small">AI compliance engine — automate renewals, predict risk, optimize operations.</p>
+      </div>
+      <div class="f-right">
+        <form id="newsletter" class="newsletter">
+          <label for="news-email" class="small muted">Get updates</label>
+          <input id="news-email" type="email" placeholder="Your email" />
+          <button class="btn small primary">Subscribe</button>
+        </form>
+      </div>
+    </div>
+    <div class="copyright small muted">© 2025 Complynt • All rights reserved</div>
   </footer>
 
-  <!-- Sticky CTA -->
-  <button class="sticky-cta">⚡ Get Started with AI</button>
-
-  <!-- Login Modal -->
-  <div id="login-modal" class="modal hidden">
-    <div class="modal-content">
-      <h2>Login</h2>
-      <input id="email" type="email" placeholder="Email" />
-      <input id="password" type="password" placeholder="Password" />
-      <button id="signin-btn" class="btn primary">Sign In</button>
-      <button id="signup-btn" class="btn">Sign Up</button>
-      <button id="close-login" class="btn">Close</button>
+  <!-- Request Demo / Login Modal -->
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Request demo">
+    <div class="modal-panel card">
+      <button id="modal-close" class="icon-btn" aria-label="Close modal">✕</button>
+      <h3>Request a Demo</h3>
+      <p class="muted">Enter your business email and we'll contact you within one business day.</p>
+      <input id="demo-email" type="email" placeholder="Work email" />
+      <input id="demo-name" type="text" placeholder="Company / Business name (optional)" />
+      <select id="demo-industry">
+        <option value="">Industry (optional)</option>
+        <option>Restaurants</option>
+        <option>Healthcare</option>
+        <option>Finance</option>
+        <option>Manufacturing</option>
+      </select>
+      <div class="modal-actions">
+        <button id="modal-submit" class="btn primary">Request Demo</button>
+      </div>
     </div>
   </div>
 
-  <!-- Firebase + App scripts -->
-  <script src="firebase-setup.js"></script>
-  <script src="app.js"></script>
-  <script>
-    // Typewriter effect
-    const text = "AI Compliance for Every Business";
-    let i = 0;
-    function typeWriter() {
-      if (i < text.length) {
-        document.getElementById("typewriter").innerHTML += text.charAt(i);
-        i++;
-        setTimeout(typeWriter, 70);
-      }
-    }
-    typeWriter();
-  </script>
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+  <script src="app.js" defer></script>
 </body>
 </html>
