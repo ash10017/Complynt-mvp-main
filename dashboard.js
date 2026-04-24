@@ -130,11 +130,13 @@ uploadBtn.addEventListener("click", () => {
 searchInput.addEventListener("input", renderCompliances);
 filterSelect.addEventListener("change", renderCompliances);
 
-// Dark mode
-themeToggle.addEventListener("click", () => {
-  document.body.classList.toggle("dark");
-  localStorage.setItem("theme", document.body.classList.contains("dark") ? "dark" : "light");
-});
+// Dark mode (optional toggle — element may not be present in current nav)
+if (themeToggle) {
+  themeToggle.addEventListener("click", () => {
+    document.body.classList.toggle("dark");
+    localStorage.setItem("theme", document.body.classList.contains("dark") ? "dark" : "light");
+  });
+}
 if (localStorage.getItem("theme") === "dark") {
   document.body.classList.add("dark");
 }

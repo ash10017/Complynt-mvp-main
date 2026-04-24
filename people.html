@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>People — Complynt</title>
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body>
+
+  <!-- App Nav -->
+  <nav class="app-nav">
+    <a class="app-nav-logo" href="dashboard.html">Complynt</a>
+    <div class="app-nav-tabs">
+      <a href="dashboard.html" class="app-nav-tab">Compliance</a>
+      <a href="people.html"    class="app-nav-tab active">People</a>
+    </div>
+    <div class="app-nav-end">
+      <span id="user-name" class="app-nav-user"></span>
+      <button id="logout-btn" class="btn small">Log out</button>
+    </div>
+  </nav>
+
+  <main class="app-main">
+
+    <!-- Page header -->
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">People</h1>
+        <p class="page-sub">Employees, shifts & labour compliance</p>
+      </div>
+      <button id="add-emp-btn" class="btn primary">+ Add Employee</button>
+    </div>
+
+    <!-- Stats row -->
+    <div class="stats-row" id="stats-row">
+      <div class="stat-card">
+        <div class="stat-label">Total Staff</div>
+        <div class="stat-value" id="stat-total">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Active</div>
+        <div class="stat-value green" id="stat-active">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">ESIC Applicable</div>
+        <div class="stat-value blue" id="stat-esic">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">PF Enrolled</div>
+        <div class="stat-value blue" id="stat-pf">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total Wage Bill</div>
+        <div class="stat-value" id="stat-wage">—</div>
+      </div>
+    </div>
+
+    <!-- ── EMPLOYEES ── -->
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title">Employee Directory</h2>
+        <div class="section-actions">
+          <input id="emp-search" class="search-input" type="text" placeholder="Search name or role…" />
+          <select id="emp-dept-filter" class="filter-select">
+            <option value="">All Departments</option>
+            <option value="Kitchen">Kitchen</option>
+            <option value="Service">Service</option>
+            <option value="Bar">Bar</option>
+            <option value="Housekeeping">Housekeeping</option>
+            <option value="Management">Management</option>
+            <option value="Security">Security</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+      <div id="employee-grid" class="employee-grid">
+        <div class="empty-state" id="emp-empty">No employees yet. Add your first employee to get started.</div>
+      </div>
+    </section>
+
+    <!-- ── SHIFTS ── -->
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title">Weekly Shift Board</h2>
+        <div class="section-actions">
+          <button id="shift-prev" class="btn small icon" title="Previous week">&#8592;</button>
+          <span id="week-label" class="week-label"></span>
+          <button id="shift-next" class="btn small icon" title="Next week">&#8594;</button>
+        </div>
+      </div>
+      <div class="shift-board-wrap">
+        <div class="shift-grid" id="shift-grid">
+          <!-- columns injected by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ── LABOUR COMPLIANCE ── -->
+    <section class="section">
+      <div class="section-header">
+        <h2 class="section-title">Labour Compliance</h2>
+        <p class="section-desc">Calculated each month. File by the 15th of the following month.</p>
+      </div>
+      <div class="labour-grid" id="labour-grid">
+
+        <div class="labour-card">
+          <div class="labour-card-header">
+            <div class="labour-icon esic-icon">E</div>
+            <div>
+              <div class="labour-card-title">ESIC</div>
+              <div class="labour-card-sub">Employees' State Insurance</div>
+            </div>
+            <span class="badge badge-blue" id="esic-status">Calculating…</span>
+          </div>
+          <div class="labour-detail">
+            <div class="labour-row"><span>Applicable employees (salary ≤ ₹21,000)</span><span id="esic-count">—</span></div>
+            <div class="labour-row"><span>Employee contribution (0.75%)</span><span id="esic-emp">₹—</span></div>
+            <div class="labour-row"><span>Employer contribution (3.25%)</span><span id="esic-er">₹—</span></div>
+            <div class="labour-row total"><span>Total ESIC payable</span><span id="esic-total">₹—</span></div>
+          </div>
+          <div class="labour-due">Due: 15th of next month &nbsp;·&nbsp; Portal: esic.in</div>
+        </div>
+
+        <div class="labour-card">
+          <div class="labour-card-header">
+            <div class="labour-icon pf-icon">P</div>
+            <div>
+              <div class="labour-card-title">PF / EPFO</div>
+              <div class="labour-card-sub">Provident Fund</div>
+            </div>
+            <span class="badge badge-blue" id="pf-status">Calculating…</span>
+          </div>
+          <div class="labour-detail">
+            <div class="labour-row"><span>Enrolled employees</span><span id="pf-count">—</span></div>
+            <div class="labour-row"><span>Employee contribution (12% of basic)</span><span id="pf-emp">₹—</span></div>
+            <div class="labour-row"><span>Employer contribution (12% of basic)</span><span id="pf-er">₹—</span></div>
+            <div class="labour-row total"><span>Total PF payable</span><span id="pf-total">₹—</span></div>
+          </div>
+          <div class="labour-due">Due: 15th of next month &nbsp;·&nbsp; Portal: epfindia.gov.in</div>
+        </div>
+
+        <div class="labour-card">
+          <div class="labour-card-header">
+            <div class="labour-icon mw-icon">W</div>
+            <div>
+              <div class="labour-card-title">Minimum Wage Check</div>
+              <div class="labour-card-sub">Karnataka (unskilled: ₹9,518/mo)</div>
+            </div>
+            <span class="badge badge-green" id="mw-status">Checking…</span>
+          </div>
+          <div class="labour-detail">
+            <div class="labour-row"><span>Employees below minimum wage</span><span id="mw-below" class="text-red">—</span></div>
+            <div class="labour-row"><span>Employees at or above</span><span id="mw-ok" class="text-green">—</span></div>
+          </div>
+          <div class="labour-due">Karnataka Minimum Wages Act · Updated April 2024</div>
+        </div>
+
+        <div class="labour-card">
+          <div class="labour-card-header">
+            <div class="labour-icon pt-icon">T</div>
+            <div>
+              <div class="labour-card-title">Professional Tax</div>
+              <div class="labour-card-sub">Karnataka — deducted from salary</div>
+            </div>
+            <span class="badge badge-blue" id="pt-status">Calculating…</span>
+          </div>
+          <div class="labour-detail">
+            <div class="labour-row"><span>Employees earning &gt; ₹15,000/mo</span><span id="pt-count">—</span></div>
+            <div class="labour-row total"><span>Total PT deductible (₹200/head)</span><span id="pt-total">₹—</span></div>
+          </div>
+          <div class="labour-due">Due: monthly by 20th &nbsp;·&nbsp; Paid to: BBMP / Commercial Taxes</div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Add / Edit Employee Modal -->
+  <div id="emp-modal" class="modal hidden">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="emp-modal-title">Add Employee</h3>
+        <button class="modal-close" id="emp-modal-close">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Full Name *</label>
+            <input id="f-name" type="text" placeholder="Ravi Kumar" />
+          </div>
+          <div class="form-group">
+            <label>Role / Designation *</label>
+            <input id="f-role" type="text" placeholder="Head Chef" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Department *</label>
+            <select id="f-dept">
+              <option value="">Select…</option>
+              <option>Kitchen</option>
+              <option>Service</option>
+              <option>Bar</option>
+              <option>Housekeeping</option>
+              <option>Management</option>
+              <option>Security</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Status</label>
+            <select id="f-status">
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Gross Monthly Salary (₹) *</label>
+            <input id="f-salary" type="number" placeholder="18000" min="0" />
+          </div>
+          <div class="form-group">
+            <label>Basic Salary (₹) — for PF</label>
+            <input id="f-basic" type="number" placeholder="9000" min="0" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Phone</label>
+            <input id="f-phone" type="tel" placeholder="9876543210" />
+          </div>
+          <div class="form-group">
+            <label>Date of Joining</label>
+            <input id="f-doj" type="date" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>PF UAN Number</label>
+            <input id="f-uan" type="text" placeholder="100XXXXXXXXX" />
+          </div>
+          <div class="form-group">
+            <label>ESIC IP Number</label>
+            <input id="f-esic" type="text" placeholder="12 digit ESIC number" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Notes</label>
+          <textarea id="f-notes" rows="2" placeholder="Optional notes…"></textarea>
+        </div>
+
+        <!-- Calculated preview -->
+        <div class="calc-preview" id="calc-preview">
+          <div class="calc-row"><span>ESIC applicable?</span><span id="cp-esic">—</span></div>
+          <div class="calc-row"><span>Employee ESIC (0.75%)</span><span id="cp-esic-emp">—</span></div>
+          <div class="calc-row"><span>Employer ESIC (3.25%)</span><span id="cp-esic-er">—</span></div>
+          <div class="calc-row"><span>Employee PF (12% basic)</span><span id="cp-pf-emp">—</span></div>
+          <div class="calc-row"><span>Employer PF (12% basic)</span><span id="cp-pf-er">—</span></div>
+          <div class="calc-row"><span>Professional Tax</span><span id="cp-pt">—</span></div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button id="delete-emp-btn" class="btn danger hidden">Delete</button>
+        <div class="modal-footer-right">
+          <button id="emp-cancel-btn" class="btn">Cancel</button>
+          <button id="emp-save-btn" class="btn primary">Save Employee</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Shift Modal -->
+  <div id="shift-modal" class="modal hidden">
+    <div class="modal-box small">
+      <div class="modal-header">
+        <h3 id="shift-modal-title">Add Shift</h3>
+        <button class="modal-close" id="shift-modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Employee *</label>
+          <select id="sf-emp"></select>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Start Time *</label>
+            <input id="sf-start" type="time" value="09:00" />
+          </div>
+          <div class="form-group">
+            <label>End Time *</label>
+            <input id="sf-end" type="time" value="17:00" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Note</label>
+          <input id="sf-note" type="text" placeholder="e.g. Morning shift" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="modal-footer-right">
+          <button id="shift-cancel-btn" class="btn">Cancel</button>
+          <button id="shift-save-btn" class="btn primary">Save Shift</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="firebase-setup.js"></script>
+  <script src="people.js"></script>
+</body>
+</html>

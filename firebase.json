@@ -1,0 +1,29 @@
+{
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      ".firebaserc",
+      "*.jsonl",
+      "node_modules/**",
+      ".git/**",
+      ".vscode/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/app",
+        "destination": "/dashboard.html"
+      }
+    ],
+    "headers": [
+      {
+        "source": "**",
+        "headers": [
+          { "key": "X-Frame-Options",       "value": "SAMEORIGIN" },
+          { "key": "X-Content-Type-Options", "value": "nosniff" },
+          { "key": "Referrer-Policy",        "value": "strict-origin-when-cross-origin" }
+        ]
+      }
+    ]
+  }
+}
