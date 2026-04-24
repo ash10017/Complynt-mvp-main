@@ -40,13 +40,16 @@
   const btnNext = $('#carousel-next');
 
   // Typewriter
-  const headline = "AI Compliance for Every Business";
+  const headline = "Make Compliance Your Competitive Advantage";
   let idx = 0;
   function typewriter() {
     if (!typeEl) return;
     if (idx < headline.length) {
       typeEl.textContent += headline[idx++];
-      setTimeout(typewriter, 40);
+      setTimeout(typewriter, 38);
+    } else {
+      const cursor = document.querySelector('.cursor');
+      if (cursor) cursor.classList.add('done');
     }
   }
 
@@ -149,10 +152,17 @@
   function setupChat() {
     if (!chatWindow) return;
     function appendMsg(text, who='ai') {
-      const el = document.createElement('div');
-      el.className = 'chat-message ' + (who === 'user' ? 'user' : 'ai');
-      el.textContent = text;
-      chatWindow.appendChild(el);
+      const wrap = document.createElement('div');
+      wrap.className = 'chat-message ' + (who === 'user' ? 'user' : 'ai');
+      const avatar = document.createElement('div');
+      avatar.className = 'chat-avatar';
+      avatar.textContent = who === 'user' ? 'Me' : 'AI';
+      const bubble = document.createElement('div');
+      bubble.className = 'chat-bubble';
+      bubble.textContent = text;
+      wrap.appendChild(avatar);
+      wrap.appendChild(bubble);
+      chatWindow.appendChild(wrap);
       chatWindow.scrollTop = chatWindow.scrollHeight;
     }
     chatTags.forEach(btn => {
@@ -329,11 +339,6 @@
     setupSignup();
     setupNavbarScroll();
 
-    // Animate hero mockup subtle translate on load
-    requestAnimationFrame(()=> {
-      const mock = document.querySelector('.hero-mockup');
-      if (mock) mock.style.transform = 'translateY(-6px)';
-    });
   }
 
   document.addEventListener('DOMContentLoaded', init);

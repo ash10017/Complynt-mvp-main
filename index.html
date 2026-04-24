@@ -5,349 +5,434 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Complynt — AI Compliance for Every Business</title>
   <meta name="description" content="Complynt is an AI compliance engine that automates licenses, predicts risk, optimizes staffing and ties compliance to financial impact." />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Syne:wght@700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+
+  <!-- NAVBAR -->
   <header class="navbar" role="navigation" aria-label="Main navigation">
-    <div class="nav-left">
+    <div class="nav-inner">
       <div class="brand">
-        <svg class="brand-logo" width="36" height="36" viewBox="0 0 24 24" aria-hidden="true">
-          <rect x="2" y="2" width="20" height="20" rx="5" fill="#fff" />
-          <path d="M6 15 L10 9 L14 15" stroke="#2563eb" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-        </svg>
+        <div class="brand-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2L2 7l10 5 10-5-10-5z" fill="url(#bg1)"/>
+            <path d="M2 17l10 5 10-5" stroke="url(#bg2)" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+            <defs>
+              <linearGradient id="bg1" x1="0" y1="0" x2="24" y2="24"><stop offset="0%" stop-color="#6366f1"/><stop offset="100%" stop-color="#06b6d4"/></linearGradient>
+              <linearGradient id="bg2" x1="0" y1="0" x2="24" y2="24"><stop offset="0%" stop-color="#8b5cf6"/><stop offset="100%" stop-color="#06b6d4"/></linearGradient>
+            </defs>
+          </svg>
+        </div>
         <span class="brand-name">Complynt</span>
       </div>
-    </div>
 
-    <nav class="nav-center" aria-hidden="false">
-      <a href="#features">Features</a>
-      <a href="#industries">Industries</a>
-      <a href="#how">How</a>
-      <a href="#ai">AI Demo</a>
-      <a href="#why">Why</a>
-      <a href="#contact">Contact</a>
-    </nav>
+      <nav class="nav-center">
+        <a href="#features">Features</a>
+        <a href="#health">Health Score</a>
+        <a href="#ai">AI Demo</a>
+        <a href="#testimonials">Reviews</a>
+        <a href="#contact">Contact</a>
+      </nav>
 
-    <div class="nav-right">
-      <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌗</button>
-      <button id="login-btn" class="btn small primary">Request Demo</button>
-      <button id="hamburger" class="hamburger" aria-label="Open menu">☰</button>
+      <div class="nav-right">
+        <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+        <button id="login-btn" class="btn primary glow-btn">Request Demo</button>
+        <button id="hamburger" class="hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+      </div>
     </div>
   </header>
 
   <main>
     <!-- HERO -->
     <section class="hero" id="home">
+      <div class="aurora" aria-hidden="true">
+        <div class="aurora-1"></div>
+        <div class="aurora-2"></div>
+        <div class="aurora-3"></div>
+      </div>
+      <div class="hero-grid" aria-hidden="true"></div>
+
       <div class="hero-inner">
         <div class="hero-text">
-          <h1 id="typewriter" class="hero-title" aria-live="polite"></h1>
+          <div class="hero-badge">
+            <span class="badge-dot"></span>
+            Trusted by 200+ businesses across India
+          </div>
+
+          <h1 class="hero-title">
+            <span id="typewriter" class="gradient-text"></span><span class="cursor">|</span>
+          </h1>
           <p class="hero-sub">The AI compliance engine that automates regulation, predicts risk, and ties compliance to your finances — so you can scale with confidence.</p>
 
           <div class="hero-ctas">
-            <button class="btn large primary" id="cta-start">Get Started</button>
-            <button class="btn large ghost" id="cta-demo">Watch Demo</button>
+            <button class="btn large primary glow-btn" id="cta-start">
+              Get Started Free
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            <button class="btn large ghost" id="cta-demo">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none"/></svg>
+              Watch Demo
+            </button>
           </div>
 
-          <ul class="hero-stats" aria-hidden="true">
-            <li><strong class="metric" data-target="98">98%</strong><span>On-time renewals</span></li>
-            <li><strong class="metric" data-target="120">120</strong><span>Avg hours saved / month</span></li>
-            <li><strong class="metric" data-target="15">15%</strong><span>Avg payroll savings</span></li>
+          <ul class="hero-stats" aria-label="Key metrics">
+            <li>
+              <div class="stat-num"><strong class="metric" data-target="98">0</strong><span class="metric-suffix">%</span></div>
+              <span class="stat-label">On-time renewals</span>
+            </li>
+            <li class="stat-divider" aria-hidden="true"></li>
+            <li>
+              <div class="stat-num"><strong class="metric" data-target="120">0</strong><span class="metric-suffix">+</span></div>
+              <span class="stat-label">Hours saved / month</span>
+            </li>
+            <li class="stat-divider" aria-hidden="true"></li>
+            <li>
+              <div class="stat-num"><strong class="metric" data-target="15">0</strong><span class="metric-suffix">%</span></div>
+              <span class="stat-label">Avg payroll savings</span>
+            </li>
           </ul>
         </div>
 
+        <!-- Dashboard Mockup -->
         <div class="hero-mockup" aria-hidden="true">
-          <!-- SVG device mockup -->
-          <svg class="device" viewBox="0 0 600 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Product mockup">
-            <defs>
-              <linearGradient id="g1" x1="0" x2="1">
-                <stop offset="0" stop-color="#4f8cff" stop-opacity="1"/>
-                <stop offset="1" stop-color="#93c5fd" stop-opacity="1"/>
-              </linearGradient>
-              <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-                <feDropShadow dx="0" dy="22" stdDeviation="30" flood-color="#000" flood-opacity="0.12"/>
-              </filter>
-            </defs>
-            <rect x="10" y="10" rx="20" ry="20" width="580" height="400" fill="#0f172a" opacity="0.92" filter="url(#shadow)"/>
-            <rect x="36" y="36" rx="12" width="528" height="328" fill="#0b1220"/>
-            <rect x="46" y="48" rx="6" width="508" height="34" fill="#07122a"/>
-            <g transform="translate(46,96)">
-              <rect width="508" height="82" rx="10" fill="#0f172a" />
-              <rect y="96" width="508" height="120" rx="10" fill="#07122a" />
-              <circle cx="440" cy="48" r="34" stroke="url(#g1)" stroke-width="8" fill="none" stroke-linecap="round" />
-            </g>
-            <g transform="translate(420,30)">
-              <rect x="0" y="0" rx="8" width="120" height="36" fill="#fff" opacity="0.06"/>
-              <text x="18" y="23" fill="#fff" font-size="12">Demo Preview</text>
-            </g>
-          </svg>
+          <div class="mockup-glow"></div>
+          <div class="mockup-frame">
+            <div class="mockup-header">
+              <div class="mockup-dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
+              <div class="mockup-titlebar">Complynt Dashboard</div>
+            </div>
+            <div class="mockup-body">
+              <div class="mockup-sidebar">
+                <div class="sb-item active"></div>
+                <div class="sb-item"></div>
+                <div class="sb-item"></div>
+                <div class="sb-item"></div>
+                <div class="sb-item"></div>
+              </div>
+              <div class="mockup-main">
+                <div class="mockup-stats-row">
+                  <div class="ms-card indigo"><div class="ms-val">72<span>%</span></div><div class="ms-label">Health</div></div>
+                  <div class="ms-card amber"><div class="ms-val">3</div><div class="ms-label">Due Soon</div></div>
+                  <div class="ms-card rose"><div class="ms-val">₹0</div><div class="ms-label">Risk</div></div>
+                </div>
+                <div class="mockup-chart">
+                  <div class="chart-bar" style="height:55%;background:linear-gradient(to top,#6366f1,#818cf8)"></div>
+                  <div class="chart-bar" style="height:75%;background:linear-gradient(to top,#6366f1,#818cf8)"></div>
+                  <div class="chart-bar" style="height:45%;background:linear-gradient(to top,#6366f1,#818cf8)"></div>
+                  <div class="chart-bar" style="height:88%;background:linear-gradient(to top,#06b6d4,#38bdf8)"></div>
+                  <div class="chart-bar" style="height:62%;background:linear-gradient(to top,#6366f1,#818cf8)"></div>
+                  <div class="chart-bar" style="height:95%;background:linear-gradient(to top,#10b981,#34d399)"></div>
+                  <div class="chart-bar" style="height:70%;background:linear-gradient(to top,#6366f1,#818cf8)"></div>
+                </div>
+                <div class="mockup-list">
+                  <div class="ml-row"><span class="ml-dot emerald"></span><span class="ml-text">FSSAI License</span><span class="ml-badge ok">Active</span></div>
+                  <div class="ml-row"><span class="ml-dot amber"></span><span class="ml-text">Trade License</span><span class="ml-badge warn">Due Soon</span></div>
+                  <div class="ml-row"><span class="ml-dot red"></span><span class="ml-text">Excise Permit</span><span class="ml-badge danger">Overdue</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="hero-blob" aria-hidden="true" ></div>
+      <div class="scroll-hint" aria-hidden="true"><div class="scroll-line"></div></div>
+    </section>
+
+    <!-- TRUSTED BY -->
+    <div class="trusted-strip">
+      <div class="trusted-inner">
+        <span class="trusted-label">Trusted by</span>
+        <div class="trusted-logos">
+          <span>Karavalli</span><span>Rim Naam</span><span>Grasshopper</span>
+          <span>Wabi Sabi</span><span>Le Cirque</span><span>Yauatcha</span><span>Jamavar</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- FEATURES (BENTO) -->
+    <section id="features" class="features reveal">
+      <div class="section-inner">
+        <div class="section-label">Features</div>
+        <h2 class="section-title">Everything your compliance needs</h2>
+        <p class="section-sub">From automated renewals to AI risk forecasting — built for Indian businesses.</p>
+
+        <div class="bento-grid">
+          <article class="bento-card bento-lg feat-1">
+            <div class="bento-icon">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" stroke="currentColor" stroke-width="2"/><rect x="9" y="3" width="6" height="4" rx="1" stroke="currentColor" stroke-width="2"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <h3>Automated Renewals</h3>
+            <p>Auto-tracks every license expiry, files pre-filled reminders, and flags risks before they become fines. Never miss a deadline again.</p>
+            <div class="bento-deco deco-indigo"></div>
+          </article>
+
+          <article class="bento-card bento-sm feat-2">
+            <div class="bento-icon">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M22 12h-4l-3 9L9 3l-3 9H2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h3>Risk Forecasting</h3>
+            <p>AI predicts inspection likelihood and financial impact from delays.</p>
+            <div class="bento-deco deco-rose"></div>
+          </article>
+
+          <article class="bento-card bento-sm feat-3">
+            <div class="bento-icon">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke="currentColor" stroke-width="2"/><circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke="currentColor" stroke-width="2"/></svg>
+            </div>
+            <h3>Workforce Optimization</h3>
+            <p>Demand-driven rostering that stays compliant with labor rules.</p>
+            <div class="bento-deco deco-amber"></div>
+          </article>
+
+          <article class="bento-card bento-lg feat-4">
+            <div class="bento-icon">
+              <svg viewBox="0 0 24 24" fill="none"><line x1="12" y1="1" x2="12" y2="23" stroke="currentColor" stroke-width="2"/><path d="M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <h3>Finance × Compliance</h3>
+            <p>See real revenue exposure per license and get smart cash-flow recommendations tied directly to your compliance calendar.</p>
+            <div class="bento-deco deco-emerald"></div>
+          </article>
+
+          <article class="bento-card bento-full feat-5">
+            <div class="bento-icon">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" stroke-width="2"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2"/></svg>
+            </div>
+            <h3>Vertical Intelligence</h3>
+            <p>Pre-trained modules for every industry — compliance rules baked in from day one.</p>
+            <div class="feat-pills">
+              <span class="pill">Restaurants</span>
+              <span class="pill">Healthcare</span>
+              <span class="pill">Finance</span>
+              <span class="pill">Manufacturing</span>
+            </div>
+            <div class="bento-deco deco-violet"></div>
+          </article>
+        </div>
+      </div>
     </section>
 
     <!-- HEALTH SCORE -->
     <section class="health reveal" id="health">
-      <div class="health-inner">
-        <div class="health-left">
-          <h2>Compliance Health</h2>
-          <p class="muted">Real-time compliance health score, based on renewals, document completeness and risk factors.</p>
+      <div class="section-inner">
+        <div class="section-label">Live Intelligence</div>
+        <h2 class="section-title">Your Compliance Health Score</h2>
 
-          <div class="health-controls">
-            <div class="radial" role="img" aria-label="Compliance health score">
-              <svg viewBox="0 0 120 120" class="radial-svg">
-                <circle class="radial-bg" cx="60" cy="60" r="50" fill="none" stroke="#e6eefc" stroke-width="10"/>
-                <circle class="radial-fg" cx="60" cy="60" r="50" fill="none" stroke="#34d399" stroke-width="10" stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="314"/>
-                <text x="60" y="66" text-anchor="middle" font-size="20" fill="#0f172a" class="radial-text">0</text>
-              </svg>
-            </div>
-
-            <div class="health-details">
-              <p class="big">Score: <strong id="health-score">0</strong>/100</p>
-              <p class="muted">Suggested action: <span id="health-action">Loading...</span></p>
-              <button class="btn ghost" id="improve-action">See Recommendations</button>
+        <div class="health-inner">
+          <div class="health-left">
+            <p class="section-sub" style="margin-bottom:32px">Real-time compliance health based on renewals, document completeness, and risk factors.</p>
+            <div class="health-controls">
+              <div class="radial" role="img" aria-label="Compliance health score">
+                <svg viewBox="0 0 120 120" class="radial-svg">
+                  <defs>
+                    <linearGradient id="rg" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0%" stop-color="#6366f1"/>
+                      <stop offset="50%" stop-color="#06b6d4"/>
+                      <stop offset="100%" stop-color="#10b981"/>
+                    </linearGradient>
+                  </defs>
+                  <circle class="radial-bg" cx="60" cy="60" r="50" fill="none" stroke-width="10"/>
+                  <circle class="radial-fg" cx="60" cy="60" r="50" fill="none" stroke="url(#rg)" stroke-width="10" stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="314"/>
+                  <text x="60" y="56" text-anchor="middle" font-size="20" class="radial-text">0</text>
+                  <text x="60" y="72" text-anchor="middle" font-size="9" fill="#475569">/ 100</text>
+                </svg>
+              </div>
+              <div class="health-details">
+                <p class="health-score-big">Score: <strong id="health-score">0</strong><span>/100</span></p>
+                <p class="health-action-text">Suggested: <span id="health-action">Loading...</span></p>
+                <button class="btn ghost" id="improve-action">See Recommendations →</button>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="health-right">
-          <div class="simulator card">
-            <h3>Scenario Simulator</h3>
-            <label for="delay-range">Delay in renewal (days): <strong id="delay-value">10</strong></label>
-            <input id="delay-range" type="range" min="0" max="60" value="10" />
-            <label for="monthly-revenue">Monthly revenue (₹):</label>
-            <input id="monthly-revenue" type="number" value="200000" min="0" step="1000" />
-            <div class="sim-result">
-              <p>Estimated monthly revenue impact: <strong id="sim-impact">₹0</strong></p>
-              <p class="muted small">This is a demo estimate; real models use your POS & history.</p>
+          <div class="health-right">
+            <div class="simulator-card card">
+              <div class="sim-header">
+                <div class="sim-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
+                </div>
+                <h3>Scenario Simulator</h3>
+              </div>
+              <label for="delay-range">Renewal delay: <strong id="delay-value">10</strong> days</label>
+              <input id="delay-range" type="range" min="0" max="60" value="10" class="slider" />
+              <label for="monthly-revenue">Monthly revenue (₹)</label>
+              <input id="monthly-revenue" type="number" value="200000" min="0" step="1000" />
+              <div class="sim-result">
+                <p class="sim-result-label">Estimated revenue impact</p>
+                <p class="sim-impact-big"><strong id="sim-impact">₹0</strong></p>
+                <p class="sim-note">Demo estimate — real models use your POS data.</p>
+              </div>
+              <button class="btn primary glow-btn" style="width:100%;justify-content:center" id="simulate-btn">Run Simulation</button>
             </div>
-            <button class="btn primary" id="simulate-btn">Run Simulation</button>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- FEATURES -->
-    <section id="features" class="features reveal">
-      <h2>What Complynt Does</h2>
-      <div class="grid cards">
-        <article class="feature card">
-          <svg class="icon" viewBox="0 0 24 24"><path fill="#2563eb" d="M12 2L2 7l10 5 10-5-10-5z"/><path fill="#60a5fa" d="M2 17l10 5 10-5"/></svg>
-          <h3>Automated Renewals</h3>
-          <p>Auto-tracks license dates and files reminders or pre-filled forms.</p>
-        </article>
-
-        <article class="feature card">
-          <svg class="icon" viewBox="0 0 24 24"><path fill="#10b981" d="M12 2a10 10 0 110 20 10 10 0 010-20z"/></svg>
-          <h3>Risk Forecasting</h3>
-          <p>AI predicts inspection likelihood and financial impact from delays.</p>
-        </article>
-
-        <article class="feature card">
-          <svg class="icon" viewBox="0 0 24 24"><path fill="#f59e0b" d="M4 4h16v16H4z"/></svg>
-          <h3>Workforce Optimization</h3>
-          <p>Demand-driven rostering that stays compliant with labor rules.</p>
-        </article>
-
-        <article class="feature card">
-          <svg class="icon" viewBox="0 0 24 24"><path fill="#ef4444" d="M12 2l9 21H3L12 2z"/></svg>
-          <h3>Finance • Compliance</h3>
-          <p>See revenue exposure by license and get cash-flow recommendations.</p>
-        </article>
-
-        <article class="feature card">
-          <svg class="icon" viewBox="0 0 24 24"><path fill="#8b5cf6" d="M2 22h20V2"/></svg>
-          <h3>Vertical Intelligence</h3>
-          <p>Pre-trained modules for restaurants, healthcare, finance and manufacturing.</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- AI DEMO (chat) -->
+    <!-- AI DEMO -->
     <section id="ai" class="ai-demo reveal">
-      <h2>AI Copilot (Demo)</h2>
-      <div class="chat-demo card">
-        <div class="chat-window" id="chat-window" aria-live="polite"></div>
-        <div class="chat-controls">
-          <button class="tag" data-query="What do I need to renew in June?">What do I need to renew in June?</button>
-          <button class="tag" data-query="How risky is my liquor license?">How risky is my liquor license?</button>
-          <input id="chat-input" placeholder="Ask Complynt..." />
-          <button id="chat-send" class="btn primary">Ask</button>
+      <div class="section-inner">
+        <div class="section-label">AI Copilot</div>
+        <h2 class="section-title">Ask Complynt anything</h2>
+        <p class="section-sub">Your intelligent compliance assistant — available 24/7.</p>
+
+        <div class="chat-container">
+          <div class="chat-sidebar">
+            <div class="chat-sidebar-title">Quick Questions</div>
+            <button class="tag" data-query="What do I need to renew in June?">What do I need to renew in June?</button>
+            <button class="tag" data-query="How risky is my liquor license?">How risky is my liquor license?</button>
+            <button class="tag" data-query="Show my compliance health">Show compliance health</button>
+          </div>
+          <div class="chat-main">
+            <div class="chat-window" id="chat-window" aria-live="polite">
+              <div class="chat-message ai">
+                <div class="chat-avatar">AI</div>
+                <div class="chat-bubble">Hello! I'm your Complynt AI. Ask me about licenses, renewals, or compliance health.</div>
+              </div>
+            </div>
+            <div class="chat-input-row chat-controls">
+              <input id="chat-input" placeholder="Ask Complynt anything..." />
+              <button id="chat-send" class="btn primary">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22,2 15,22 11,13 2,9" fill="currentColor" stroke="none"/></svg>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- TESTIMONIALS (upgraded carousel with logos) -->
-    <section class="testimonials reveal" aria-label="Trusted testimonials">
-      <h2>Trusted by Bangalore’s finest</h2>
+    <!-- TESTIMONIALS -->
+    <section class="testimonials reveal" id="testimonials" aria-label="Customer testimonials">
+      <div class="section-inner" style="margin-bottom:48px">
+        <div class="section-label">Testimonials</div>
+        <h2 class="section-title">Trusted by Bangalore's finest</h2>
+      </div>
 
-      <div class="test-carousel card" id="test-carousel" aria-roledescription="carousel">
-        <button class="carousel-btn prev" id="carousel-prev" aria-label="Previous">‹</button>
-
+      <div class="test-carousel-wrap" id="test-carousel">
+        <button class="carousel-btn prev" id="carousel-prev" aria-label="Previous">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15,18 9,12 15,6"/></svg>
+        </button>
         <div class="carousel-viewport" id="carousel-viewport" tabindex="0" aria-live="polite">
           <div class="test-track" id="test-track">
-            <!-- testimonial 1 -->
-            <div class="testimonial">
-              <div class="resto-logo">
-                <!-- Karavalli placeholder logo -->
-                <svg class="logo-svg" width="84" height="36" viewBox="0 0 84 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <rect width="84" height="36" rx="6" fill="#c7a24a"/>
-                  <text x="12" y="24" font-family="Inter, sans-serif" font-size="14" fill="#071329" font-weight="700">Karavalli</text>
-                </svg>
-              </div>
-              <p>“Complynt prevented a license lapse that would have cost us heavily — the automated reminders and document tracking saved our team weeks of work.”</p>
-              <cite>— Karavalli</cite>
-            </div>
-
-            <!-- testimonial 2 -->
-            <div class="testimonial">
-              <div class="resto-logo">
-                <!-- Rim Naam placeholder -->
-                <svg class="logo-svg" width="84" height="36" viewBox="0 0 84 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <rect width="84" height="36" rx="6" fill="#c7a24a"/>
-                  <text x="10" y="24" font-family="Inter, sans-serif" font-size="14" fill="#071329" font-weight="700">Rim Naam</text>
-                </svg>
-              </div>
-              <p>“The scenario simulator helped us budget for renewal fees and avoid cash crunch during peak season.”</p>
-              <cite>— Rim Naam</cite>
-            </div>
-
-            <!-- testimonial 3 -->
-            <div class="testimonial">
-              <div class="resto-logo">
-                <!-- Grasshopper placeholder -->
-                <svg class="logo-svg" width="84" height="36" viewBox="0 0 84 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <rect width="84" height="36" rx="6" fill="#c7a24a"/>
-                  <text x="10" y="24" font-family="Inter, sans-serif" font-size="14" fill="#071329" font-weight="700">Grasshopper</text>
-                </svg>
-              </div>
-              <p>“Rostering recommendations reduced overtime payouts by balancing compliance with demand — game changing.”</p>
-              <cite>— Grasshopper</cite>
-            </div>
-
-            <!-- testimonial 4 -->
-            <div class="testimonial">
-              <div class="resto-logo">
-                <!-- Wabi Sabi placeholder -->
-                <svg class="logo-svg" width="84" height="36" viewBox="0 0 84 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <rect width="84" height="36" rx="6" fill="#c7a24a"/>
-                  <text x="10" y="24" font-family="Inter, sans-serif" font-size="14" fill="#071329" font-weight="700">Wabi Sabi</text>
-                </svg>
-              </div>
-              <p>“Their compliance health score highlighted missing documents and reduced our audit prep time drastically.”</p>
-              <cite>— Wabi Sabi</cite>
-            </div>
-
-            <!-- testimonial 5 -->
-            <div class="testimonial">
-              <div class="resto-logo">
-                <!-- Le Cirque Signature placeholder -->
-                <svg class="logo-svg" width="84" height="36" viewBox="0 0 84 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <rect width="84" height="36" rx="6" fill="#c7a24a"/>
-                  <text x="8" y="24" font-family="Inter, sans-serif" font-size="12" fill="#071329" font-weight="700">Le Cirque Sig.</text>
-                </svg>
-              </div>
-              <p>“We connected our finance projections and Complynt showed us real revenue exposure per license — brilliant.”</p>
-              <cite>— Le Cirque Signature</cite>
-            </div>
-
-            <!-- testimonial 6 -->
-            <div class="testimonial">
-              <div class="resto-logo">
-                <!-- Yauatcha placeholder -->
-                <svg class="logo-svg" width="84" height="36" viewBox="0 0 84 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <rect width="84" height="36" rx="6" fill="#c7a24a"/>
-                  <text x="16" y="24" font-family="Inter, sans-serif" font-size="14" fill="#071329" font-weight="700">Yauatcha</text>
-                </svg>
-              </div>
-              <p>“Easy to use and the team is responsive — perfect for multi-outlet management.”</p>
-              <cite>— Yauatcha</cite>
-            </div>
-
-            <!-- testimonial 7 -->
-            <div class="testimonial">
-              <div class="resto-logo">
-                <!-- Jamavar placeholder -->
-                <svg class="logo-svg" width="84" height="36" viewBox="0 0 84 36" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <rect width="84" height="36" rx="6" fill="#c7a24a"/>
-                  <text x="18" y="24" font-family="Inter, sans-serif" font-size="14" fill="#071329" font-weight="700">Jamavar</text>
-                </svg>
-              </div>
-              <p>“Complynt reduced our payroll variability and made compliance checks painless before peak service nights.”</p>
-              <cite>— Jamavar</cite>
-            </div>
-
+            <div class="testimonial"><div class="test-stars">★★★★★</div><p>"Complynt prevented a license lapse that would have cost us heavily — the automated reminders and document tracking saved our team weeks of work."</p><cite><span class="cite-dot"></span>Karavalli</cite></div>
+            <div class="testimonial"><div class="test-stars">★★★★★</div><p>"The scenario simulator helped us budget for renewal fees and avoid cash crunch during peak season."</p><cite><span class="cite-dot"></span>Rim Naam</cite></div>
+            <div class="testimonial"><div class="test-stars">★★★★★</div><p>"Rostering recommendations reduced overtime payouts by balancing compliance with demand — game changing."</p><cite><span class="cite-dot"></span>Grasshopper</cite></div>
+            <div class="testimonial"><div class="test-stars">★★★★★</div><p>"Their compliance health score highlighted missing documents and reduced our audit prep time drastically."</p><cite><span class="cite-dot"></span>Wabi Sabi</cite></div>
+            <div class="testimonial"><div class="test-stars">★★★★★</div><p>"We connected our finance projections and Complynt showed us real revenue exposure per license — brilliant."</p><cite><span class="cite-dot"></span>Le Cirque Signature</cite></div>
+            <div class="testimonial"><div class="test-stars">★★★★★</div><p>"Easy to use and the team is responsive — perfect for multi-outlet management across Bangalore."</p><cite><span class="cite-dot"></span>Yauatcha</cite></div>
+            <div class="testimonial"><div class="test-stars">★★★★★</div><p>"Complynt reduced our payroll variability and made compliance checks painless before peak service nights."</p><cite><span class="cite-dot"></span>Jamavar</cite></div>
           </div>
         </div>
-
-        <button class="carousel-btn next" id="carousel-next" aria-label="Next">›</button>
+        <button class="carousel-btn next" id="carousel-next" aria-label="Next">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9,18 15,12 9,6"/></svg>
+        </button>
       </div>
     </section>
 
     <!-- CTA -->
     <section class="cta reveal" id="signup">
-      <div class="cta-inner card">
-        <h2>Ready to make compliance an advantage?</h2>
-        <p class="muted">Book a demo or start a free trial — tailored to your industry.</p>
+      <div class="cta-inner">
+        <div class="cta-glow" aria-hidden="true"></div>
+        <div class="section-label light" style="margin:0 auto 20px">Get Started</div>
+        <h2>Ready to make compliance your competitive advantage?</h2>
+        <p>Book a demo or start a free trial — tailored to your industry. No credit card required.</p>
         <div class="cta-actions">
-          <input id="signup-email" type="email" placeholder="Work email" />
-          <button id="signup-btn" class="btn primary">Request a Demo</button>
+          <div class="cta-input-wrap">
+            <svg class="cta-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <input id="signup-email" type="email" placeholder="Enter your work email" />
+          </div>
+          <button id="signup-btn" class="btn primary glow-btn large">Request a Demo</button>
         </div>
+        <p class="cta-note">Join 200+ businesses already using Complynt</p>
       </div>
     </section>
   </main>
 
-  <!-- footer wave -->
-  <div class="wave-divider" aria-hidden="true">
-    <svg width="100%" height="180" viewBox="0 0 1440 180" preserveAspectRatio="none">
-      <path d="M0,80 C360,150 1080,0 1440,70 L1440,180 L0,180 Z" fill="#111827"></path>
-    </svg>
-  </div>
-
+  <!-- FOOTER -->
   <footer id="contact" class="site-footer">
     <div class="footer-inner">
-      <div class="f-left">
-        <div class="brand small">
-          <svg width="28" height="28" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" fill="#fff"/><path d="M6 15 L10 9 L14 15" stroke="#fff" stroke-width="1.6" fill="none"/></svg>
-          <span>Complynt</span>
+      <div class="footer-brand">
+        <div class="brand">
+          <div class="brand-icon small">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2L2 7l10 5 10-5-10-5z" fill="url(#fg1)"/>
+              <path d="M2 17l10 5 10-5" stroke="url(#fg2)" stroke-width="2.2" fill="none"/>
+              <defs>
+                <linearGradient id="fg1" x1="0" y1="0" x2="24" y2="24"><stop offset="0%" stop-color="#6366f1"/><stop offset="100%" stop-color="#06b6d4"/></linearGradient>
+                <linearGradient id="fg2" x1="0" y1="0" x2="24" y2="24"><stop offset="0%" stop-color="#8b5cf6"/><stop offset="100%" stop-color="#06b6d4"/></linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <span class="brand-name">Complynt</span>
         </div>
-        <p class="muted small">AI compliance engine — automate renewals, predict risk, optimize operations.</p>
+        <p class="footer-tagline">AI compliance engine — automate renewals, predict risk, optimize operations.</p>
       </div>
-      <div class="f-right">
-        <form id="newsletter" class="newsletter">
-          <label for="news-email" class="small muted">Get updates</label>
-          <input id="news-email" type="email" placeholder="Your email" />
-          <button class="btn small primary">Subscribe</button>
-        </form>
+
+      <div class="footer-cols">
+        <div class="footer-col">
+          <div class="footer-col-title">Product</div>
+          <a href="#features">Features</a>
+          <a href="#ai">AI Demo</a>
+          <a href="#health">Health Score</a>
+          <a href="dashboard.html">Dashboard</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Company</div>
+          <a href="#">About</a>
+          <a href="#">Blog</a>
+          <a href="#">Careers</a>
+          <a href="#">Privacy</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-col-title">Stay Updated</div>
+          <form id="newsletter" class="newsletter">
+            <input id="news-email" type="email" placeholder="your@email.com" />
+            <button class="btn small primary">Subscribe</button>
+          </form>
+        </div>
       </div>
     </div>
-    <div class="copyright small muted">© 2025 Complynt • All rights reserved</div>
+    <div class="footer-bottom">
+      <span class="copyright">© 2025 Complynt · All rights reserved</span>
+      <div class="footer-socials">
+        <a href="#" aria-label="Twitter"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg></a>
+        <a href="#" aria-label="LinkedIn"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
+      </div>
+    </div>
   </footer>
 
-  <!-- Request Demo / Login Modal -->
+  <!-- MODAL -->
   <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Request demo">
-    <div class="modal-panel card">
-      <button id="modal-close" class="icon-btn" aria-label="Close modal">✕</button>
-      <h3>Request a Demo</h3>
-      <p class="muted">Enter your business email and we'll contact you within one business day.</p>
-      <input id="demo-email" type="email" placeholder="Work email" />
-      <input id="demo-name" type="text" placeholder="Company / Business name (optional)" />
-      <select id="demo-industry">
-        <option value="">Industry (optional)</option>
-        <option>Restaurants</option>
-        <option>Healthcare</option>
-        <option>Finance</option>
-        <option>Manufacturing</option>
-      </select>
-      <div class="modal-actions">
-        <button id="modal-submit" class="btn primary">Request Demo</button>
+    <div class="modal-panel">
+      <button id="modal-close" class="icon-btn modal-close-x" aria-label="Close">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="modal-icon-wrap">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2L2 7l10 5 10-5-10-5z" fill="url(#mg1)"/>
+          <defs><linearGradient id="mg1" x1="0" y1="0" x2="24" y2="24"><stop offset="0%" stop-color="#6366f1"/><stop offset="100%" stop-color="#06b6d4"/></linearGradient></defs>
+        </svg>
       </div>
+      <h3>Request a Demo</h3>
+      <p class="modal-sub">Enter your details and we'll reach out within one business day.</p>
+      <div class="modal-fields">
+        <input id="demo-email" type="email" placeholder="Work email *" />
+        <input id="demo-name" type="text" placeholder="Company / Business name" />
+        <select id="demo-industry">
+          <option value="">Select industry</option>
+          <option>Restaurants</option>
+          <option>Healthcare</option>
+          <option>Finance</option>
+          <option>Manufacturing</option>
+        </select>
+      </div>
+      <button id="modal-submit" class="btn primary glow-btn" style="width:100%;justify-content:center;margin-top:8px">Request Demo</button>
     </div>
   </div>
 
   <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
-
   <script src="app.js" defer></script>
 </body>
 </html>
