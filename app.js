@@ -40,13 +40,14 @@
   const btnNext = $('#carousel-next');
 
   // Typewriter
-  const headline = "Make Compliance Your Competitive Advantage";
+  const headline = "Know your compliance status.\nBefore the inspector does.";
+  const displayHeadline = headline.replace('\n', ' ');
   let idx = 0;
   function typewriter() {
     if (!typeEl) return;
-    if (idx < headline.length) {
-      typeEl.textContent += headline[idx++];
-      setTimeout(typewriter, 38);
+    if (idx < displayHeadline.length) {
+      typeEl.textContent += displayHeadline[idx++];
+      setTimeout(typewriter, 36);
     } else {
       const cursor = document.querySelector('.cursor');
       if (cursor) cursor.classList.add('done');
@@ -113,9 +114,9 @@
     if (radialText) radialText.textContent = pct + '%';
     if (healthScoreEl) healthScoreEl.textContent = pct;
     if (healthAction) {
-      if (pct > 85) healthAction.textContent = 'Everything looks healthy';
-      else if (pct > 60) healthAction.textContent = 'Upload missing docs & check Fire NOC';
-      else healthAction.textContent = 'High risk — contact support for audit';
+      if (pct > 85) healthAction.textContent = 'All licenses in good standing. Schedule next renewals.';
+      else if (pct > 60) healthAction.textContent = 'Upload missing documents. Check BBMP Trade License status.';
+      else healthAction.textContent = 'Urgent: licenses at risk of lapse. File renewals immediately.';
     }
   }
 
@@ -141,9 +142,11 @@
 
   // Chat
   const canned = {
-    "what do i need to renew in june": "Liquor license (June 1), local trade license (June 15). Upload Fire NOC to reduce risk.",
-    "how risky is my liquor license": "Moderate — we estimate a 12% revenue exposure if renewal is delayed more than 15 days.",
-    "default": "I can analyze your licenses and give a Compliance Health score. Connect your account to see live data."
+    "what do i need to renew in june": "For a typical Bangalore restaurant: your FSSAI license renewal should be filed 30 days before expiry — check if yours falls in June. BBMP Trade License is annual; if you registered in June you'll need to renew this month. Karnataka Excise applications take 45–60 days to process, so apply early. Connect your account for your exact deadlines.",
+    "how risky is my liquor license": "Karnataka Excise licenses are among the highest-risk compliance areas. Inspections peak before elections and during festival seasons. Even a 1-day lapse can trigger a fine of ₹50,000 and a 7-day suspension. We recommend filing for renewal at least 60 days before expiry — the Excise Department queue in Bangalore is notoriously slow.",
+    "what documents do i need for fssai renewal": "For FSSAI renewal in Karnataka: (1) Filled Form B, (2) Current license copy, (3) ID & address proof of proprietor, (4) Kitchen layout plan, (5) List of food products handled, (6) Fee challan. If you've had any menu changes, updated product categories need to be declared. Processing time is typically 30–45 days.",
+    "show my compliance health": "To see your live compliance health score, connect your business to Complynt. We'll pull your license dates, check document completeness, and flag any risks. Your score reflects renewals due, missing documents, and inspection risk factors — updated in real time.",
+    "default": "I can help with any Indian compliance question — FSSAI, BBMP, Karnataka Excise, Labour law, GST, Fire NOC, and more. For personalised answers tied to your specific deadlines and licenses, connect your business account."
   };
   function aiReply(query) {
     const k = query.trim().toLowerCase();
@@ -278,7 +281,8 @@
 
   // Modal
   function setupModal() {
-    const openers = [loginBtn, ctaStart, ctaDemo];
+    const coverageContact = $('#coverage-contact');
+    const openers = [loginBtn, ctaStart, ctaDemo, coverageContact, $('#theme-toggle')];
     openers.forEach(btn => {
       if (!btn) return;
       btn.addEventListener('click', () => {
