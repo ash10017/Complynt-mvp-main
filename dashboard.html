@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Complynt Dashboard</title>
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#0071e3" />
   <link rel="stylesheet" href="app.css" />
 </head>
 <body>
@@ -20,7 +22,7 @@
     </div>
   </nav>
 
-  <div id="alert-bar" class="alert hidden"></div>
+  <div id="alert-bar" class="alert-bar hidden"></div>
 
   <main class="app-main">
     <div class="page-header">
@@ -37,7 +39,16 @@
           <option value="Local Authority">Local Authority</option>
           <option value="Fire">Fire</option>
           <option value="Tax">Tax</option>
+          <option value="Labour">Labour</option>
         </select>
+        <div class="view-toggle" role="group" aria-label="View mode">
+          <button id="view-cards"    class="view-btn active" title="Card view">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          </button>
+          <button id="view-calendar" class="view-btn" title="Calendar view">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </button>
+        </div>
       </div>
     </div>
 
@@ -45,26 +56,67 @@
       <div id="progress-bar"></div>
     </div>
 
-    <div id="compliance-list" class="card-grid"></div>
+    <!-- Cards view -->
+    <div id="card-view">
+      <div id="compliance-list" class="card-grid"></div>
+    </div>
+
+    <!-- Calendar view (hidden by default) -->
+    <div id="calendar-view" class="hidden">
+      <div class="cal-nav">
+        <button id="cal-prev" class="btn small ghost">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15,18 9,12 15,6"/></svg>
+        </button>
+        <h2 id="cal-month-label" class="cal-month-title"></h2>
+        <button id="cal-next" class="btn small ghost">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9,18 15,12 9,6"/></svg>
+        </button>
+      </div>
+      <div class="cal-wrap">
+        <div class="cal-dow-headers">
+          <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+        </div>
+        <div id="cal-grid" class="cal-grid"></div>
+      </div>
+      <div id="cal-day-detail" class="cal-day-detail hidden">
+        <h3 id="cal-detail-date"></h3>
+        <div id="cal-detail-items"></div>
+      </div>
+    </div>
   </main>
 
   <!-- Compliance Detail Modal -->
-  <div id="compliance-modal" class="modal hidden">
+  <div id="compliance-modal" class="modal hidden" role="dialog" aria-modal="true">
     <div class="modal-box">
       <div class="modal-header">
         <h3 id="modal-title"></h3>
         <button class="modal-close" id="close-btn">&times;</button>
       </div>
       <div class="modal-body">
-        <p id="modal-description"></p>
-        <ul id="modal-documents"></ul>
+        <p id="modal-description" style="color:var(--muted);font-size:14px;margin-bottom:16px;"></p>
 
-        <h4 style="margin:16px 0 8px;font-size:13px;font-weight:600;">Upload Documents</h4>
-        <input id="file-input" type="file" />
-        <button id="upload-btn" class="btn small" style="margin-top:8px;">Upload</button>
+        <h4 class="doc-section-title">Required Documents</h4>
+        <ul id="modal-documents" class="doc-req-list"></ul>
 
-        <h4 style="margin:16px 0 8px;font-size:13px;font-weight:600;">History</h4>
-        <ul id="modal-history"></ul>
+        <!-- Document Vault -->
+        <h4 class="doc-section-title" style="margin-top:20px">Document Vault</h4>
+        <div id="doc-vault-list" class="doc-vault-list"></div>
+        <div class="doc-upload-area" id="doc-upload-area">
+          <input id="file-input" type="file" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" style="display:none"/>
+          <button class="doc-upload-btn" id="doc-upload-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17,8 12,3 7,8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Upload Document
+          </button>
+          <div class="doc-upload-meta hidden" id="doc-upload-meta">
+            <span id="doc-file-name" class="doc-file-name"></span>
+            <input id="doc-expiry-date" type="date" class="doc-expiry-input" title="Document expiry date (optional)" />
+            <button class="btn small primary" id="doc-confirm-upload">Save</button>
+            <button class="btn small ghost" id="doc-cancel-upload">Cancel</button>
+          </div>
+        </div>
+
+        <h4 class="doc-section-title" style="margin-top:20px">History</h4>
+        <ul id="modal-history" class="history-list"></ul>
       </div>
       <div class="modal-footer">
         <div class="modal-footer-right">
@@ -76,8 +128,18 @@
 
   <div id="toast" class="toast hidden"></div>
 
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
   <script src="firebase-setup.js"></script>
   <script src="data/compliances.js"></script>
   <script src="dashboard.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(() => {});
+    }
+  </script>
 </body>
 </html>

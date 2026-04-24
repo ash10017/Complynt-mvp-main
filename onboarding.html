@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Set Up Your Account — Complynt</title>
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="stylesheet" href="app.css" />
+  <style>
+    /* Onboarding-specific overrides */
+    body { background: var(--bg); display: flex; flex-direction: column; min-height: 100vh; }
+    .ob-shell { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; }
+    .ob-card-wrap { width: 100%; max-width: 680px; }
+    .ob-logo { font-size: 18px; font-weight: 700; color: var(--text); text-align: center; margin-bottom: 36px; letter-spacing: -0.02em; }
+    .ob-progress { display: flex; align-items: center; gap: 0; margin-bottom: 40px; }
+    .ob-step-dot { flex: 1; height: 3px; background: var(--border-lt); border-radius: 99px; transition: background 0.3s; }
+    .ob-step-dot.done { background: var(--blue); }
+    .ob-step-dot.active { background: var(--blue); }
+    .ob-header { margin-bottom: 28px; }
+    .ob-step-label { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+    .ob-title { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; color: var(--text); margin-bottom: 6px; }
+    .ob-sub { font-size: 15px; color: var(--muted); }
+
+    /* Business type cards */
+    .biz-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 28px; }
+    .biz-card {
+      border: 2px solid var(--border-lt); border-radius: var(--radius-lg);
+      padding: 18px 14px; text-align: center; cursor: pointer;
+      transition: all 0.15s; background: var(--bg);
+    }
+    .biz-card:hover { border-color: var(--blue); background: var(--blue-lt); }
+    .biz-card.selected { border-color: var(--blue); background: var(--blue-lt); }
+    .biz-icon { width: 44px; height: 44px; border-radius: 12px; background: var(--bg-alt); display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; }
+    .biz-card.selected .biz-icon { background: rgba(0,113,227,0.12); }
+    .biz-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+    .biz-desc { font-size: 12px; color: var(--muted); }
+
+    /* License checkboxes */
+    .lic-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 28px; }
+    .lic-item {
+      display: flex; align-items: flex-start; gap: 12px;
+      border: 1px solid var(--border-lt); border-radius: var(--radius); padding: 14px 16px;
+      cursor: pointer; transition: all 0.15s; background: var(--bg);
+    }
+    .lic-item:hover { border-color: var(--blue); }
+    .lic-item.checked { border-color: var(--blue); background: var(--blue-lt); }
+    .lic-checkbox { width: 18px; height: 18px; border: 2px solid var(--border); border-radius: 5px; flex-shrink: 0; margin-top: 2px; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+    .lic-item.checked .lic-checkbox { background: var(--blue); border-color: var(--blue); }
+    .lic-check-icon { display: none; }
+    .lic-item.checked .lic-check-icon { display: block; }
+    .lic-text { flex: 1; }
+    .lic-name { font-size: 14px; font-weight: 600; color: var(--text); }
+    .lic-authority { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    /* Expiry dates */
+    .expiry-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+    .expiry-row { display: flex; align-items: center; gap: 16px; padding: 12px 16px; border: 1px solid var(--border-lt); border-radius: var(--radius); background: var(--bg); }
+    .expiry-name { flex: 1; font-size: 14px; font-weight: 500; color: var(--text); }
+    .expiry-date-input { width: 160px; flex-shrink: 0; }
+
+    /* Alert prefs */
+    .alert-prefs { display: flex; flex-direction: column; gap: 14px; margin-bottom: 28px; }
+
+    /* Footer nav */
+    .ob-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 4px; }
+    .ob-skip { font-size: 13px; color: var(--muted); cursor: pointer; background: none; border: none; font-family: var(--font); }
+    .ob-skip:hover { color: var(--text); }
+
+    @media (max-width: 600px) {
+      .biz-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ob-shell">
+    <div class="ob-card-wrap">
+
+      <div class="ob-logo">Complynt</div>
+
+      <!-- Progress bar -->
+      <div class="ob-progress" id="ob-progress">
+        <div class="ob-step-dot active" id="dot-0"></div>
+        <div class="ob-step-dot" id="dot-1"></div>
+        <div class="ob-step-dot" id="dot-2"></div>
+        <div class="ob-step-dot" id="dot-3"></div>
+      </div>
+
+      <!-- STEP 1: Business type -->
+      <div id="step-1" class="ob-step">
+        <div class="ob-header">
+          <div class="ob-step-label">Step 1 of 4</div>
+          <h1 class="ob-title">What type of business are you?</h1>
+          <p class="ob-sub">We'll pre-load the right compliance requirements for your industry.</p>
+        </div>
+        <div class="biz-grid" id="biz-grid">
+
+          <div class="biz-card" data-type="restaurant">
+            <div class="biz-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0071e3" stroke-width="1.8"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg>
+            </div>
+            <div class="biz-name">Restaurant / Bar</div>
+            <div class="biz-desc">Dine-in, takeaway, or bar</div>
+          </div>
+
+          <div class="biz-card" data-type="hotel">
+            <div class="biz-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0071e3" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+            </div>
+            <div class="biz-name">Hotel / Hospitality</div>
+            <div class="biz-desc">Full-service or boutique hotel</div>
+          </div>
+
+          <div class="biz-card" data-type="cafe">
+            <div class="biz-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0071e3" stroke-width="1.8"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+            </div>
+            <div class="biz-name">Café</div>
+            <div class="biz-desc">Coffee shop or juice bar</div>
+          </div>
+
+          <div class="biz-card" data-type="cloud_kitchen">
+            <div class="biz-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0071e3" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            </div>
+            <div class="biz-name">Cloud Kitchen</div>
+            <div class="biz-desc">Delivery-only, no dine-in</div>
+          </div>
+
+          <div class="biz-card" data-type="retail">
+            <div class="biz-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0071e3" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+            </div>
+            <div class="biz-name">Retail</div>
+            <div class="biz-desc">Shop, supermarket, store</div>
+          </div>
+
+          <div class="biz-card" data-type="other">
+            <div class="biz-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0071e3" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <div class="biz-name">Other</div>
+            <div class="biz-desc">Manufacturing, healthcare, etc.</div>
+          </div>
+
+        </div>
+        <div class="ob-footer">
+          <span></span>
+          <button class="btn primary" id="step1-next" disabled>Continue</button>
+        </div>
+      </div>
+
+      <!-- STEP 2: Licenses you hold -->
+      <div id="step-2" class="ob-step hidden">
+        <div class="ob-header">
+          <div class="ob-step-label">Step 2 of 4</div>
+          <h1 class="ob-title">Which licenses do you currently hold?</h1>
+          <p class="ob-sub">Select all that apply. We'll track renewals for everything you select.</p>
+        </div>
+        <div class="lic-list" id="lic-list">
+          <!-- Injected by JS based on business type -->
+        </div>
+        <div class="ob-footer">
+          <button class="ob-skip btn ghost small" id="step2-back">Back</button>
+          <button class="btn primary" id="step2-next">Continue</button>
+        </div>
+      </div>
+
+      <!-- STEP 3: Expiry dates -->
+      <div id="step-3" class="ob-step hidden">
+        <div class="ob-header">
+          <div class="ob-step-label">Step 3 of 4</div>
+          <h1 class="ob-title">When do they expire?</h1>
+          <p class="ob-sub">Enter the expiry date on each license. Leave blank if you're not sure — you can add it later.</p>
+        </div>
+        <div class="expiry-list" id="expiry-list">
+          <!-- Injected by JS -->
+        </div>
+        <div class="ob-footer">
+          <button class="ob-skip btn ghost small" id="step3-back">Back</button>
+          <button class="btn primary" id="step3-next">Continue</button>
+        </div>
+      </div>
+
+      <!-- STEP 4: Alert preferences -->
+      <div id="step-4" class="ob-step hidden">
+        <div class="ob-header">
+          <div class="ob-step-label">Step 4 of 4</div>
+          <h1 class="ob-title">Where should we send alerts?</h1>
+          <p class="ob-sub">We'll remind you 60, 30, 7, and 1 day before each deadline. No spam, ever.</p>
+        </div>
+        <div class="alert-prefs">
+          <div class="form-group">
+            <label>Email address</label>
+            <input id="ob-email" type="email" placeholder="your@email.com" />
+          </div>
+          <div class="form-group">
+            <label>WhatsApp / Phone (optional)</label>
+            <input id="ob-phone" type="tel" placeholder="+91 98765 43210" />
+          </div>
+          <div class="form-group">
+            <label>Alert method</label>
+            <select id="ob-alert-method">
+              <option value="email">Email only</option>
+              <option value="whatsapp">WhatsApp only (requires phone)</option>
+              <option value="both">Email + WhatsApp</option>
+            </select>
+          </div>
+        </div>
+        <div class="ob-footer">
+          <button class="ob-skip btn ghost small" id="step4-back">Back</button>
+          <button class="btn primary" id="step4-save" id="step4-save">Set Up Dashboard</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="firebase-setup.js"></script>
+  <script src="onboarding.js"></script>
+</body>
+</html>

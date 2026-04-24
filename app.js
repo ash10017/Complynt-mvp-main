@@ -279,6 +279,14 @@
     });
   }
 
+  // Pricing CTAs → open modal
+  function setupPricing() {
+    ['pricing-cta-free','pricing-cta-pro','pricing-cta-scale'].forEach(id => {
+      const btn = document.getElementById(id);
+      if (btn) btn.addEventListener('click', () => modal.classList.remove('hidden'));
+    });
+  }
+
   // Modal
   function setupModal() {
     const coverageContact = $('#coverage-contact');
@@ -334,6 +342,7 @@
     setupReveal();
     setupHamburger();
     setupTheme();
+    setupPricing();
     setupModal();
     animateMetrics();
     setTimeout(()=> { setHealth(72); }, 600);
