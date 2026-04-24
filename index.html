@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Complynt — AI Compliance for Every Business</title>
   <meta name="description" content="Complynt is an AI compliance engine that automates licenses, predicts risk, optimizes staffing and ties compliance to financial impact." />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Syne:wght@700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -15,13 +14,9 @@
     <div class="nav-inner">
       <div class="brand">
         <div class="brand-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-            <path d="M12 2L2 7l10 5 10-5-10-5z" fill="url(#bg1)"/>
-            <path d="M2 17l10 5 10-5" stroke="url(#bg2)" stroke-width="2.2" stroke-linecap="round" fill="none"/>
-            <defs>
-              <linearGradient id="bg1" x1="0" y1="0" x2="24" y2="24"><stop offset="0%" stop-color="#6366f1"/><stop offset="100%" stop-color="#06b6d4"/></linearGradient>
-              <linearGradient id="bg2" x1="0" y1="0" x2="24" y2="24"><stop offset="0%" stop-color="#8b5cf6"/><stop offset="100%" stop-color="#06b6d4"/></linearGradient>
-            </defs>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2L2 7l10 5 10-5-10-5z" fill="#0071e3"/>
+            <path d="M2 17l10 5 10-5" stroke="#0071e3" stroke-width="2.2" stroke-linecap="round" fill="none"/>
           </svg>
         </div>
         <span class="brand-name">Complynt</span>
@@ -39,7 +34,7 @@
         <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
         </button>
-        <button id="login-btn" class="btn primary glow-btn">Request Demo</button>
+        <button id="login-btn" class="btn primary">Request Demo</button>
         <button id="hamburger" class="hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
       </div>
     </div>
@@ -48,36 +43,17 @@
   <main>
     <!-- HERO -->
     <section class="hero" id="home">
-      <div class="aurora" aria-hidden="true">
-        <div class="aurora-1"></div>
-        <div class="aurora-2"></div>
-        <div class="aurora-3"></div>
-      </div>
-      <div class="hero-grid" aria-hidden="true"></div>
-
       <div class="hero-inner">
         <div class="hero-text">
-          <div class="hero-badge">
-            <span class="badge-dot"></span>
-            Trusted by 200+ businesses across India
-          </div>
-
+          <p class="hero-eyebrow">AI-Powered Compliance</p>
           <h1 class="hero-title">
-            <span id="typewriter" class="gradient-text"></span><span class="cursor">|</span>
+            <span id="typewriter"></span><span class="cursor">|</span>
           </h1>
-          <p class="hero-sub">The AI compliance engine that automates regulation, predicts risk, and ties compliance to your finances — so you can scale with confidence.</p>
-
+          <p class="hero-sub">The compliance engine that automates regulation, predicts risk, and ties every license to your bottom line — so you can scale with confidence.</p>
           <div class="hero-ctas">
-            <button class="btn large primary glow-btn" id="cta-start">
-              Get Started Free
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-            <button class="btn large ghost" id="cta-demo">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16" fill="currentColor" stroke="none"/></svg>
-              Watch Demo
-            </button>
+            <button class="btn primary large" id="cta-start">Get Started</button>
+            <button class="btn ghost large" id="cta-demo">Watch Demo</button>
           </div>
-
           <ul class="hero-stats" aria-label="Key metrics">
             <li>
               <div class="stat-num"><strong class="metric" data-target="98">0</strong><span class="metric-suffix">%</span></div>
@@ -98,7 +74,6 @@
 
         <!-- Dashboard Mockup -->
         <div class="hero-mockup" aria-hidden="true">
-          <div class="mockup-glow"></div>
           <div class="mockup-frame">
             <div class="mockup-header">
               <div class="mockup-dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
@@ -114,22 +89,22 @@
               </div>
               <div class="mockup-main">
                 <div class="mockup-stats-row">
-                  <div class="ms-card indigo"><div class="ms-val">72<span>%</span></div><div class="ms-label">Health</div></div>
-                  <div class="ms-card amber"><div class="ms-val">3</div><div class="ms-label">Due Soon</div></div>
-                  <div class="ms-card rose"><div class="ms-val">₹0</div><div class="ms-label">Risk</div></div>
+                  <div class="ms-card blue"><div class="ms-val">72<span>%</span></div><div class="ms-label">Health</div></div>
+                  <div class="ms-card orange"><div class="ms-val">3</div><div class="ms-label">Due Soon</div></div>
+                  <div class="ms-card red"><div class="ms-val">₹0</div><div class="ms-label">Risk</div></div>
                 </div>
                 <div class="mockup-chart">
-                  <div class="chart-bar" style="height:55%;background:linear-gradient(to top,#6366f1,#818cf8)"></div>
-                  <div class="chart-bar" style="height:75%;background:linear-gradient(to top,#6366f1,#818cf8)"></div>
-                  <div class="chart-bar" style="height:45%;background:linear-gradient(to top,#6366f1,#818cf8)"></div>
-                  <div class="chart-bar" style="height:88%;background:linear-gradient(to top,#06b6d4,#38bdf8)"></div>
-                  <div class="chart-bar" style="height:62%;background:linear-gradient(to top,#6366f1,#818cf8)"></div>
-                  <div class="chart-bar" style="height:95%;background:linear-gradient(to top,#10b981,#34d399)"></div>
-                  <div class="chart-bar" style="height:70%;background:linear-gradient(to top,#6366f1,#818cf8)"></div>
+                  <div class="chart-bar" style="height:55%"></div>
+                  <div class="chart-bar" style="height:75%"></div>
+                  <div class="chart-bar" style="height:45%"></div>
+                  <div class="chart-bar hi" style="height:88%"></div>
+                  <div class="chart-bar" style="height:62%"></div>
+                  <div class="chart-bar best" style="height:95%"></div>
+                  <div class="chart-bar" style="height:70%"></div>
                 </div>
                 <div class="mockup-list">
-                  <div class="ml-row"><span class="ml-dot emerald"></span><span class="ml-text">FSSAI License</span><span class="ml-badge ok">Active</span></div>
-                  <div class="ml-row"><span class="ml-dot amber"></span><span class="ml-text">Trade License</span><span class="ml-badge warn">Due Soon</span></div>
+                  <div class="ml-row"><span class="ml-dot green"></span><span class="ml-text">FSSAI License</span><span class="ml-badge ok">Active</span></div>
+                  <div class="ml-row"><span class="ml-dot orange"></span><span class="ml-text">Trade License</span><span class="ml-badge warn">Due Soon</span></div>
                   <div class="ml-row"><span class="ml-dot red"></span><span class="ml-text">Excise Permit</span><span class="ml-badge danger">Overdue</span></div>
                 </div>
               </div>
@@ -137,8 +112,6 @@
           </div>
         </div>
       </div>
-
-      <div class="scroll-hint" aria-hidden="true"><div class="scroll-line"></div></div>
     </section>
 
     <!-- TRUSTED BY -->
@@ -146,59 +119,60 @@
       <div class="trusted-inner">
         <span class="trusted-label">Trusted by</span>
         <div class="trusted-logos">
-          <span>Karavalli</span><span>Rim Naam</span><span>Grasshopper</span>
-          <span>Wabi Sabi</span><span>Le Cirque</span><span>Yauatcha</span><span>Jamavar</span>
+          <span>Karavalli</span>
+          <span>Rim Naam</span>
+          <span>Grasshopper</span>
+          <span>Wabi Sabi</span>
+          <span>Le Cirque</span>
+          <span>Yauatcha</span>
+          <span>Jamavar</span>
         </div>
       </div>
     </div>
 
-    <!-- FEATURES (BENTO) -->
+    <!-- FEATURES -->
     <section id="features" class="features reveal">
       <div class="section-inner">
-        <div class="section-label">Features</div>
+        <p class="section-eyebrow">Features</p>
         <h2 class="section-title">Everything your compliance needs</h2>
         <p class="section-sub">From automated renewals to AI risk forecasting — built for Indian businesses.</p>
 
         <div class="bento-grid">
           <article class="bento-card bento-lg feat-1">
-            <div class="bento-icon">
-              <svg viewBox="0 0 24 24" fill="none"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" stroke="currentColor" stroke-width="2"/><rect x="9" y="3" width="6" height="4" rx="1" stroke="currentColor" stroke-width="2"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <div class="feat-icon">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" stroke="currentColor" stroke-width="1.8"/><rect x="9" y="3" width="6" height="4" rx="1" stroke="currentColor" stroke-width="1.8"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
             <h3>Automated Renewals</h3>
             <p>Auto-tracks every license expiry, files pre-filled reminders, and flags risks before they become fines. Never miss a deadline again.</p>
-            <div class="bento-deco deco-indigo"></div>
           </article>
 
           <article class="bento-card bento-sm feat-2">
-            <div class="bento-icon">
-              <svg viewBox="0 0 24 24" fill="none"><path d="M22 12h-4l-3 9L9 3l-3 9H2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div class="feat-icon">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M22 12h-4l-3 9L9 3l-3 9H2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
             <h3>Risk Forecasting</h3>
             <p>AI predicts inspection likelihood and financial impact from delays.</p>
-            <div class="bento-deco deco-rose"></div>
           </article>
 
           <article class="bento-card bento-sm feat-3">
-            <div class="bento-icon">
-              <svg viewBox="0 0 24 24" fill="none"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke="currentColor" stroke-width="2"/><circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke="currentColor" stroke-width="2"/></svg>
+            <div class="feat-icon">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke="currentColor" stroke-width="1.8"/><circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke="currentColor" stroke-width="1.8"/></svg>
             </div>
             <h3>Workforce Optimization</h3>
             <p>Demand-driven rostering that stays compliant with labor rules.</p>
-            <div class="bento-deco deco-amber"></div>
           </article>
 
           <article class="bento-card bento-lg feat-4">
-            <div class="bento-icon">
-              <svg viewBox="0 0 24 24" fill="none"><line x1="12" y1="1" x2="12" y2="23" stroke="currentColor" stroke-width="2"/><path d="M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <div class="feat-icon">
+              <svg viewBox="0 0 24 24" fill="none"><line x1="12" y1="1" x2="12" y2="23" stroke="currentColor" stroke-width="1.8"/><path d="M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </div>
             <h3>Finance × Compliance</h3>
-            <p>See real revenue exposure per license and get smart cash-flow recommendations tied directly to your compliance calendar.</p>
-            <div class="bento-deco deco-emerald"></div>
+            <p>See real revenue exposure per license and get cash-flow recommendations tied directly to your compliance calendar.</p>
           </article>
 
           <article class="bento-card bento-full feat-5">
-            <div class="bento-icon">
-              <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" stroke-width="2"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2"/></svg>
+            <div class="feat-icon">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" stroke-width="1.8"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="1.8"/></svg>
             </div>
             <h3>Vertical Intelligence</h3>
             <p>Pre-trained modules for every industry — compliance rules baked in from day one.</p>
@@ -208,7 +182,6 @@
               <span class="pill">Finance</span>
               <span class="pill">Manufacturing</span>
             </div>
-            <div class="bento-deco deco-violet"></div>
           </article>
         </div>
       </div>
@@ -217,41 +190,40 @@
     <!-- HEALTH SCORE -->
     <section class="health reveal" id="health">
       <div class="section-inner">
-        <div class="section-label">Live Intelligence</div>
+        <p class="section-eyebrow">Live Intelligence</p>
         <h2 class="section-title">Your Compliance Health Score</h2>
 
         <div class="health-inner">
           <div class="health-left">
-            <p class="section-sub" style="margin-bottom:32px">Real-time compliance health based on renewals, document completeness, and risk factors.</p>
+            <p class="section-sub" style="margin-bottom:36px">Real-time compliance health based on renewals, document completeness, and risk factors.</p>
             <div class="health-controls">
               <div class="radial" role="img" aria-label="Compliance health score">
                 <svg viewBox="0 0 120 120" class="radial-svg">
                   <defs>
                     <linearGradient id="rg" x1="0" y1="0" x2="1" y2="1">
-                      <stop offset="0%" stop-color="#6366f1"/>
-                      <stop offset="50%" stop-color="#06b6d4"/>
-                      <stop offset="100%" stop-color="#10b981"/>
+                      <stop offset="0%" stop-color="#0071e3"/>
+                      <stop offset="100%" stop-color="#34c759"/>
                     </linearGradient>
                   </defs>
-                  <circle class="radial-bg" cx="60" cy="60" r="50" fill="none" stroke-width="10"/>
-                  <circle class="radial-fg" cx="60" cy="60" r="50" fill="none" stroke="url(#rg)" stroke-width="10" stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="314"/>
+                  <circle class="radial-bg" cx="60" cy="60" r="50" fill="none" stroke-width="8"/>
+                  <circle class="radial-fg" cx="60" cy="60" r="50" fill="none" stroke="url(#rg)" stroke-width="8" stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="314"/>
                   <text x="60" y="56" text-anchor="middle" font-size="20" class="radial-text">0</text>
-                  <text x="60" y="72" text-anchor="middle" font-size="9" fill="#475569">/ 100</text>
+                  <text x="60" y="71" text-anchor="middle" font-size="9" fill="#aeaeb2">/ 100</text>
                 </svg>
               </div>
               <div class="health-details">
-                <p class="health-score-big">Score: <strong id="health-score">0</strong><span>/100</span></p>
+                <p class="health-score-big">Score: <strong id="health-score">0</strong><span class="health-denom">/100</span></p>
                 <p class="health-action-text">Suggested: <span id="health-action">Loading...</span></p>
-                <button class="btn ghost" id="improve-action">See Recommendations →</button>
+                <button class="btn ghost small" id="improve-action">See Recommendations</button>
               </div>
             </div>
           </div>
 
           <div class="health-right">
-            <div class="simulator-card card">
+            <div class="simulator-card">
               <div class="sim-header">
                 <div class="sim-icon">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
                 </div>
                 <h3>Scenario Simulator</h3>
               </div>
@@ -264,7 +236,7 @@
                 <p class="sim-impact-big"><strong id="sim-impact">₹0</strong></p>
                 <p class="sim-note">Demo estimate — real models use your POS data.</p>
               </div>
-              <button class="btn primary glow-btn" style="width:100%;justify-content:center" id="simulate-btn">Run Simulation</button>
+              <button class="btn primary" style="width:100%;justify-content:center" id="simulate-btn">Run Simulation</button>
             </div>
           </div>
         </div>
@@ -274,7 +246,7 @@
     <!-- AI DEMO -->
     <section id="ai" class="ai-demo reveal">
       <div class="section-inner">
-        <div class="section-label">AI Copilot</div>
+        <p class="section-eyebrow">AI Copilot</p>
         <h2 class="section-title">Ask Complynt anything</h2>
         <p class="section-sub">Your intelligent compliance assistant — available 24/7.</p>
 
@@ -305,8 +277,8 @@
 
     <!-- TESTIMONIALS -->
     <section class="testimonials reveal" id="testimonials" aria-label="Customer testimonials">
-      <div class="section-inner" style="margin-bottom:48px">
-        <div class="section-label">Testimonials</div>
+      <div class="section-inner" style="margin-bottom:52px">
+        <p class="section-eyebrow">Testimonials</p>
         <h2 class="section-title">Trusted by Bangalore's finest</h2>
       </div>
 
@@ -316,13 +288,13 @@
         </button>
         <div class="carousel-viewport" id="carousel-viewport" tabindex="0" aria-live="polite">
           <div class="test-track" id="test-track">
-            <div class="testimonial"><div class="test-stars">★★★★★</div><p>"Complynt prevented a license lapse that would have cost us heavily — the automated reminders and document tracking saved our team weeks of work."</p><cite><span class="cite-dot"></span>Karavalli</cite></div>
-            <div class="testimonial"><div class="test-stars">★★★★★</div><p>"The scenario simulator helped us budget for renewal fees and avoid cash crunch during peak season."</p><cite><span class="cite-dot"></span>Rim Naam</cite></div>
-            <div class="testimonial"><div class="test-stars">★★★★★</div><p>"Rostering recommendations reduced overtime payouts by balancing compliance with demand — game changing."</p><cite><span class="cite-dot"></span>Grasshopper</cite></div>
-            <div class="testimonial"><div class="test-stars">★★★★★</div><p>"Their compliance health score highlighted missing documents and reduced our audit prep time drastically."</p><cite><span class="cite-dot"></span>Wabi Sabi</cite></div>
-            <div class="testimonial"><div class="test-stars">★★★★★</div><p>"We connected our finance projections and Complynt showed us real revenue exposure per license — brilliant."</p><cite><span class="cite-dot"></span>Le Cirque Signature</cite></div>
-            <div class="testimonial"><div class="test-stars">★★★★★</div><p>"Easy to use and the team is responsive — perfect for multi-outlet management across Bangalore."</p><cite><span class="cite-dot"></span>Yauatcha</cite></div>
-            <div class="testimonial"><div class="test-stars">★★★★★</div><p>"Complynt reduced our payroll variability and made compliance checks painless before peak service nights."</p><cite><span class="cite-dot"></span>Jamavar</cite></div>
+            <div class="testimonial"><div class="test-stars">★★★★★</div><p>"Complynt prevented a license lapse that would have cost us heavily — the automated reminders and document tracking saved our team weeks of work."</p><cite><span class="cite-name">Karavalli</span></cite></div>
+            <div class="testimonial"><div class="test-stars">★★★★★</div><p>"The scenario simulator helped us budget for renewal fees and avoid cash crunch during peak season."</p><cite><span class="cite-name">Rim Naam</span></cite></div>
+            <div class="testimonial"><div class="test-stars">★★★★★</div><p>"Rostering recommendations reduced overtime payouts by balancing compliance with demand — game changing."</p><cite><span class="cite-name">Grasshopper</span></cite></div>
+            <div class="testimonial"><div class="test-stars">★★★★★</div><p>"Their compliance health score highlighted missing documents and reduced our audit prep time drastically."</p><cite><span class="cite-name">Wabi Sabi</span></cite></div>
+            <div class="testimonial"><div class="test-stars">★★★★★</div><p>"We connected our finance projections and Complynt showed us real revenue exposure per license — brilliant."</p><cite><span class="cite-name">Le Cirque Signature</span></cite></div>
+            <div class="testimonial"><div class="test-stars">★★★★★</div><p>"Easy to use and the team is responsive — perfect for multi-outlet management across Bangalore."</p><cite><span class="cite-name">Yauatcha</span></cite></div>
+            <div class="testimonial"><div class="test-stars">★★★★★</div><p>"Complynt reduced our payroll variability and made compliance checks painless before peak service nights."</p><cite><span class="cite-name">Jamavar</span></cite></div>
           </div>
         </div>
         <button class="carousel-btn next" id="carousel-next" aria-label="Next">
@@ -334,16 +306,15 @@
     <!-- CTA -->
     <section class="cta reveal" id="signup">
       <div class="cta-inner">
-        <div class="cta-glow" aria-hidden="true"></div>
-        <div class="section-label light" style="margin:0 auto 20px">Get Started</div>
+        <p class="section-eyebrow center">Get Started</p>
         <h2>Ready to make compliance your competitive advantage?</h2>
-        <p>Book a demo or start a free trial — tailored to your industry. No credit card required.</p>
+        <p class="cta-sub">Book a demo or start a free trial — tailored to your industry. No credit card required.</p>
         <div class="cta-actions">
           <div class="cta-input-wrap">
             <svg class="cta-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             <input id="signup-email" type="email" placeholder="Enter your work email" />
           </div>
-          <button id="signup-btn" class="btn primary glow-btn large">Request a Demo</button>
+          <button id="signup-btn" class="btn primary large">Request a Demo</button>
         </div>
         <p class="cta-note">Join 200+ businesses already using Complynt</p>
       </div>
@@ -356,13 +327,9 @@
       <div class="footer-brand">
         <div class="brand">
           <div class="brand-icon small">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
-              <path d="M12 2L2 7l10 5 10-5-10-5z" fill="url(#fg1)"/>
-              <path d="M2 17l10 5 10-5" stroke="url(#fg2)" stroke-width="2.2" fill="none"/>
-              <defs>
-                <linearGradient id="fg1" x1="0" y1="0" x2="24" y2="24"><stop offset="0%" stop-color="#6366f1"/><stop offset="100%" stop-color="#06b6d4"/></linearGradient>
-                <linearGradient id="fg2" x1="0" y1="0" x2="24" y2="24"><stop offset="0%" stop-color="#8b5cf6"/><stop offset="100%" stop-color="#06b6d4"/></linearGradient>
-              </defs>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2L2 7l10 5 10-5-10-5z" fill="#0071e3"/>
+              <path d="M2 17l10 5 10-5" stroke="#0071e3" stroke-width="2.2" fill="none"/>
             </svg>
           </div>
           <span class="brand-name">Complynt</span>
@@ -409,12 +376,6 @@
       <button id="modal-close" class="icon-btn modal-close-x" aria-label="Close">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
-      <div class="modal-icon-wrap">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-          <path d="M12 2L2 7l10 5 10-5-10-5z" fill="url(#mg1)"/>
-          <defs><linearGradient id="mg1" x1="0" y1="0" x2="24" y2="24"><stop offset="0%" stop-color="#6366f1"/><stop offset="100%" stop-color="#06b6d4"/></linearGradient></defs>
-        </svg>
-      </div>
       <h3>Request a Demo</h3>
       <p class="modal-sub">Enter your details and we'll reach out within one business day.</p>
       <div class="modal-fields">
@@ -428,7 +389,7 @@
           <option>Manufacturing</option>
         </select>
       </div>
-      <button id="modal-submit" class="btn primary glow-btn" style="width:100%;justify-content:center;margin-top:8px">Request Demo</button>
+      <button id="modal-submit" class="btn primary" style="width:100%;justify-content:center;margin-top:16px">Request Demo</button>
     </div>
   </div>
 
