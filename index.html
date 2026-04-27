@@ -3,501 +3,252 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Complynt — AI Compliance Platform for Indian Businesses</title>
-  <meta name="description" content="Complynt tracks every FSSAI, BBMP, Excise, and Fire NOC deadline for your Bangalore business — with AI that tells you what's at risk before it's too late." />
+  <title>Complynt — Compliance Made Simple for Indian Businesses</title>
+  <meta name="description" content="Track every FSSAI, BBMP, Excise, and labour compliance from one dashboard. Zero missed deadlines. Built for Indian businesses." />
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#0071e3" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-  <!-- NAVBAR -->
-  <header class="navbar" role="navigation" aria-label="Main navigation">
+  <!-- NAV -->
+  <header class="nav" id="nav">
     <div class="nav-inner">
-      <div class="brand">
-        <div class="brand-icon">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <path d="M12 2L2 7l10 5 10-5-10-5z" fill="#0071e3"/>
-            <path d="M2 17l10 5 10-5" stroke="#0071e3" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+      <a href="index.html" class="brand">
+        <div class="brand-mark">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2L2 7l10 5 10-5-10-5z" fill="currentColor"/>
+            <path d="M2 17l10 5 10-5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/>
           </svg>
         </div>
         <span class="brand-name">Complynt</span>
-      </div>
+      </a>
 
-      <nav class="nav-center">
-        <a href="#problem">Why Complynt</a>
-        <a href="#how">How It Works</a>
-        <a href="#features">Features</a>
-        <a href="#coverage">Coverage</a>
-        <a href="#pricing">Pricing</a>
-        <a href="#ai">AI Demo</a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="features.html">Features</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="#">About</a>
       </nav>
 
-      <div class="nav-right">
-        <button id="login-btn" class="btn ghost small">Log In</button>
-        <button id="theme-toggle" class="btn primary small">Book Free Audit</button>
-        <button id="hamburger" class="hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+      <div class="nav-actions">
+        <a href="login.html" class="btn btn-ghost btn-sm">Log in</a>
+        <a href="onboarding.html" class="btn btn-blue btn-sm">Get started</a>
       </div>
+
+      <button class="nav-hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </header>
 
+  <div class="nav-drawer" id="nav-drawer" aria-hidden="true">
+    <a href="features.html">Features</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="#">About</a>
+    <div class="nav-drawer-divider"></div>
+    <div class="nav-drawer-actions">
+      <a href="login.html" class="btn btn-ghost">Log in</a>
+      <a href="onboarding.html" class="btn btn-blue">Get started</a>
+    </div>
+  </div>
+
   <main>
+
     <!-- HERO -->
     <section class="hero" id="home">
-      <div class="hero-inner">
-        <div class="hero-text">
-          <div class="hero-badge">
-            <span class="badge-dot"></span>
-            <span>Built for Bangalore · Scaling across India</span>
-          </div>
-          <h1 class="hero-title">
-            <span id="typewriter"></span><span class="cursor">|</span>
-          </h1>
-          <p class="hero-sub">Every FSSAI, BBMP Trade License, Karnataka Excise permit, and Fire NOC your business needs — tracked in one dashboard, with AI that alerts you before deadlines become disasters.</p>
-          <div class="hero-ctas">
-            <button class="btn primary large" id="cta-start">Book a Free Audit</button>
-            <button class="btn ghost large" id="cta-demo">See How It Works</button>
-          </div>
-          <p class="hero-note">No credit card. No commitment. We'll map your entire compliance landscape for free.</p>
-        </div>
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        Built for India · Starting in Bangalore
+      </div>
 
-        <!-- Dashboard Mockup -->
-        <div class="hero-mockup" aria-hidden="true">
-          <div class="mockup-frame">
-            <div class="mockup-header">
-              <div class="mockup-dots"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
-              <div class="mockup-titlebar">Complynt · Bangalore Restaurant</div>
+      <h1 class="hero-headline">
+        Stay compliant.<br>Not stressed.
+      </h1>
+
+      <p class="hero-sub">
+        Complynt tracks every license, deadline, and document your business needs — so you can focus on running it.
+      </p>
+
+      <div class="hero-actions">
+        <a href="onboarding.html" class="btn btn-blue btn-lg">Start free today</a>
+        <a href="features.html" class="btn btn-ghost btn-lg">See how it works →</a>
+      </div>
+
+      <span class="hero-note">No credit card required · Free compliance audit included</span>
+
+      <!-- Dashboard Mockup -->
+      <div class="hero-visual">
+        <div class="mockup-frame">
+          <div class="mockup-chrome">
+            <div class="chrome-dots">
+              <div class="chrome-dot r"></div>
+              <div class="chrome-dot y"></div>
+              <div class="chrome-dot g"></div>
             </div>
-            <div class="mockup-body">
-              <div class="mockup-sidebar">
-                <div class="sb-item active"></div>
-                <div class="sb-item"></div>
-                <div class="sb-item"></div>
-                <div class="sb-item"></div>
-                <div class="sb-item"></div>
-              </div>
-              <div class="mockup-main">
-                <div class="mockup-stats-row">
-                  <div class="ms-card blue"><div class="ms-val">8</div><div class="ms-label">Licenses</div></div>
-                  <div class="ms-card orange"><div class="ms-val">2</div><div class="ms-label">Due Soon</div></div>
-                  <div class="ms-card red"><div class="ms-val">1</div><div class="ms-label">Overdue</div></div>
+            <div class="chrome-bar">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+              app.complynt.in · Compliance Dashboard
+            </div>
+          </div>
+          <div class="mockup-body-inner">
+            <div class="mockup-sidebar">
+              <div class="sb-dot active"></div>
+              <div class="sb-dot"></div>
+              <div class="sb-dot"></div>
+              <div class="sb-dot"></div>
+            </div>
+            <div class="mockup-content">
+              <div class="mockup-stat-row">
+                <div class="m-stat blue">
+                  <div class="m-stat-val">8</div>
+                  <div class="m-stat-label">Licenses tracked</div>
                 </div>
-                <div class="mockup-chart">
-                  <div class="chart-bar" style="height:55%"></div>
-                  <div class="chart-bar" style="height:75%"></div>
-                  <div class="chart-bar" style="height:45%"></div>
-                  <div class="chart-bar hi" style="height:88%"></div>
-                  <div class="chart-bar" style="height:62%"></div>
-                  <div class="chart-bar best" style="height:95%"></div>
-                  <div class="chart-bar" style="height:70%"></div>
+                <div class="m-stat orange">
+                  <div class="m-stat-val">2</div>
+                  <div class="m-stat-label">Due this month</div>
                 </div>
-                <div class="mockup-list">
-                  <div class="ml-row"><span class="ml-dot green"></span><span class="ml-text">FSSAI Food License</span><span class="ml-badge ok">Valid</span></div>
-                  <div class="ml-row"><span class="ml-dot orange"></span><span class="ml-text">BBMP Trade License</span><span class="ml-badge warn">23 days</span></div>
-                  <div class="ml-row"><span class="ml-dot red"></span><span class="ml-text">Karnataka Excise</span><span class="ml-badge danger">Overdue</span></div>
+                <div class="m-stat green">
+                  <div class="m-stat-val">72%</div>
+                  <div class="m-stat-label">Health score</div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- PROBLEM -->
-    <section class="problem" id="problem">
-      <div class="section-inner">
-        <p class="section-eyebrow">The Reality</p>
-        <h2 class="section-title">Running a business in India means managing a bureaucratic maze.</h2>
-        <p class="section-sub">The average Bangalore restaurant juggles 12+ licenses across 8 government bodies. Each has different deadlines, different documents, and real financial consequences for non-compliance.</p>
-
-        <div class="problem-grid">
-          <div class="problem-card">
-            <div class="problem-num">12+</div>
-            <p>Licenses and permits a typical F&amp;B business manages every year</p>
-          </div>
-          <div class="problem-card">
-            <div class="problem-num">8+</div>
-            <p>Different government bodies — BBMP, FSSAI, Excise, Fire Dept, Labour, GST, and more</p>
-          </div>
-          <div class="problem-card problem-card-accent">
-            <div class="problem-num red">₹5L+</div>
-            <p>Maximum fine for a single lapsed Excise permit under the Karnataka Excise Act</p>
-          </div>
-          <div class="problem-card">
-            <div class="problem-num">0</div>
-            <p>Businesses currently have a single dashboard tracking all of this. Until now.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- HOW IT WORKS -->
-    <section class="how-it-works reveal" id="how">
-      <div class="section-inner">
-        <p class="section-eyebrow">How It Works</p>
-        <h2 class="section-title">Set up in 5 minutes. Benefits last all year.</h2>
-
-        <div class="steps-grid">
-          <div class="step">
-            <div class="step-num">01</div>
-            <h3>Tell us about your business</h3>
-            <p>Answer a few questions about your business type, location, and the licenses you currently hold. We handle the rest.</p>
-          </div>
-          <div class="step-connector" aria-hidden="true">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </div>
-          <div class="step">
-            <div class="step-num">02</div>
-            <h3>AI maps your compliance landscape</h3>
-            <p>Complynt identifies every license, permit, and renewal requirement for your specific business in your city — with deadlines, documents, and filing procedures pre-loaded.</p>
-          </div>
-          <div class="step-connector" aria-hidden="true">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </div>
-          <div class="step">
-            <div class="step-num">03</div>
-            <h3>Stay ahead. Never behind.</h3>
-            <p>Get alerts weeks before deadlines, real-time risk scores, and step-by-step renewal guidance. Know your financial exposure for every license at all times.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- FEATURES -->
-    <section id="features" class="features reveal">
-      <div class="section-inner">
-        <p class="section-eyebrow">Features</p>
-        <h2 class="section-title">Everything you need. Nothing you don't.</h2>
-        <p class="section-sub">Built specifically for the Indian regulatory environment — not adapted from a generic global tool.</p>
-
-        <div class="bento-grid">
-          <article class="bento-card bento-lg feat-1">
-            <div class="feat-icon">
-              <svg viewBox="0 0 24 24" fill="none"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2" stroke="currentColor" stroke-width="1.8"/><rect x="9" y="3" width="6" height="4" rx="1" stroke="currentColor" stroke-width="1.8"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-            </div>
-            <h3>Automated Renewal Tracking</h3>
-            <p>Every FSSAI, BBMP, Excise, Fire NOC, and GST deadline tracked automatically. Get reminders at 90, 60, 30, and 7 days before expiry — via SMS, email, or WhatsApp.</p>
-          </article>
-
-          <article class="bento-card bento-sm feat-2">
-            <div class="feat-icon">
-              <svg viewBox="0 0 24 24" fill="none"><path d="M12 2a10 10 0 110 20 10 10 0 010-20z" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v4l3 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-            </div>
-            <h3>Real-time Risk Score</h3>
-            <p>Know which licenses are at highest risk of lapse before an inspector shows up.</p>
-          </article>
-
-          <article class="bento-card bento-sm feat-3">
-            <div class="feat-icon">
-              <svg viewBox="0 0 24 24" fill="none"><line x1="12" y1="1" x2="12" y2="23" stroke="currentColor" stroke-width="1.8"/><path d="M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-            </div>
-            <h3>Financial Exposure</h3>
-            <p>See exactly what a lapse costs — ₹50K/day for a Karnataka Excise lapse, ₹5L for FSSAI. Know before it happens.</p>
-          </article>
-
-          <article class="bento-card bento-lg feat-4">
-            <div class="feat-icon">
-              <svg viewBox="0 0 24 24" fill="none"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" stroke-width="1.8"/><polyline points="14,2 14,8 20,8" stroke="currentColor" stroke-width="1.8"/></svg>
-            </div>
-            <h3>Document Vault</h3>
-            <p>Upload and store every compliance document — licenses, NOCs, receipts, inspection reports — in one place. When an inspector walks in, you're ready in 30 seconds, not 30 minutes.</p>
-          </article>
-
-          <article class="bento-card bento-full feat-5">
-            <div class="feat-icon">
-              <svg viewBox="0 0 24 24" fill="none"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke="currentColor" stroke-width="1.8"/><circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke="currentColor" stroke-width="1.8"/></svg>
-            </div>
-            <h3>Multi-Location &amp; Team Management</h3>
-            <p>Managing more than one outlet? Complynt handles compliance across every location from a single view. Assign tasks to your team, track document uploads, and stay on top of every site's status — all without a single spreadsheet.</p>
-            <div class="feat-pills">
-              <span class="pill">Restaurants &amp; Bars</span>
-              <span class="pill">Hotels &amp; Hospitality</span>
-              <span class="pill">Healthcare Clinics</span>
-              <span class="pill">Retail Chains</span>
-              <span class="pill">Manufacturing</span>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- COVERAGE -->
-    <section class="coverage reveal" id="coverage">
-      <div class="section-inner">
-        <p class="section-eyebrow">Coverage</p>
-        <h2 class="section-title">Every license your business is required to hold.</h2>
-        <p class="section-sub">We've pre-mapped the compliance requirements for every major industry in Karnataka. More cities and industries added continuously.</p>
-
-        <div class="coverage-grid">
-          <div class="coverage-group">
-            <div class="coverage-header">
-              <div class="coverage-icon cov-blue">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
-              </div>
-              <h4>Food &amp; Beverage</h4>
-            </div>
-            <ul>
-              <li>FSSAI Food License / Registration</li>
-              <li>BBMP Trade License</li>
-              <li>Karnataka Excise License</li>
-              <li>Fire NOC</li>
-              <li>Health Trade License (BBMP)</li>
-              <li>Eating House License</li>
-              <li>PCB Consent (where applicable)</li>
-            </ul>
-          </div>
-
-          <div class="coverage-group">
-            <div class="coverage-header">
-              <div class="coverage-icon cov-green">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-              </div>
-              <h4>Labor &amp; Employment</h4>
-            </div>
-            <ul>
-              <li>Shops &amp; Establishments Act</li>
-              <li>ESIC Registration &amp; Returns</li>
-              <li>EPFO / PF Registration &amp; Filings</li>
-              <li>Professional Tax (Karnataka)</li>
-              <li>Contract Labour License</li>
-              <li>Minimum Wages Compliance</li>
-            </ul>
-          </div>
-
-          <div class="coverage-group">
-            <div class="coverage-header">
-              <div class="coverage-icon cov-orange">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6"/></svg>
-              </div>
-              <h4>Tax &amp; Finance</h4>
-            </div>
-            <ul>
-              <li>GST Registration &amp; Returns</li>
-              <li>TAN / TDS Compliance</li>
-              <li>Income Tax — Advance Tax</li>
-              <li>Professional Tax Returns</li>
-              <li>Annual ROC Filings (for companies)</li>
-            </ul>
-          </div>
-
-          <div class="coverage-group">
-            <div class="coverage-header">
-              <div class="coverage-icon cov-red">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              </div>
-              <h4>Safety &amp; Environment</h4>
-            </div>
-            <ul>
-              <li>Fire NOC — Annual Renewal</li>
-              <li>Pollution Control Board Consent</li>
-              <li>Electrical Inspection Certificate</li>
-              <li>Lift License (where applicable)</li>
-              <li>Biomedical Waste (healthcare)</li>
-            </ul>
-          </div>
-        </div>
-
-        <p class="coverage-note">Don't see your industry? <button class="link-btn" id="coverage-contact">Talk to us →</button></p>
-      </div>
-    </section>
-
-    <!-- PRICING -->
-    <section class="pricing reveal" id="pricing">
-      <div class="section-inner">
-        <p class="section-eyebrow">Pricing</p>
-        <h2 class="section-title">Simple, transparent pricing.</h2>
-        <p class="section-sub">Start free. Upgrade when you're ready. No hidden fees, no lock-in contracts.</p>
-
-        <div class="pricing-grid">
-
-          <div class="pricing-card">
-            <div class="pricing-tier">Starter</div>
-            <div class="pricing-price">Free<span class="pricing-period"> forever</span></div>
-            <p class="pricing-desc">Get started with compliance tracking — no credit card required.</p>
-            <ul class="pricing-features">
-              <li class="feat-yes">Compliance health score</li>
-              <li class="feat-yes">Up to 5 license trackers</li>
-              <li class="feat-yes">Email deadline reminders</li>
-              <li class="feat-yes">AI compliance assistant</li>
-              <li class="feat-no">Document vault</li>
-              <li class="feat-no">WhatsApp alerts</li>
-              <li class="feat-no">People management</li>
-            </ul>
-            <button class="btn primary pricing-cta" id="pricing-cta-free">Get Started Free</button>
-          </div>
-
-          <div class="pricing-card pricing-featured">
-            <div class="pricing-badge">Most Popular</div>
-            <div class="pricing-tier">Pro</div>
-            <div class="pricing-price">₹999<span class="pricing-period">/month</span></div>
-            <p class="pricing-desc">For growing F&amp;B and hospitality businesses serious about compliance.</p>
-            <ul class="pricing-features">
-              <li class="feat-yes">Everything in Starter</li>
-              <li class="feat-yes">Unlimited license trackers</li>
-              <li class="feat-yes">WhatsApp + Email alerts</li>
-              <li class="feat-yes">Document vault (10 GB)</li>
-              <li class="feat-yes">People &amp; shift management</li>
-              <li class="feat-yes">ESIC / PF auto-calculator</li>
-              <li class="feat-no">Multi-location</li>
-            </ul>
-            <button class="btn primary pricing-cta" id="pricing-cta-pro">Start 14-Day Free Trial</button>
-          </div>
-
-          <div class="pricing-card">
-            <div class="pricing-tier">Scale</div>
-            <div class="pricing-price">₹2,499<span class="pricing-period">/month</span></div>
-            <p class="pricing-desc">For hospitality groups and multi-location businesses.</p>
-            <ul class="pricing-features">
-              <li class="feat-yes">Everything in Pro</li>
-              <li class="feat-yes">Up to 10 locations</li>
-              <li class="feat-yes">Unlimited team members</li>
-              <li class="feat-yes">Audit preparation reports</li>
-              <li class="feat-yes">Dedicated CA support</li>
-              <li class="feat-yes">Priority support</li>
-              <li class="feat-yes">API access</li>
-            </ul>
-            <button class="btn ghost pricing-cta" id="pricing-cta-scale">Contact Sales</button>
-          </div>
-
-        </div>
-
-        <p class="pricing-note">All plans include a free compliance audit. Currently in early access — prices may change.</p>
-      </div>
-    </section>
-
-    <!-- AI DEMO -->
-    <section id="ai" class="ai-demo reveal">
-      <div class="section-inner">
-        <p class="section-eyebrow">AI Copilot</p>
-        <h2 class="section-title">Ask your compliance assistant anything.</h2>
-        <p class="section-sub">Get instant answers about your licenses, deadlines, and financial exposure — in plain English.</p>
-
-        <div class="chat-container">
-          <div class="chat-sidebar">
-            <div class="chat-sidebar-title">Try asking</div>
-            <button class="tag" data-query="What do I need to renew in June?">What do I need to renew in June?</button>
-            <button class="tag" data-query="How risky is my liquor license?">How risky is my liquor license?</button>
-            <button class="tag" data-query="What documents do I need for FSSAI renewal?">Documents for FSSAI renewal?</button>
-          </div>
-          <div class="chat-main">
-            <div class="chat-window" id="chat-window" aria-live="polite">
-              <div class="chat-message ai">
-                <div class="chat-avatar">AI</div>
-                <div class="chat-bubble">Hi — I'm your Complynt compliance assistant. Ask me about your licenses, upcoming deadlines, fines, or renewal documents.</div>
-              </div>
-            </div>
-            <div class="chat-input-row chat-controls">
-              <input id="chat-input" placeholder="Ask about any license or compliance requirement..." />
-              <button id="chat-send" class="btn primary">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22,2 15,22 11,13 2,9" fill="currentColor" stroke="none"/></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- HEALTH SCORE -->
-    <section class="health reveal" id="health">
-      <div class="section-inner">
-        <p class="section-eyebrow">Compliance Health</p>
-        <h2 class="section-title">Know exactly where you stand.</h2>
-
-        <div class="health-inner">
-          <div class="health-left">
-            <p class="section-sub" style="margin-bottom:36px">Your Compliance Health Score is a single number that reflects renewals, missing documents, upcoming deadlines, and outstanding risks — updated in real time.</p>
-            <div class="health-controls">
-              <div class="radial" role="img" aria-label="Compliance health score">
-                <svg viewBox="0 0 120 120" class="radial-svg">
-                  <defs>
-                    <linearGradient id="rg" x1="0" y1="0" x2="1" y2="1">
-                      <stop offset="0%" stop-color="#0071e3"/>
-                      <stop offset="100%" stop-color="#34c759"/>
-                    </linearGradient>
-                  </defs>
-                  <circle class="radial-bg" cx="60" cy="60" r="50" fill="none" stroke-width="8"/>
-                  <circle class="radial-fg" cx="60" cy="60" r="50" fill="none" stroke="url(#rg)" stroke-width="8" stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="314"/>
-                  <text x="60" y="56" text-anchor="middle" font-size="20" class="radial-text">0</text>
-                  <text x="60" y="71" text-anchor="middle" font-size="9" fill="#aeaeb2">/ 100</text>
-                </svg>
-              </div>
-              <div class="health-details">
-                <p class="health-score-big">Score: <strong id="health-score">0</strong><span class="health-denom">/100</span></p>
-                <p class="health-action-text">Recommended action: <span id="health-action">Loading...</span></p>
-                <button class="btn ghost small" id="improve-action">View Full Report</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="health-right">
-            <div class="simulator-card">
-              <div class="sim-header">
-                <div class="sim-icon">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
+              <div class="mockup-progress">
+                <div class="mp-label">Overall compliance — 6 of 8 licenses current</div>
+                <div class="mp-bar-track">
+                  <div class="mp-bar-fill"></div>
                 </div>
-                <h3>Fine Risk Calculator</h3>
               </div>
-              <p class="sim-desc">Estimate the financial impact of delaying a license renewal.</p>
-              <label for="delay-range">Days overdue: <strong id="delay-value">10</strong></label>
-              <input id="delay-range" type="range" min="0" max="60" value="10" class="slider" />
-              <label for="monthly-revenue">Monthly revenue (₹)</label>
-              <input id="monthly-revenue" type="number" value="200000" min="0" step="1000" />
-              <div class="sim-result">
-                <p class="sim-result-label">Estimated financial exposure</p>
-                <p class="sim-impact-big"><strong id="sim-impact">₹0</strong></p>
-                <p class="sim-note">Indicative only — actual fines vary by license and authority.</p>
+              <div class="mockup-list">
+                <div class="ml-row">
+                  <span class="ml-dot g"></span>
+                  <span class="ml-name">FSSAI Food License</span>
+                  <span class="ml-badge ok">Valid</span>
+                </div>
+                <div class="ml-row">
+                  <span class="ml-dot o"></span>
+                  <span class="ml-name">BBMP Trade License</span>
+                  <span class="ml-badge warn">23 days</span>
+                </div>
+                <div class="ml-row">
+                  <span class="ml-dot r"></span>
+                  <span class="ml-name">Karnataka Excise Permit</span>
+                  <span class="ml-badge bad">Overdue</span>
+                </div>
               </div>
-              <button class="btn primary" style="width:100%;justify-content:center" id="simulate-btn">Calculate Risk</button>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AUTHORITY LOGOS -->
+    <div class="logos reveal">
+      <div class="logos-label">Compliance coverage across</div>
+      <div class="logos-row">
+        <span>FSSAI</span>
+        <span>BBMP</span>
+        <span>Karnataka Excise</span>
+        <span>ESIC</span>
+        <span>EPFO</span>
+        <span>GST</span>
+        <span>Fire NOC</span>
+      </div>
+    </div>
+
+    <!-- VALUE PROPS -->
+    <section class="props reveal">
+      <div class="section-inner">
+        <div class="section-hd center">
+          <span class="eyebrow">Why Complynt</span>
+          <h2 class="section-hd-title">Built for the complexity<br>of Indian compliance</h2>
+          <p class="section-hd-sub">The average Bangalore restaurant manages 12+ licenses across 8 government bodies. Complynt makes sure none of them slip.</p>
+        </div>
+        <div class="props-grid">
+          <div class="prop-card">
+            <div class="prop-icon blue">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
+                <rect x="9" y="3" width="6" height="4" rx="1"/>
+                <path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3 class="prop-title">Zero missed deadlines</h3>
+            <p class="prop-body">Smart reminders at 90, 60, 30, and 7 days before every renewal — via email or WhatsApp, whatever works for you.</p>
+          </div>
+
+          <div class="prop-card">
+            <div class="prop-icon green">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                <polyline points="14,2 14,8 20,8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+              </svg>
+            </div>
+            <h3 class="prop-title">All documents in one place</h3>
+            <p class="prop-body">Upload your licenses, NOCs, and inspection reports. When an inspector walks in, you're ready in 30 seconds — not 30 minutes.</p>
+          </div>
+
+          <div class="prop-card">
+            <div class="prop-icon orange">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </div>
+            <h3 class="prop-title">Know your risk, always</h3>
+            <p class="prop-body">Your Compliance Health Score shows exactly what's at risk — and what a lapse could cost you. Know before the inspector does.</p>
           </div>
         </div>
       </div>
     </section>
 
     <!-- CTA -->
-    <section class="cta reveal" id="signup">
-      <div class="cta-inner">
-        <p class="section-eyebrow center">Free for Early Users</p>
+    <section class="cta-section reveal" id="signup">
+      <div class="cta-section-inner">
+        <span class="eyebrow">Free for early users</span>
         <h2>Get your free compliance audit.</h2>
-        <p class="cta-sub">We'll map every license your business is required to hold, check what's current and what's at risk, and give you a compliance health score — completely free, no strings attached.</p>
-        <div class="cta-actions">
-          <div class="cta-input-wrap">
-            <svg class="cta-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <p class="cta-sub">We'll map every license your business needs, flag what's at risk, and give you a health score — no credit card, no commitment.</p>
+        <div class="cta-form">
+          <div class="cta-form-wrap">
+            <svg class="cta-form-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
             <input id="signup-email" type="email" placeholder="Your business email" />
           </div>
-          <button id="signup-btn" class="btn primary large">Book Free Audit</button>
+          <button id="signup-btn" class="btn btn-blue btn-lg">Book Free Audit</button>
         </div>
         <p class="cta-note">Currently serving Bangalore · Expanding to Mumbai, Delhi, Chennai in 2025</p>
       </div>
     </section>
+
   </main>
 
   <!-- FOOTER -->
-  <footer id="contact" class="site-footer">
+  <footer class="footer">
     <div class="footer-inner">
       <div class="footer-brand">
-        <div class="brand">
-          <div class="brand-icon small">
+        <a href="index.html" class="brand">
+          <div class="brand-mark">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
-              <path d="M12 2L2 7l10 5 10-5-10-5z" fill="#0071e3"/>
-              <path d="M2 17l10 5 10-5" stroke="#0071e3" stroke-width="2.2" fill="none"/>
+              <path d="M12 2L2 7l10 5 10-5-10-5z" fill="currentColor"/>
+              <path d="M2 17l10 5 10-5" stroke="currentColor" stroke-width="2.2" fill="none"/>
             </svg>
           </div>
           <span class="brand-name">Complynt</span>
-        </div>
-        <p class="footer-tagline">AI compliance for Indian businesses. Track every FSSAI, BBMP, Excise, and labour compliance from a single dashboard.</p>
+        </a>
+        <p class="footer-tagline">Compliance tracking for Indian businesses. One dashboard for every FSSAI, BBMP, Excise, and labour compliance.</p>
         <div class="footer-authorities">
           <span>FSSAI</span><span>BBMP</span><span>Karnataka Excise</span><span>ESIC</span><span>EPFO</span><span>GST</span>
         </div>
       </div>
-
       <div class="footer-cols">
         <div class="footer-col">
           <div class="footer-col-title">Product</div>
-          <a href="#features">Features</a>
-          <a href="#coverage">Coverage</a>
-          <a href="#ai">AI Demo</a>
-          <a href="#health">Health Score</a>
+          <a href="features.html">Features</a>
+          <a href="features.html#coverage">Coverage</a>
+          <a href="features.html#ai">AI Assistant</a>
+          <a href="pricing.html">Pricing</a>
           <a href="dashboard.html">Dashboard</a>
         </div>
         <div class="footer-col">
@@ -509,35 +260,41 @@
           <a href="#">Terms of Service</a>
         </div>
         <div class="footer-col">
-          <div class="footer-col-title">Get Updates</div>
-          <form id="newsletter" class="newsletter">
+          <div class="footer-col-title">Stay updated</div>
+          <div class="footer-newsletter">
             <input id="news-email" type="email" placeholder="your@email.com" />
-            <button class="btn small primary">Subscribe</button>
-          </form>
-          <p class="footer-sub-note">Product updates and compliance news for Indian businesses.</p>
+            <button class="btn btn-blue btn-sm" id="news-btn">Subscribe</button>
+          </div>
+          <p class="footer-sub-note">Compliance updates and product news for Indian businesses.</p>
         </div>
       </div>
     </div>
     <div class="footer-bottom">
-      <span class="copyright">© 2025 Complynt · All rights reserved · Bengaluru, India</span>
+      <span class="footer-copy">© 2025 Complynt · All rights reserved · Bengaluru, India</span>
       <div class="footer-socials">
-        <a href="#" aria-label="Twitter"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg></a>
-        <a href="#" aria-label="LinkedIn"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
+        <a href="#" aria-label="Twitter">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg>
+        </a>
+        <a href="#" aria-label="LinkedIn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
       </div>
     </div>
   </footer>
 
-  <!-- MODAL (Request Demo) -->
+  <!-- MODAL (Book Audit) -->
   <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-label="Book a free audit">
     <div class="modal-panel">
-      <button id="modal-close" class="icon-btn modal-close-x" aria-label="Close">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      <button id="modal-close" class="modal-close" aria-label="Close">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
       </button>
-      <h3>Book Your Free Compliance Audit</h3>
-      <p class="modal-sub">We'll map every license your business needs, check what's at risk, and deliver a compliance health score — free, within 2 business days.</p>
+      <h3 class="modal-title">Book Your Free Audit</h3>
+      <p class="modal-sub">We'll map every license your business needs, check what's at risk, and give you a health score — free, within 2 business days.</p>
       <div class="modal-fields">
         <input id="demo-email" type="email" placeholder="Business email *" />
-        <input id="demo-name" type="text" placeholder="Business name and city" />
+        <input id="demo-name"  type="text"  placeholder="Business name and city" />
         <select id="demo-industry">
           <option value="">What type of business?</option>
           <option>Restaurant / Bar / Café</option>
@@ -548,12 +305,13 @@
           <option>Other</option>
         </select>
       </div>
-      <button id="modal-submit" class="btn primary" style="width:100%;justify-content:center;margin-top:16px">Request Free Audit</button>
+      <button id="modal-submit" class="btn btn-blue btn-full" style="margin-top:16px">Request Free Audit</button>
       <p class="modal-privacy">We don't share your information. Ever.</p>
     </div>
   </div>
 
   <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
   <script src="app.js" defer></script>
   <script>
     if ('serviceWorker' in navigator) {
