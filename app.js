@@ -132,8 +132,12 @@
     "what do i need to renew in june": "For a typical Bangalore restaurant: check your FSSAI license — file renewal 30 days before expiry. BBMP Trade License is annual; if you registered in June, renew this month. Karnataka Excise applications take 45–60 days to process, so apply early. Connect your account for your exact deadlines.",
     "how risky is my liquor license": "Karnataka Excise licenses are among the highest-risk compliance areas. Even a 1-day lapse can trigger a ₹50,000 fine and a 7-day suspension. File renewal at least 60 days before expiry — the Excise Department queue in Bangalore is notoriously slow.",
     "what documents do i need for fssai renewal": "For FSSAI renewal in Karnataka: (1) Form B, (2) Current license copy, (3) ID & address proof of proprietor, (4) Kitchen layout plan, (5) Food products list, (6) Fee challan. Processing time: 30–45 days.",
-    "default": "I can help with FSSAI, BBMP, Karnataka Excise, Labour law, GST, Fire NOC, and more. For personalised answers tied to your specific deadlines, connect your business account."
+    "what do i need to renew this month": "For a typical Melbourne café: your food business registration renewal with council is usually due 30 September each year. If you hold a VCGLR liquor licence, lodge your renewal application at least 3 months before expiry. Your Q1 BAS (Oct–Dec) is due 28 February. Connect your account to see your exact deadlines.",
+    "how much is my super obligation": "Super Guarantee rate is 11.5% of Ordinary Time Earnings (FY2024–25), rising to 12% from 1 July 2025. Payable quarterly: 28 January, 28 April, 28 July, 28 October. Late payment incurs the Super Guarantee Charge (SGC) including interest at 10% per annum plus an admin fee. Complynt tracks your next payment date automatically.",
+    "what documents for food registration": "For food business registration in Victoria: (1) Completed council application, (2) Floor plan of food premises, (3) Food Safety Supervisor certificate (required before trading), (4) Description of food handling activities, (5) Registration fee — typically A$250–A$850 depending on food class and council. Processing time: 5–15 business days.",
+    "default": "I can help with FSSAI, BBMP, Karnataka Excise, Labour law, GST, Fire NOC, and more — or Fair Work, food safety, liquor licencing, ATO/BAS, WorkSafe, and super for Australian businesses. Connect your account for personalised answers."
   };
+  /* Allow AU pages to override canned responses via window.COMPLYNT_CANNED */
   function setupChat() {
     const chatWindow = $('#chat-window');
     const chatInput  = $('#chat-input');
@@ -163,7 +167,8 @@
         appendMsg('…', 'ai');
         const lastBubble = chatWindow.lastChild.querySelector('.chat-bubble');
         setTimeout(() => {
-          if (lastBubble) lastBubble.textContent = canned[q.trim().toLowerCase()] || canned['default'];
+          const responses = window.COMPLYNT_CANNED || canned;
+          if (lastBubble) lastBubble.textContent = responses[q.trim().toLowerCase()] || responses['default'];
         }, 700);
       }, 300);
     }
@@ -218,17 +223,72 @@
     delayRange.addEventListener('input', () => { delayValue.textContent = delayRange.value; });
 
     function calculate() {
-      const days   = Number(delayRange.value);
-      const rev    = Number((monthlyRev || {}).value || 0);
-      const impact = Math.round(rev * Math.min(1, 0.002 * days));
-      if (simImpact) simImpact.textContent = '₹' + impact.toLocaleString('en-IN');
+      const days     = Number(delayRange.value);
+      const rev      = Number((monthlyRev || {}).value || 0);
+      const impact   = Math.round(rev * Math.min(1, 0.002 * days));
+      const currency = delayRange.closest('[data-currency]')?.dataset.currency;
+      const locale   = delayRange.closest('[data-locale]')?.dataset.locale;
+      const prefix   = currency === 'AUD' ? 'A$' : '₹';
+      const fmtLocale = locale || 'en-IN';
+      if (simImpact) simImpact.textContent = prefix + impact.toLocaleString(fmtLocale);
       showToast('Simulation complete (demo estimate)');
     }
     simulateBtn && simulateBtn.addEventListener('click', calculate);
   }
 
+  /* ── Announcement bar ── */
+  function setupAnnounceBar() {
+    const bar = $('#announce-bar');
+    const btn = $('#announce-close');
+    if (!bar || !btn) return;
+    if (sessionStorage.getItem('announce_dismissed')) { bar.classList.add('hidden'); return; }
+    btn.addEventListener('click', () => {
+      bar.classList.add('hidden');
+      sessionStorage.setItem('announce_dismissed', '1');
+    });
+  }
+
+  /* ── Scroll to top ── */
+  function setupScrollTop() {
+    const btn = $('#scroll-top');
+    if (!btn) return;
+    window.addEventListener('scroll', () => btn.classList.toggle('visible', window.scrollY > 400), { passive: true });
+    btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  }
+
+  /* ── Pricing toggle (annual / monthly) ── */
+  function setupPricingToggle() {
+    const toggle       = $('#billing-toggle');
+    const monthlyLabel = $('#toggle-monthly-label');
+    const annualLabel  = $('#toggle-annual-label');
+    if (!toggle) return;
+
+    const proData   = toggle.dataset.pro   ? JSON.parse(toggle.dataset.pro)   : null;
+    const scaleData = toggle.dataset.scale ? JSON.parse(toggle.dataset.scale) : null;
+    let annual = false;
+
+    function update() {
+      toggle.classList.toggle('annual', annual);
+      toggle.setAttribute('aria-checked', annual);
+      if (monthlyLabel) monthlyLabel.classList.toggle('ptoggle-active', !annual);
+      if (annualLabel)  annualLabel.classList.toggle('ptoggle-active',  annual);
+      if (proData) {
+        const el = $('#pro-price'); const pe = $('#pro-period');
+        if (el) el.textContent = annual ? proData.annual   : proData.monthly;
+        if (pe) pe.textContent = annual ? proData.period   : '/month';
+      }
+      if (scaleData) {
+        const el = $('#scale-price'); const pe = $('#scale-period');
+        if (el) el.textContent = annual ? scaleData.annual : scaleData.monthly;
+        if (pe) pe.textContent = annual ? scaleData.period : '/month';
+      }
+    }
+    toggle.addEventListener('click', () => { annual = !annual; update(); });
+  }
+
   /* ── Init ── */
   function init() {
+    setupAnnounceBar();
     setupNavScroll();
     setupHamburger();
     setupReveal();
@@ -239,6 +299,8 @@
     setupChat();
     setupHealth();
     setupSimulator();
+    setupScrollTop();
+    setupPricingToggle();
   }
 
   document.addEventListener('DOMContentLoaded', init);
