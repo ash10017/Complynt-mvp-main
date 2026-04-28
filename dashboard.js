@@ -1,4 +1,4 @@
-/* dashboard.js — Compliance dashboard with calendar view + document vault */
+/* dashboard.js — Compliance dashboard: sidebar nav, calendar, AI, document vault */
 
 /* ── DOM ── */
 const listEl        = document.getElementById('compliance-list');
@@ -7,8 +7,48 @@ const progressBar   = document.getElementById('progress-bar');
 const searchInput   = document.getElementById('search');
 const filterSelect  = document.getElementById('filter');
 const logoutBtn     = document.getElementById('logout-btn');
-const userEmailEl   = document.getElementById('user-email');
+const userEmailEl   = document.getElementById('sidebar-email');
 const toastEl       = document.getElementById('toast');
+
+/* ── Sidebar navigation ── */
+const sidebarItems = document.querySelectorAll('.sidebar-item[data-view]');
+const dashViews    = document.querySelectorAll('.dash-view');
+const topbarTitle  = document.getElementById('topbar-title');
+const sidebar      = document.getElementById('app-sidebar');
+const sidebarToggle= document.getElementById('sidebar-toggle');
+
+const VIEW_LABELS = {
+  overview:   'Overview',
+  compliance: 'Compliance',
+  calendar:   'Calendar',
+  documents:  'Documents',
+  ai:         'AI Assistant',
+};
+
+function switchView(viewId) {
+  sidebarItems.forEach(btn => btn.classList.toggle('active', btn.dataset.view === viewId));
+  dashViews.forEach(v => v.classList.toggle('hidden', v.id !== 'view-' + viewId));
+  if (topbarTitle) topbarTitle.textContent = VIEW_LABELS[viewId] || viewId;
+  if (sidebar) sidebar.classList.remove('open');
+  if (viewId === 'calendar') renderCalendar();
+  if (viewId === 'documents') renderVaultOverview();
+}
+
+sidebarItems.forEach(btn => {
+  if (btn.dataset.view && btn.getAttribute('onclick') === null) {
+    btn.addEventListener('click', () => switchView(btn.dataset.view));
+  }
+});
+
+if (sidebarToggle) {
+  sidebarToggle.addEventListener('click', () => sidebar && sidebar.classList.toggle('open'));
+}
+
+// Allow "View all →" and "Calendar →" quick-switch links in Overview
+document.addEventListener('click', e => {
+  const btn = e.target.closest('[data-switchview]');
+  if (btn) switchView(btn.dataset.switchview);
+});
 
 const modal           = document.getElementById('compliance-modal');
 const modalTitle      = document.getElementById('modal-title');
@@ -27,9 +67,7 @@ const docConfirmUpload= document.getElementById('doc-confirm-upload');
 const docCancelUpload = document.getElementById('doc-cancel-upload');
 
 const viewCards    = document.getElementById('view-cards');
-const viewCalendar = document.getElementById('view-calendar');
 const cardView     = document.getElementById('card-view');
-const calView      = document.getElementById('calendar-view');
 const calPrev      = document.getElementById('cal-prev');
 const calNext      = document.getElementById('cal-next');
 const calMonthLbl  = document.getElementById('cal-month-label');
@@ -130,6 +168,8 @@ function renderCompliances() {
     card.addEventListener('click', () => openModal(c));
     listEl.appendChild(card);
   });
+
+  renderOverview();
 
   const total = compliances.filter(c => c.status !== 'Completed').length + completed;
   progressBar.style.width = total > 0 ? `${(completed / total) * 100}%` : '0%';
@@ -374,24 +414,138 @@ calNext.addEventListener('click', () => {
   calDayDetail.classList.add('hidden');
 });
 
-/* ── View toggle ── */
-viewCards.addEventListener('click', () => {
-  viewCards.classList.add('active');
-  viewCalendar.classList.remove('active');
-  cardView.classList.remove('hidden');
-  calView.classList.add('hidden');
-});
-viewCalendar.addEventListener('click', () => {
-  viewCalendar.classList.add('active');
-  viewCards.classList.remove('active');
-  calView.classList.remove('hidden');
-  cardView.classList.add('hidden');
-  renderCalendar();
-});
+/* ── Card view toggle (within compliance view) ── */
+if (viewCards) viewCards.addEventListener('click', () => { viewCards.classList.add('active'); });
 
 /* ── Filters ── */
 searchInput.addEventListener('input', renderCompliances);
 filterSelect.addEventListener('change', renderCompliances);
+
+/* ── Overview panel ── */
+function renderOverview() {
+  const overdue  = compliances.filter(c => c.status !== 'Completed' && daysUntil(c.dueDate) < 0);
+  const soon30   = compliances.filter(c => c.status !== 'Completed' && daysUntil(c.dueDate) >= 0 && daysUntil(c.dueDate) <= 30);
+  const ok       = compliances.filter(c => c.status !== 'Completed' && daysUntil(c.dueDate) > 30);
+  const done     = compliances.filter(c => c.status === 'Completed');
+
+  const setEl = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+  setEl('stat-total',   compliances.length);
+  setEl('stat-ok',      ok.length);
+  setEl('stat-soon',    soon30.length);
+  setEl('stat-overdue', overdue.length);
+  setEl('stat-done',    done.length);
+
+  const total = compliances.length;
+  const score = total > 0 ? Math.round(((ok.length + done.length) / total) * 100) : 100;
+  const pill = document.getElementById('overview-health-pill');
+  if (pill) {
+    pill.textContent = `Health Score: ${score}/100`;
+    pill.style.background = score >= 80 ? 'rgba(52,199,89,.12)' : score >= 50 ? 'rgba(255,159,10,.12)' : 'rgba(255,59,48,.12)';
+    pill.style.color = score >= 80 ? '#1a7a34' : score >= 50 ? '#8a4d00' : '#b80000';
+    pill.style.borderColor = score >= 80 ? 'rgba(52,199,89,.2)' : score >= 50 ? 'rgba(255,159,10,.2)' : 'rgba(255,59,48,.2)';
+  }
+
+  // Greeting
+  const greet = document.getElementById('overview-greeting');
+  if (greet) {
+    const hour = new Date().getHours();
+    const timeOfDay = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+    greet.textContent = timeOfDay;
+  }
+
+  // Urgent list: overdue + due within 7 days
+  const urgent = [...overdue, ...compliances.filter(c => c.status !== 'Completed' && daysUntil(c.dueDate) >= 0 && daysUntil(c.dueDate) <= 7)];
+  const urgentList = document.getElementById('overview-urgent-list');
+  if (urgentList) {
+    urgentList.innerHTML = urgent.length === 0
+      ? '<div class="overview-empty">All clear — nothing urgent right now.</div>'
+      : urgent.slice(0, 5).map(c => {
+          const d = daysUntil(c.dueDate);
+          const col = d < 0 ? 'red' : 'orange';
+          const label = d < 0 ? `${Math.abs(d)}d overdue` : d === 0 ? 'Due today' : `${d}d left`;
+          return `<div class="overview-item" data-id="${c.id}">
+            <span class="overview-item-dot ${col}"></span>
+            <span class="overview-item-name">${c.name}</span>
+            <span class="badge badge-${col === 'red' ? 'red' : 'orange'}">${label}</span>
+          </div>`;
+        }).join('');
+    urgentList.querySelectorAll('.overview-item').forEach(el => {
+      el.addEventListener('click', () => {
+        const c = compliances.find(x => String(x.id) === String(el.dataset.id));
+        if (c) openModal(c);
+      });
+    });
+  }
+
+  // Upcoming: 8–30 days
+  const upcoming = soon30.filter(c => daysUntil(c.dueDate) > 7).slice(0, 5);
+  const upcomingList = document.getElementById('overview-upcoming-list');
+  if (upcomingList) {
+    upcomingList.innerHTML = upcoming.length === 0
+      ? '<div class="overview-empty">Nothing due in the next 30 days.</div>'
+      : upcoming.map(c => {
+          const d = daysUntil(c.dueDate);
+          return `<div class="overview-item" data-id="${c.id}">
+            <span class="overview-item-dot blue"></span>
+            <span class="overview-item-name">${c.name}</span>
+            <span class="badge badge-blue">${d}d left</span>
+          </div>`;
+        }).join('');
+    upcomingList.querySelectorAll('.overview-item').forEach(el => {
+      el.addEventListener('click', () => {
+        const c = compliances.find(x => String(x.id) === String(el.dataset.id));
+        if (c) openModal(c);
+      });
+    });
+  }
+}
+
+/* ── Document vault overview ── */
+function renderVaultOverview() {
+  const container = document.getElementById('vault-by-compliance');
+  if (!container) return;
+  const docSearch = (document.getElementById('doc-search') || {}).value || '';
+  const query = docSearch.toLowerCase();
+
+  const withDocs = compliances.filter(c => (c.vaultDocs || []).length > 0);
+  if (!withDocs.length) {
+    container.innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted);font-size:14px">No documents uploaded yet. Open a compliance item and upload your first document.</div>';
+    return;
+  }
+
+  container.innerHTML = withDocs.map(c => {
+    const docs = (c.vaultDocs || []).filter(d => !query || d.name.toLowerCase().includes(query));
+    if (!docs.length && query) return '';
+    return `<div class="vault-section-card">
+      <div class="vault-section-hd">
+        <span>${c.name}</span>
+        <span class="badge badge-gray">${docs.length} doc${docs.length !== 1 ? 's' : ''}</span>
+      </div>
+      <div class="vault-section-body">
+        ${docs.length === 0
+          ? '<p class="vault-empty-note">No documents uploaded yet.</p>'
+          : docs.map((d, i) => {
+              const days = d.expiry ? daysUntil(d.expiry) : null;
+              const badgeCls = days === null ? 'badge-gray' : days < 0 ? 'badge-red' : days <= 30 ? 'badge-orange' : 'badge-green';
+              const expiryLabel = d.expiry ? (days < 0 ? `Expired ${Math.abs(days)}d ago` : days === 0 ? 'Expires today' : `Expires in ${days}d`) : 'No expiry set';
+              return `<div class="doc-vault-item">
+                <div class="doc-vault-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></div>
+                <div class="doc-vault-info">
+                  <div class="doc-vault-name">${d.name}</div>
+                  <div class="doc-vault-meta">${new Date(d.uploadedAt).toLocaleDateString()}</div>
+                </div>
+                <span class="badge ${badgeCls}">${expiryLabel}</span>
+                ${d.url ? `<a href="${d.url}" target="_blank" class="btn small ghost doc-view-btn">View</a>` : ''}
+              </div>`;
+            }).join('')
+        }
+      </div>
+    </div>`;
+  }).join('');
+}
+
+const docSearchEl = document.getElementById('doc-search');
+if (docSearchEl) docSearchEl.addEventListener('input', renderVaultOverview);
 
 /* ── Logout ── */
 logoutBtn.addEventListener('click', () => {
@@ -408,11 +562,20 @@ firebase.auth().onAuthStateChanged(user => {
   uid     = user.uid;
   db      = firebase.firestore();
   storage = firebase.storage();
-  userEmailEl.textContent = user.displayName || user.email;
+
+  // Populate sidebar user info
+  const name = user.displayName || user.email || '';
+  const initials = name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase() || '?';
+  const sidebarName   = document.getElementById('sidebar-name');
+  const sidebarEmail  = document.getElementById('sidebar-email');
+  const sidebarAvatar = document.getElementById('sidebar-avatar');
+  if (sidebarName)   sidebarName.textContent   = user.displayName || 'Account';
+  if (sidebarEmail)  sidebarEmail.textContent  = user.email || '';
+  if (sidebarAvatar) sidebarAvatar.textContent = initials;
+  if (userEmailEl)   userEmailEl.textContent   = user.email || '';
 
   db.collection('users').doc(uid).get().then(doc => {
     if (!doc.exists) {
-      // New user — send to onboarding
       window.location.href = 'onboarding.html';
       return;
     }
@@ -426,9 +589,10 @@ firebase.auth().onAuthStateChanged(user => {
 
     compliances = Array.isArray(data.compliances) ? data.compliances : window.compliances;
     renderCompliances();
+    renderOverview();
   }).catch(() => {
-    // Firestore unavailable (placeholder creds) — use demo data
     compliances = window.compliances;
     renderCompliances();
+    renderOverview();
   });
 });
