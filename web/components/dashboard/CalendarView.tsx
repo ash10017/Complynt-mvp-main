@@ -21,14 +21,14 @@ function statusColor(c: Compliance) {
 }
 
 interface Props {
-  compliances: Compliance[]
+  compliances:        Compliance[]
   onSelectCompliance: (c: Compliance) => void
 }
 
 export default function CalendarView({ compliances, onSelectCompliance }: Props) {
   const now = new Date()
-  const [year,  setYear]  = useState(now.getFullYear())
-  const [month, setMonth] = useState(now.getMonth())
+  const [year,         setYear]         = useState(now.getFullYear())
+  const [month,        setMonth]        = useState(now.getMonth())
   const [selectedDate, setSelectedDate] = useState<string | null>(null)
 
   const prevMonth = () => { if (month === 0) { setMonth(11); setYear(y => y - 1) } else setMonth(m => m - 1); setSelectedDate(null) }
@@ -41,31 +41,35 @@ export default function CalendarView({ compliances, onSelectCompliance }: Props)
     itemsByDate[c.dueDate].push(c)
   })
 
-  const firstDay     = new Date(year, month, 1).getDay()
-  const daysInMonth  = new Date(year, month + 1, 0).getDate()
-  const today        = new Date()
-  const todayStr     = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`
+  const firstDay    = new Date(year, month, 1).getDay()
+  const daysInMonth = new Date(year, month + 1, 0).getDate()
+  const today       = new Date()
+  const todayStr    = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`
 
   const selectedItems = selectedDate ? (itemsByDate[selectedDate] || []) : []
+
+  const navBtnCls = 'w-8 h-8 rounded-[8px] border border-[#e5e5ea] flex items-center justify-center text-[18px] text-[#6e6e73] bg-white cursor-pointer hover:bg-[#f5f5f7] transition-colors'
 
   return (
     <div>
       {/* Nav */}
-      <div className="cal-nav">
-        <button onClick={prevMonth}>‹</button>
-        <span style={{ fontWeight: 700, fontSize: 15, color: 'var(--text)' }}>{MONTHS[month]} {year}</span>
-        <button onClick={nextMonth}>›</button>
+      <div className="flex items-center justify-between mb-5">
+        <button className={navBtnCls} onClick={prevMonth}>‹</button>
+        <span className="font-bold text-[15px] text-[#1d1d1f]">{MONTHS[month]} {year}</span>
+        <button className={navBtnCls} onClick={nextMonth}>›</button>
       </div>
 
       {/* Day headers */}
-      <div className="cal-grid" style={{ marginBottom: 4 }}>
-        {DAYS.map(d => <div key={d} className="cal-header">{d}</div>)}
+      <div className="grid grid-cols-7 gap-1 mb-1">
+        {DAYS.map(d => (
+          <div key={d} className="text-[11px] font-semibold text-[#a1a1a6] text-center py-2">{d}</div>
+        ))}
       </div>
 
       {/* Calendar cells */}
-      <div className="cal-grid">
+      <div className="grid grid-cols-7 gap-1">
         {Array.from({ length: firstDay }, (_, i) => (
-          <div key={`empty-${i}`} className="cal-cell empty" />
+          <div key={`empty-${i}`} className="min-h-[52px]" />
         ))}
         {Array.from({ length: daysInMonth }, (_, i) => {
           const d       = i + 1
@@ -76,16 +80,20 @@ export default function CalendarView({ compliances, onSelectCompliance }: Props)
           return (
             <div
               key={d}
-              className={`cal-cell${isToday ? ' today' : ''}${items.length ? ' has-items' : ''}`}
+              className={`min-h-[52px] rounded-[8px] p-1.5 flex flex-col transition-colors ${
+                isToday ? 'bg-[#e8f2ff]' : ''
+              } ${items.length ? 'cursor-pointer hover:bg-[#f0f4ff]' : ''}`}
               onClick={() => items.length && setSelectedDate(dateStr === selectedDate ? null : dateStr)}
             >
-              <span className="cal-day-num">{d}</span>
+              <span className={`text-[13px] font-medium ${isToday ? 'text-[#0071e3] font-bold' : 'text-[#1d1d1f]'}`}>
+                {d}
+              </span>
               {items.length > 0 && (
-                <div className="cal-dots">
+                <div className="flex gap-1 flex-wrap mt-auto pt-0.5">
                   {items.slice(0, 3).map((item, j) => (
                     <span key={j} className={`cal-dot cal-dot-${statusColor(item)}`} />
                   ))}
-                  {items.length > 3 && <span style={{ fontSize: 9, color: 'var(--text-3)' }}>+{items.length-3}</span>}
+                  {items.length > 3 && <span className="text-[9px] text-[#a1a1a6]">+{items.length-3}</span>}
                 </div>
               )}
             </div>
@@ -95,8 +103,8 @@ export default function CalendarView({ compliances, onSelectCompliance }: Props)
 
       {/* Day detail */}
       {selectedDate && selectedItems.length > 0 && (
-        <div style={{ marginTop: 20, padding: 16, background: 'var(--bg)', border: '1px solid var(--border-lt)', borderRadius: 12 }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)', marginBottom: 12 }}>
+        <div className="mt-5 p-4 bg-white border border-[#e5e5ea] rounded-[12px]">
+          <div className="text-[13px] font-semibold text-[#1d1d1f] mb-3">
             {new Date(selectedDate + 'T00:00:00').toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
           </div>
           {selectedItems.map(c => {
@@ -107,12 +115,12 @@ export default function CalendarView({ compliances, onSelectCompliance }: Props)
               <div
                 key={c.id}
                 onClick={() => onSelectCompliance(c)}
-                style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 0', borderTop: '1px solid var(--border-lt)', cursor: 'pointer' }}
+                className="flex items-center gap-2.5 py-2.5 border-t border-[#e5e5ea] cursor-pointer"
               >
                 <span className={`cal-dot cal-dot-${color}`} style={{ width: 8, height: 8, flexShrink: 0 }} />
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)' }}>{c.name}</div>
-                  <div style={{ fontSize: 11, color: 'var(--text-3)' }}>{c.authority}</div>
+                <div className="flex-1">
+                  <div className="text-[13px] font-semibold text-[#1d1d1f]">{c.name}</div>
+                  <div className="text-[11px] text-[#a1a1a6]">{c.authority}</div>
                 </div>
                 <span className={`badge badge-${color}`}>{label}</span>
               </div>

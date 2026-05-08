@@ -136,7 +136,7 @@ export default function ContactPage() {
 
                 {error && <p className="form-error visible">{error}</p>}
 
-                <button type="submit" className="btn-primary" disabled={loading} style={{ marginTop: 8 }}>
+                <button type="submit" disabled={loading} className="flex justify-center items-center w-full py-3 bg-[#0071e3] text-white border-0 rounded-[10px] text-[15px] font-semibold cursor-pointer mt-2 disabled:opacity-60 hover:bg-[#0058b0] transition-colors">
                   {loading ? 'Sending…' : 'Send message'}
                 </button>
               </form>

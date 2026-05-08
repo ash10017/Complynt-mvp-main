@@ -57,16 +57,18 @@ export default function FeaturesPage() {
       <main style={{ paddingTop: 'var(--nav-h)' }}>
 
         {/* Hero */}
-        <section style={{ textAlign: 'center', padding: '72px 20px 56px', maxWidth: 680, margin: '0 auto' }}>
-          <span className="eyebrow">Features</span>
-          <h1 className="section-headline">Everything you need to stay compliant.</h1>
-          <p className="section-sub">
+        <section className="text-center px-5 pt-[72px] pb-14 max-w-[680px] mx-auto">
+          <span className="text-[12px] font-bold text-[#0071e3] uppercase tracking-widest block mb-3">Features</span>
+          <h1 className="text-[clamp(26px,3.5vw,38px)] font-bold text-[#1d1d1f] tracking-tight mb-3">
+            Everything you need to stay compliant.
+          </h1>
+          <p className="text-base text-[#6e6e73]">
             From deadline tracking to document storage, Complynt covers every aspect of compliance for hospitality businesses.
           </p>
         </section>
 
         {/* Features grid */}
-        <section className="section" style={{ paddingTop: 0 }}>
+        <section className="max-w-[1060px] mx-auto px-5 pb-16">
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
             {features.map((f, i) => (
               <div key={f.title} style={{ background: i % 3 === 1 ? 'var(--blue)' : 'var(--bg)', border: '1px solid var(--border-lt)', borderRadius: 20, padding: 32 }}>
@@ -86,15 +88,19 @@ export default function FeaturesPage() {
         </section>
 
         {/* CTA */}
-        <div style={{ padding: '0 20px 80px' }}>
-          <div className="cta-section">
-            <h2 className="cta-headline">See it all in action.</h2>
-            <p className="cta-sub">Set up your compliance profile in under 5 minutes. No credit card required.</p>
-            <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-              <Link href="/onboarding" style={{ background: '#fff', color: 'var(--blue)', padding: '14px 28px', borderRadius: 12, fontWeight: 700, fontSize: 15 }}>
+        <div className="px-5 pb-20">
+          <div className="bg-gradient-to-br from-[#0071e3] to-[#0058b0] rounded-[24px] p-16 text-center">
+            <h2 className="text-[clamp(26px,3.5vw,38px)] font-extrabold text-white mb-3">
+              See it all in action.
+            </h2>
+            <p className="text-[16px] text-white/80 mb-8 max-w-[480px] mx-auto">
+              Set up your compliance profile in under 5 minutes. No credit card required.
+            </p>
+            <div className="flex gap-3 justify-center flex-wrap">
+              <Link href="/onboarding" className="bg-white text-[#0071e3] px-7 py-3.5 rounded-[12px] font-bold text-[15px] hover:bg-[#f0f0f0] transition-colors">
                 Get started free
               </Link>
-              <Link href="/contact" style={{ background: 'rgba(255,255,255,.15)', color: '#fff', padding: '14px 28px', borderRadius: 12, fontWeight: 600, fontSize: 15, border: '1px solid rgba(255,255,255,.3)' }}>
+              <Link href="/contact" className="bg-white/15 text-white border border-white/30 px-7 py-3.5 rounded-[12px] font-semibold text-[15px] hover:bg-white/25 transition-colors">
                 Talk to us →
               </Link>
             </div>

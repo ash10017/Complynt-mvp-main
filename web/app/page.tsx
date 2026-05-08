@@ -2,43 +2,10 @@
 import { useEffect } from 'react'
 import Link from 'next/link'
 
-const LogoMark = () => (
-  <div className="cs-logo-mark">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-      <path d="M12 2L2 7l10 5 10-5-10-5z" fill="currentColor"/>
-      <path d="M2 17l10 5 10-5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
-    </svg>
-  </div>
-)
-
 const regions = [
-  {
-    code: 'IN',
-    href: '/in',
-    flag: '🇮🇳',
-    name: 'India',
-    authorities: 'FSSAI · BBMP · Karnataka Excise · ESIC · EPFO · GST · Fire NOC',
-    status: 'live' as const,
-    statusLabel: 'Live · Bangalore',
-  },
-  {
-    code: 'AU',
-    href: '/au',
-    flag: '🇦🇺',
-    name: 'Australia',
-    authorities: 'Food Safety · VCGLR · Fair Work · ATO / BAS · WorkSafe · Superannuation',
-    status: 'live' as const,
-    statusLabel: 'Live · Melbourne',
-  },
-  {
-    code: 'UK',
-    href: '/uk',
-    flag: '🇬🇧',
-    name: 'United Kingdom',
-    authorities: 'FSA · Premises Licence · HMRC / VAT · Companies House · HSE · Employer Liability',
-    status: 'early' as const,
-    statusLabel: 'Early Access · London',
-  },
+  { code: 'IN', href: '/in', flag: '🇮🇳', name: 'India',          authorities: 'FSSAI · BBMP · Karnataka Excise · ESIC · EPFO · GST · Fire NOC',        status: 'live',  label: 'Live · Bangalore' },
+  { code: 'AU', href: '/au', flag: '🇦🇺', name: 'Australia',       authorities: 'Food Safety · VCGLR · Fair Work · ATO / BAS · WorkSafe · Superannuation', status: 'live',  label: 'Live · Melbourne' },
+  { code: 'UK', href: '/uk', flag: '🇬🇧', name: 'United Kingdom',  authorities: 'FSA · Premises Licence · HMRC / VAT · Companies House · HSE · Employer Liability', status: 'early', label: 'Early Access · London' },
 ]
 
 export default function CountrySelector() {
@@ -50,41 +17,52 @@ export default function CountrySelector() {
     }
   }, [])
 
-  const handleRegionClick = (code: string) => {
-    localStorage.setItem('complynt_region', code)
-  }
-
   return (
-    <div className="cs-page">
-      <a href="#" className="cs-logo">
-        <LogoMark />
-        <span className="cs-logo-name">Complynt</span>
+    <div className="min-h-screen flex flex-col items-center justify-center p-10">
+      {/* Logo */}
+      <a href="#" className="flex items-center gap-2.5 mb-14">
+        <div className="w-9 h-9 bg-[#0071e3] rounded-[10px] flex items-center justify-center text-white">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2L2 7l10 5 10-5-10-5z" fill="currentColor"/>
+            <path d="M2 17l10 5 10-5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
+          </svg>
+        </div>
+        <span className="text-xl font-bold text-[#1d1d1f] tracking-tight">Complynt</span>
       </a>
 
-      <h1 className="cs-headline">Where is your business?</h1>
-      <p className="cs-sub">
+      <h1 className="text-[clamp(28px,4vw,42px)] font-bold text-[#1d1d1f] tracking-tight text-center mb-2.5">
+        Where is your business?
+      </h1>
+      <p className="text-base text-[#6e6e73] max-w-[440px] text-center leading-relaxed mb-10">
         Complynt is tailored to the compliance requirements of each country. Select yours to continue.
       </p>
 
-      <div className="cs-cards">
+      {/* Region cards */}
+      <div className="flex gap-4 flex-wrap justify-center max-w-[780px]">
         {regions.map(r => (
           <Link
             key={r.code}
             href={r.href}
-            className="cs-card"
             data-region={r.code}
-            onClick={() => handleRegionClick(r.code)}
+            onClick={() => localStorage.setItem('complynt_region', r.code)}
+            className="flex flex-col items-center gap-2.5 bg-white border-[1.5px] border-[#e5e5ea] rounded-[18px] p-7 w-[220px] text-center cursor-pointer no-underline transition-all duration-[180ms] hover:border-[#0071e3] hover:shadow-[0_8px_24px_rgba(0,113,227,.10)] hover:-translate-y-0.5"
           >
-            <div className="cs-flag">{r.flag}</div>
-            <div className="cs-country-name">{r.name}</div>
-            <p className="cs-authorities">{r.authorities}</p>
-            <span className={`cs-status ${r.status}`}>{r.statusLabel}</span>
+            <span className="text-4xl leading-none">{r.flag}</span>
+            <span className="text-[17px] font-bold text-[#1d1d1f]">{r.name}</span>
+            <p className="text-[11.5px] text-[#a1a1a6] leading-relaxed">{r.authorities}</p>
+            <span className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full ${
+              r.status === 'live'
+                ? 'bg-[rgba(52,199,89,0.10)] text-[#1a7a34]'
+                : 'bg-[rgba(255,159,10,0.10)] text-[#8a4d00]'
+            }`}>
+              {r.label}
+            </span>
           </Link>
         ))}
       </div>
 
-      <p className="cs-footer-row">
-        Already have an account? <Link href="/login">Log in →</Link>
+      <p className="mt-8 text-sm text-[#6e6e73] text-center">
+        Already have an account? <Link href="/login" className="text-[#0071e3] font-medium">Log in →</Link>
         &nbsp;·&nbsp; More regions coming soon
       </p>
     </div>

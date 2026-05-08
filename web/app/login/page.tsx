@@ -15,14 +15,14 @@ import { auth } from '@/lib/firebase'
 type View = 'login' | 'signup' | 'forgot'
 
 const AUTH_ERRORS: Record<string, string> = {
-  'auth/user-not-found':        'No account found with this email.',
-  'auth/wrong-password':        'Incorrect password. Try again.',
-  'auth/email-already-in-use':  'An account with this email already exists.',
-  'auth/weak-password':         'Password must be at least 6 characters.',
-  'auth/invalid-email':         'Please enter a valid email address.',
-  'auth/too-many-requests':     'Too many attempts. Please try again later.',
-  'auth/network-request-failed':'Network error. Check your connection.',
-  'auth/invalid-credential':    'Incorrect email or password.',
+  'auth/user-not-found':         'No account found with this email.',
+  'auth/wrong-password':         'Incorrect password. Try again.',
+  'auth/email-already-in-use':   'An account with this email already exists.',
+  'auth/weak-password':          'Password must be at least 6 characters.',
+  'auth/invalid-email':          'Please enter a valid email address.',
+  'auth/too-many-requests':      'Too many attempts. Please try again later.',
+  'auth/network-request-failed': 'Network error. Check your connection.',
+  'auth/invalid-credential':     'Incorrect email or password.',
 }
 
 function authMsg(err: { code?: string }) {
@@ -37,6 +37,8 @@ const GoogleIcon = () => (
     <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
   </svg>
 )
+
+const btnPrimary = 'flex justify-center items-center w-full py-3 bg-[#0071e3] text-white border-0 rounded-[10px] text-[15px] font-semibold cursor-pointer mt-3 disabled:opacity-60 hover:bg-[#0058b0] transition-colors'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -104,47 +106,61 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="login-page">
+    <div className="flex min-h-screen">
 
-      {/* Left panel */}
-      <div className="login-left">
-        <a href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
-          <div style={{ width: 32, height: 32, background: 'rgba(255,255,255,.2)', borderRadius: 9, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      {/* Left panel — hidden on small screens */}
+      <div className="hidden lg:flex flex-col w-[400px] shrink-0 bg-gradient-to-br from-[#0071e3] to-[#0058b0] p-10 text-white">
+        <a href="/" className="flex items-center gap-2.5">
+          <div className="w-8 h-8 bg-white/20 rounded-[9px] flex items-center justify-center">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
               <path d="M12 2L2 7l10 5 10-5-10-5z" fill="currentColor"/>
               <path d="M2 17l10 5 10-5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
             </svg>
           </div>
-          <span style={{ fontSize: 16, fontWeight: 700, color: '#fff' }}>Complynt</span>
+          <span className="text-base font-bold">Complynt</span>
         </a>
 
-        <div style={{ flex: 1, display: 'flex', alignItems: 'center' }}>
+        <div className="flex-1 flex items-center">
           <div>
-            <h2 className="login-left-headline">Your compliance,<br/>always under control.</h2>
-            <p className="login-left-sub" style={{ marginTop: 14 }}>
+            <h2 className="text-[28px] font-extrabold leading-tight">
+              Your compliance,<br />always under control.
+            </h2>
+            <p className="text-[15px] text-white/75 leading-relaxed mt-3.5">
               Every licence, deadline, and document — tracked, documented, and alerted before deadlines become disasters.
             </p>
           </div>
         </div>
 
-        <div className="login-left-stats">
-          <div><div className="login-stat-val">8+</div><div className="login-stat-label">Licences managed</div></div>
-          <div><div className="login-stat-val">0</div><div className="login-stat-label">Missed deadlines</div></div>
-          <div><div className="login-stat-val">₹12L</div><div className="login-stat-label">Fines prevented</div></div>
+        <div className="flex gap-6 pt-5 border-t border-white/15 mt-auto">
+          <div>
+            <div className="text-[22px] font-extrabold">8+</div>
+            <div className="text-[11px] text-white/65 mt-0.5">Licences managed</div>
+          </div>
+          <div>
+            <div className="text-[22px] font-extrabold">0</div>
+            <div className="text-[11px] text-white/65 mt-0.5">Missed deadlines</div>
+          </div>
+          <div>
+            <div className="text-[22px] font-extrabold">₹12L</div>
+            <div className="text-[11px] text-white/65 mt-0.5">Fines prevented</div>
+          </div>
         </div>
       </div>
 
       {/* Right panel */}
-      <div className="login-right">
-        <div className="login-box">
+      <div className="flex-1 flex items-center justify-center bg-[#f5f5f7] p-8 lg:p-10">
+        <div className="bg-white rounded-[20px] p-9 w-full max-w-[380px] shadow-[0_8px_40px_rgba(0,0,0,.08)]">
 
           {/* ── Login view ── */}
           {view === 'login' && (
             <>
-              <h1 className="login-title">Welcome back</h1>
-              <p className="login-sub">Log in to your account to continue.</p>
+              <h1 className="text-[22px] font-bold text-[#1d1d1f] mb-1">Welcome back</h1>
+              <p className="text-sm text-[#6e6e73] mb-6">Log in to your account to continue.</p>
 
-              <button className="btn-google" onClick={handleGoogle}>
+              <button
+                className="flex items-center justify-center gap-2.5 w-full py-[11px] border-[1.5px] border-[#e5e5ea] rounded-[10px] bg-white text-sm font-medium text-[#1d1d1f] cursor-pointer mb-4 hover:border-[#d2d2d7] transition-colors"
+                onClick={handleGoogle}
+              >
                 <GoogleIcon /> Continue with Google
               </button>
               <div className="login-divider">or continue with email</div>
@@ -157,25 +173,35 @@ export default function LoginPage() {
                 <div className="form-group">
                   <div className="form-row">
                     <label className="form-label" htmlFor="login-password">Password</label>
-                    <button type="button" className="form-link" style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 13, color: 'var(--blue)' }} onClick={() => { clearError(); setView('forgot') }}>Forgot password?</button>
+                    <button type="button" className="form-link" onClick={() => { clearError(); setView('forgot') }}>Forgot password?</button>
                   </div>
                   <input className="form-input" id="login-password" type="password" placeholder="••••••••" value={loginPassword} onChange={e => setLoginPassword(e.target.value)} autoComplete="current-password" required />
                 </div>
                 {error && <p className="form-error visible">{error}</p>}
-                <button type="submit" className="btn-primary" disabled={loading}>{loading ? 'Please wait…' : 'Log in'}</button>
+                <button type="submit" className={btnPrimary} disabled={loading}>
+                  {loading ? 'Please wait…' : 'Log in'}
+                </button>
               </form>
 
-              <p className="login-switch">Don&apos;t have an account? <button type="button" style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--blue)', fontWeight: 500, fontSize: 13 }} onClick={() => { clearError(); setView('signup') }}>Sign up free →</button></p>
+              <p className="text-center text-[13px] text-[#a1a1a6] mt-5">
+                Don&apos;t have an account?{' '}
+                <button type="button" className="text-[#0071e3] font-medium bg-transparent border-0 cursor-pointer text-[13px]" onClick={() => { clearError(); setView('signup') }}>
+                  Sign up free →
+                </button>
+              </p>
             </>
           )}
 
           {/* ── Signup view ── */}
           {view === 'signup' && (
             <>
-              <h1 className="login-title">Create your account</h1>
-              <p className="login-sub">Free forever. No credit card needed.</p>
+              <h1 className="text-[22px] font-bold text-[#1d1d1f] mb-1">Create your account</h1>
+              <p className="text-sm text-[#6e6e73] mb-6">Free forever. No credit card needed.</p>
 
-              <button className="btn-google" onClick={handleGoogle}>
+              <button
+                className="flex items-center justify-center gap-2.5 w-full py-[11px] border-[1.5px] border-[#e5e5ea] rounded-[10px] bg-white text-sm font-medium text-[#1d1d1f] cursor-pointer mb-4 hover:border-[#d2d2d7] transition-colors"
+                onClick={handleGoogle}
+              >
                 <GoogleIcon /> Sign up with Google
               </button>
               <div className="login-divider">or sign up with email</div>
@@ -194,21 +220,28 @@ export default function LoginPage() {
                   <input className="form-input" id="signup-password" type="password" placeholder="Min. 8 characters" value={signupPassword} onChange={e => setSignupPassword(e.target.value)} autoComplete="new-password" required />
                 </div>
                 {error && <p className="form-error visible">{error}</p>}
-                <button type="submit" className="btn-primary" disabled={loading}>{loading ? 'Please wait…' : 'Create Account'}</button>
+                <button type="submit" className={btnPrimary} disabled={loading}>
+                  {loading ? 'Please wait…' : 'Create Account'}
+                </button>
               </form>
 
-              <p className="login-switch">Already have an account? <button type="button" style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--blue)', fontWeight: 500, fontSize: 13 }} onClick={() => { clearError(); setView('login') }}>Log in →</button></p>
+              <p className="text-center text-[13px] text-[#a1a1a6] mt-5">
+                Already have an account?{' '}
+                <button type="button" className="text-[#0071e3] font-medium bg-transparent border-0 cursor-pointer text-[13px]" onClick={() => { clearError(); setView('login') }}>
+                  Log in →
+                </button>
+              </p>
             </>
           )}
 
           {/* ── Forgot password view ── */}
           {view === 'forgot' && (
             <>
-              <h1 className="login-title">Reset your password</h1>
-              <p className="login-sub">Enter your email and we&apos;ll send you a reset link.</p>
+              <h1 className="text-[22px] font-bold text-[#1d1d1f] mb-1">Reset your password</h1>
+              <p className="text-sm text-[#6e6e73] mb-6">Enter your email and we&apos;ll send you a reset link.</p>
 
               {forgotSent ? (
-                <p style={{ fontSize: 14, color: 'var(--green)', background: 'var(--green-lt)', padding: '12px 16px', borderRadius: 10, marginBottom: 16 }}>
+                <p className="text-sm text-[#1a7a34] bg-[rgba(52,199,89,0.10)] px-4 py-3 rounded-[10px] mb-4">
                   Reset link sent — check your inbox.
                 </p>
               ) : (
@@ -218,16 +251,25 @@ export default function LoginPage() {
                     <input className="form-input" id="forgot-email" type="email" placeholder="you@business.com" value={forgotEmail} onChange={e => setForgotEmail(e.target.value)} autoComplete="email" required />
                   </div>
                   {error && <p className="form-error visible">{error}</p>}
-                  <button type="submit" className="btn-primary" disabled={loading}>{loading ? 'Please wait…' : 'Send Reset Link'}</button>
+                  <button type="submit" className={btnPrimary} disabled={loading}>
+                    {loading ? 'Please wait…' : 'Send Reset Link'}
+                  </button>
                 </form>
               )}
 
-              <p className="login-switch"><button type="button" style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--blue)', fontWeight: 500, fontSize: 13 }} onClick={() => { clearError(); setView('login') }}>← Back to log in</button></p>
+              <p className="text-center text-[13px] text-[#a1a1a6] mt-5">
+                <button type="button" className="text-[#0071e3] font-medium bg-transparent border-0 cursor-pointer text-[13px]" onClick={() => { clearError(); setView('login') }}>
+                  ← Back to log in
+                </button>
+              </p>
             </>
           )}
 
-          <p className="login-footer">
-            By continuing, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+          <p className="text-[11.5px] text-[#a1a1a6] text-center mt-6">
+            By continuing, you agree to our{' '}
+            <a href="#" className="text-[#0071e3]">Terms of Service</a>
+            {' '}and{' '}
+            <a href="#" className="text-[#0071e3]">Privacy Policy</a>.
           </p>
         </div>
       </div>
