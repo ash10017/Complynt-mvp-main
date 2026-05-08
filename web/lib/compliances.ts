@@ -1,0 +1,70 @@
+import type { Compliance } from '@/types'
+
+export const DEFAULT_COMPLIANCES: Compliance[] = [
+  {
+    id: 1,
+    name: 'Trade License Renewal',
+    authority: 'BBMP',
+    category: 'Local Authority',
+    frequency: 'Annual',
+    description: 'Mandatory trade license from BBMP for restaurants/bars.',
+    documents: ['Application Form', 'Previous Trade License', 'Fee Receipt'],
+    dueDate: '2025-12-31',
+    status: 'Pending',
+    history: [],
+  },
+  {
+    id: 2,
+    name: 'FSSAI Food License',
+    authority: 'FSSAI',
+    category: 'Food Safety',
+    frequency: 'Annual',
+    description: 'License required for handling and serving food.',
+    documents: ['Identity Proof', 'Kitchen Layout', 'Fee Receipt'],
+    dueDate: '2025-10-30',
+    status: 'Pending',
+    history: [],
+  },
+  {
+    id: 3,
+    name: 'Excise License Renewal',
+    authority: 'State Excise Dept',
+    category: 'Liquor',
+    frequency: 'Annual',
+    description: 'Permit to sell/serve alcohol in Bangalore.',
+    documents: ['Old License', 'Rental Agreement', 'Tax Receipts'],
+    dueDate: '2025-09-30',
+    status: 'Overdue',
+    history: [],
+  },
+]
+
+export const ALL_LICENSES = [
+  { id: 'fssai',     name: 'FSSAI Food License',         authority: 'FSSAI',                  category: 'Food Safety',     types: ['restaurant','hotel','cafe','cloud_kitchen','retail','other'] },
+  { id: 'bbmp',      name: 'BBMP Trade License',          authority: 'BBMP',                   category: 'Local Authority', types: ['restaurant','hotel','cafe','cloud_kitchen','retail','other'] },
+  { id: 'excise',    name: 'Karnataka Excise License',    authority: 'Karnataka Excise Dept',  category: 'Liquor',          types: ['restaurant','hotel','cafe'] },
+  { id: 'firenoc',   name: 'Fire NOC',                    authority: 'Karnataka Fire Dept',    category: 'Fire',            types: ['restaurant','hotel','cafe','cloud_kitchen','retail','other'] },
+  { id: 'health_tl', name: 'Health Trade License',        authority: 'BBMP',                   category: 'Local Authority', types: ['restaurant','hotel','cafe','cloud_kitchen'] },
+  { id: 'eating',    name: 'Eating House License',        authority: 'BBMP / Police',          category: 'Local Authority', types: ['restaurant','cafe'] },
+  { id: 'gst',       name: 'GST Registration',            authority: 'GST Council',            category: 'Tax',             types: ['restaurant','hotel','cafe','cloud_kitchen','retail','other'] },
+  { id: 'shops',     name: 'Shops & Establishments Act',  authority: 'Dept of Labour',         category: 'Labour',          types: ['restaurant','hotel','cafe','cloud_kitchen','retail','other'] },
+  { id: 'esic',      name: 'ESIC Registration',           authority: 'ESIC',                   category: 'Labour',          types: ['restaurant','hotel','cafe','cloud_kitchen','retail','other'] },
+  { id: 'pf',        name: 'EPFO / PF Registration',      authority: 'EPFO',                   category: 'Labour',          types: ['restaurant','hotel','cafe','cloud_kitchen','retail','other'] },
+  { id: 'lift',      name: 'Lift License',                authority: 'Dept of Factories',      category: 'Safety',          types: ['hotel'] },
+  { id: 'pcb',       name: 'PCB Consent to Operate',      authority: 'Karnataka PCB',          category: 'Environment',     types: ['restaurant','hotel','cloud_kitchen','other'] },
+]
+
+export const LICENSE_DOCS: Record<string, string[]> = {
+  fssai:     ['Form B', 'ID Proof', 'Kitchen Layout', 'Food Category List', 'Fee Challan'],
+  bbmp:      ['Application Form', 'Previous Trade License', 'Property Tax Receipt', 'Rental Agreement'],
+  excise:    ['Old License', 'Rental Agreement', 'Tax Receipts', 'Police NOC'],
+  firenoc:   ['Building Plan', 'Electrical Certificate', 'Site Inspection Report'],
+  health_tl: ['Application', 'Kitchen Inspection Report', 'Water Test Certificate'],
+  eating:    ['Application to BBMP/Police', 'Floor Plan', 'Indemnity Bond'],
+  gst:       ['PAN Card', 'Aadhaar', 'Bank Statement', 'Rental Agreement'],
+  shops:     ['Application Form', 'ID Proof', 'Address Proof'],
+  esic:      ['Employee Register', 'Wage Register', 'Form 1'],
+  pf:        ['Employee Details', 'Salary Register', 'Bank Details'],
+  lift:      ['Lift Plan', 'Installation Certificate', 'AMC Contract'],
+  pcb:       ['Application', 'Site Layout', 'ETP Design'],
+}
