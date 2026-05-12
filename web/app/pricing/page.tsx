@@ -26,8 +26,8 @@ const plans = [
   },
   {
     name:     'Pro',
-    price:    '₹999',
-    period:   'per month + GST',
+    price:    '£39',
+    period:   'per month',
     desc:     'For growing businesses that need full coverage and multi-location support.',
     badge:    'Most popular',
     features: [
@@ -65,8 +65,8 @@ const plans = [
 
 const faqs = [
   { q: 'Is the free plan really free forever?', a: 'Yes. The Starter plan is free with no time limit. You can use it as long as you want for up to 3 compliance items.' },
-  { q: 'Can I switch regions?', a: 'Absolutely. You can track compliances for India, Australia, or the UK — and more regions are coming soon.' },
-  { q: 'What payment methods do you accept?', a: 'We accept all major credit/debit cards, UPI, and bank transfers for Indian customers. International cards accepted for AU and UK.' },
+  { q: 'Can I switch regions?', a: 'Absolutely. You can track compliances for the UK or Australia — and more regions are coming soon.' },
+  { q: 'What payment methods do you accept?', a: 'We accept all major credit and debit cards. UK customers can also pay via bank transfer.' },
   { q: 'Can I cancel anytime?', a: 'Yes, no lock-in contracts. Cancel anytime and your data is always yours to export.' },
   { q: 'Do you offer discounts for multiple locations?', a: 'Yes — Pro covers up to 5 locations. For larger groups, talk to us about our Enterprise plan.' },
 ]

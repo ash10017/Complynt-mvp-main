@@ -3,7 +3,7 @@ import './globals.css'
 
 export const metadata: Metadata = {
   title: 'Complynt — Compliance Tracking for Hospitality & F&B',
-  description: 'Track every licence, deadline, and compliance obligation from one dashboard. Built for hospitality businesses in India, Australia, and the UK.',
+  description: 'Track every licence, deadline, and compliance obligation from one dashboard. Built for hospitality businesses in the UK and Australia.',
 }
 
 export const viewport: Viewport = {

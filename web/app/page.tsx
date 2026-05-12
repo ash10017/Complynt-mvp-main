@@ -3,9 +3,10 @@ import { useEffect } from 'react'
 import Link from 'next/link'
 
 const regions = [
-  { code: 'IN', href: '/in', flag: '🇮🇳', name: 'India',          authorities: 'FSSAI · BBMP · Karnataka Excise · ESIC · EPFO · GST · Fire NOC',        status: 'live',  label: 'Live · Bangalore' },
+  { code: 'UK', href: '/uk', flag: '🇬🇧', name: 'United Kingdom',  authorities: 'FSA · FHRS Inspection · Premises Licence · HMRC · Fire Safety · Right to Work', status: 'live', label: 'Live · London' },
   { code: 'AU', href: '/au', flag: '🇦🇺', name: 'Australia',       authorities: 'Food Safety · VCGLR · Fair Work · ATO / BAS · WorkSafe · Superannuation', status: 'live',  label: 'Live · Melbourne' },
-  { code: 'UK', href: '/uk', flag: '🇬🇧', name: 'United Kingdom',  authorities: 'FSA · Premises Licence · HMRC / VAT · Companies House · HSE · Employer Liability', status: 'early', label: 'Early Access · London' },
+  // India support coming soon
+  // { code: 'IN', href: '/in', flag: '🇮🇳', name: 'India', authorities: 'FSSAI · BBMP · Karnataka Excise · ESIC · EPFO · GST · Fire NOC', status: 'soon', label: 'Coming Soon' },
 ]
 
 export default function CountrySelector() {

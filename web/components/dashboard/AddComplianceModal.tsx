@@ -51,7 +51,7 @@ export default function AddComplianceModal({ compliances, onAdd, onClose }: Prop
         documents:   ['Application Form', 'Identity Proof', 'Fee Receipt'],
         dueDate,
         status:      new Date(dueDate) < new Date() ? 'Overdue' : 'Pending',
-        history:     [`Added on ${new Date().toLocaleDateString('en-IN')}`],
+        history:     [`Added on ${new Date().toLocaleDateString('en-GB')}`],
       }
       onAdd(newItem)
     } else if (selected) {
@@ -65,7 +65,7 @@ export default function AddComplianceModal({ compliances, onAdd, onClose }: Prop
         documents:   LICENSE_DOCS[selected.id] || ['Application Form', 'Identity Proof', 'Fee Receipt'],
         dueDate,
         status:      new Date(dueDate) < new Date() ? 'Overdue' : 'Pending',
-        history:     [`Added on ${new Date().toLocaleDateString('en-IN')}`],
+        history:     [`Added on ${new Date().toLocaleDateString('en-GB')}`],
       }
       onAdd(newItem)
     }
@@ -166,15 +166,13 @@ export default function AddComplianceModal({ compliances, onAdd, onClose }: Prop
                   <label className="text-[12px] font-semibold text-[#6e6e73] uppercase tracking-wide block mb-1.5">Category</label>
                   <select className={inputCls} value={custCat} onChange={e => setCustCat(e.target.value)}>
                     <option value="">Select category…</option>
-                    <option value="Food & Safety">Food & Safety</option>
-                    <option value="Municipal">Municipal</option>
+                    <option value="Food Safety">Food Safety</option>
+                    <option value="Licensing">Licensing</option>
                     <option value="Safety">Safety</option>
-                    <option value="Liquor & Bar">Liquor & Bar</option>
                     <option value="Labour & HR">Labour & HR</option>
-                    <option value="Tax & Finance">Tax & Finance</option>
-                    <option value="Environmental">Environmental</option>
-                    <option value="Police Licensing">Police Licensing</option>
-                    <option value="Health & Sanitation">Health & Sanitation</option>
+                    <option value="Tax">Tax</option>
+                    <option value="Data & Privacy">Data & Privacy</option>
+                    <option value="Legal">Legal</option>
                     <option value="Other">Other</option>
                   </select>
                 </div>

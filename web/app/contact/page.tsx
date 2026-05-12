@@ -17,7 +17,7 @@ export default function ContactPage() {
   useEffect(() => {
     const saved = localStorage.getItem('complynt_region')
     if (saved) {
-      const map: Record<string, string> = { IN: 'India', AU: 'Australia', UK: 'UK' }
+      const map: Record<string, string> = { AU: 'Australia', UK: 'UK' }
       if (map[saved]) setRegion(map[saved])
     }
   }, [])
@@ -123,7 +123,6 @@ export default function ContactPage() {
                   <label className="form-label" htmlFor="ct-region">Your region</label>
                   <select className="form-input" id="ct-region" value={region} onChange={e => setRegion(e.target.value)}>
                     <option value="">Select region…</option>
-                    <option value="India">India</option>
                     <option value="UK">United Kingdom</option>
                     <option value="Australia">Australia</option>
                     <option value="Other">Other / Not sure yet</option>

@@ -5,7 +5,7 @@ import { onAuthStateChanged, signOut, User } from 'firebase/auth'
 import { doc, getDoc, updateDoc, setDoc } from 'firebase/firestore'
 import { auth, db } from '@/lib/firebase'
 import { DEFAULT_COMPLIANCES } from '@/lib/compliances'
-import { MOCK_LOCATIONS, MOCK_COMPLIANCE_MAIN, MOCK_COMPLIANCE_CLOUD, MOCK_COMPLIANCE_CAFE, MOCK_USER_PROFILE } from '@/lib/mockData'
+import { MOCK_LOCATIONS, MOCK_COMPLIANCE_MAIN, MOCK_COMPLIANCE_DELIVERY, MOCK_COMPLIANCE_CAFE, MOCK_USER_PROFILE } from '@/lib/mockData'
 import { generateAIResponse, getAISuggestions } from '@/lib/aiResponses'
 import type { Compliance, VaultDoc } from '@/types'
 import ComplianceModal    from '@/components/dashboard/ComplianceModal'
@@ -127,9 +127,9 @@ export default function DashboardPage() {
             mainCompliances = Array.isArray(data.compliances) ? data.compliances : MOCK_COMPLIANCE_MAIN
           }
           locationCacheRef.current = {
-            main:  mainCompliances,
-            cloud: MOCK_COMPLIANCE_CLOUD,
-            cafe:  MOCK_COMPLIANCE_CAFE,
+            main:     mainCompliances,
+            delivery: MOCK_COMPLIANCE_DELIVERY,
+            cafe:     MOCK_COMPLIANCE_CAFE,
           }
           setCompliances(mainCompliances)
           return
@@ -185,7 +185,7 @@ export default function DashboardPage() {
   const handleMarkDone = (c: Compliance) => {
     const updated = compliances.map(x =>
       x.id === c.id
-        ? { ...x, status: 'Completed' as const, history: [...(x.history || []), `Marked completed on ${new Date().toLocaleDateString('en-IN')}`] }
+        ? { ...x, status: 'Completed' as const, history: [...(x.history || []), `Marked completed on ${new Date().toLocaleDateString('en-GB')}`] }
         : x
     )
     setCompliances(updated)
@@ -290,7 +290,7 @@ export default function DashboardPage() {
                     <div className={`text-[12px] font-semibold truncate leading-tight ${activeLocation === loc.id ? 'text-[#0071e3]' : 'text-[#1d1d1f]'}`}>
                       {loc.name}
                     </div>
-                    <div className="text-[10px] text-[#a1a1a6] leading-tight truncate">{loc.id === 'main' ? 'Main Restaurant' : loc.id === 'cloud' ? 'Cloud Kitchen' : 'Café Branch'}</div>
+                    <div className="text-[10px] text-[#a1a1a6] leading-tight truncate">{loc.id === 'main' ? 'Restaurant & Bar' : loc.id === 'delivery' ? 'Delivery Kitchen' : 'Café'}</div>
                   </div>
                   <span className="text-[11px] font-bold shrink-0" style={{ color: hColor }}>{locHealth}</span>
                 </button>
@@ -589,7 +589,7 @@ export default function DashboardPage() {
                         <div className="flex-1 min-w-0">
                           <div className="text-[13px] font-medium text-[#1d1d1f] truncate">{d.name}</div>
                           <div className="text-[11px] text-[#a1a1a6] mt-0.5">
-                            Uploaded {new Date(d.uploadedAt).toLocaleDateString('en-IN')}
+                            Uploaded {new Date(d.uploadedAt).toLocaleDateString('en-GB')}
                             {d.expiry && ` · Expires ${d.expiry}`}
                           </div>
                         </div>

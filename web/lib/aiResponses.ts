@@ -8,71 +8,82 @@ function daysUntil(dateStr: string): number {
 }
 
 const PENALTY_INFO: Record<string, string> = {
-  fssai:
-    'Operating without a valid FSSAI license can result in fines up to ₹5 lakh and imprisonment up to 6 months under FSSA 2006. For substandard food, penalties can reach ₹10 lakh. FSSAI officers can seal your kitchen without notice.',
-  bbmp:
-    'Operating without a BBMP Trade License attracts fines of ₹5,000–₹50,000 plus daily penalties until compliance. BBMP inspectors can issue closure notices, and continued operation can lead to FIR under the KMC Act.',
-  excise:
-    'Serving liquor without a valid Excise license is a serious criminal offence — fines of ₹10,000–₹1 lakh, immediate seizure of all liquor stock, cancellation of license for 3 years, and possible imprisonment under the Karnataka Excise Act.',
+  haccp:
+    'Inadequate HACCP records are the most common reason for a sub-3 FHRS rating. An EHO inspector can issue a Hygiene Improvement Notice, which triggers a re-inspection and appears on your public FHRS record. A score of 2 or below can get you delisted from Deliveroo and Uber Eats, costing thousands per week. In severe cases, a Hygiene Emergency Prohibition Notice can close your kitchen with immediate effect.',
+  allergen:
+    "Non-compliance with Natasha's Law carries criminal liability — unlimited fines and up to 2 years' imprisonment for the individuals responsible. Trading Standards actively prosecutes allergen violations. Causing an allergic reaction through failure to declare allergens can result in prosecution for gross negligence manslaughter. A regional Trading Standards survey found 56% of food businesses still non-compliant.",
+  premises:
+    'Selling alcohol without a valid Premises Licence is a criminal offence under the Licensing Act 2003 — fine up to £20,000 and/or 6 months imprisonment. The local authority can apply for a licence review resulting in suspension or revocation. Police and licensing officers conduct joint enforcement operations in hospitality venues.',
   fire:
-    'Operating without Fire NOC can result in fines of ₹10,000–₹1 lakh and immediate sealing of the premises by fire authorities. In the event of a fire incident, criminal liability (including culpable homicide) may apply to the owner.',
-  shops:
-    'Non-compliance under the Shops & Establishments Act attracts fines of ₹1,000–₹10,000 per violation. Labour Department inspectors can conduct surprise raids and file prosecution cases.',
-  esic:
-    'Non-payment of ESIC contributions attracts 12% interest per annum on dues, plus a penalty equal to the defaulted amount (up to 25% additional). Criminal prosecution under Section 85 of the ESIC Act is also possible.',
-  epfo:
-    'EPFO non-compliance attracts 12% p.a. interest on dues, damages up to 25% of dues, and imprisonment up to 3 years under the EPF & MP Act. The department can attach business assets to recover dues.',
-  pcb:
-    "Operating without PCB consent can result in closure orders, fines of ₹10,000–₹1 lakh, and criminal prosecution under the Environment Protection Act 1986. KSPCB can seal the kitchen's exhaust and drainage systems.",
-  eating:
-    "Operating an eating house without a police license attracts fines under IPC Section 188 and the Commissioner of Police can seal the establishment. It also affects renewal of your BBMP trade license.",
-  lift:
-    'Operating an uninspected lift is a safety violation. Fines under the Karnataka Lifts Act, plus potential criminal liability (including charges under IPC 304A for negligent death) if an accident occurs.',
-  health:
-    'Operating without a Health Trade License can lead to fines of ₹5,000–₹25,000 and suspension of your BBMP trade license. BBMP health inspectors can seize food stock if hygiene standards are not met.',
-  eating_house: 'Operating without an Eating House License attracts fines and can lead to police sealing the establishment.',
+    'Failure to have a current fire risk assessment is a criminal offence under the Regulatory Reform (Fire Safety) Order 2005 — unlimited fines and up to 2 years imprisonment. The Fire Service can issue a Prohibition Notice closing your premises immediately. If a fire results in injury and no valid assessment exists, criminal liability including manslaughter charges can apply to the responsible person.',
+  eli:
+    "Operating without Employer's Liability Insurance is a criminal offence. The HSE can fine you £2,500 for every day you operate without a valid certificate. The certificate must be displayed at the premises or accessible to employees at all times.",
+  nlw:
+    "Failing to pay the National Living Wage results in fines up to £20,000 per worker, mandatory repayment of all underpayments, and public naming on the government's NMW enforcement list. HMRC runs active enforcement campaigns targeting hospitality specifically — surprise payroll audits are common. Directors can be personally liable.",
+  rtw:
+    'Employing someone without a valid right to work check results in a civil penalty of up to £45,000 per illegal worker. If you had reason to know the worker was illegal, criminal prosecution applies — up to 5 years imprisonment and an unlimited fine. Immigration Enforcement conducts joint operations with EHOs in hospitality premises.',
+  vat:
+    'Failure to register for VAT when turnover exceeds £90,000 results in back-payment of all VAT owed, plus surcharges up to 15%, interest on unpaid VAT, and a potential penalty of up to 100% of the VAT owed. HMRC can raise assessments going back up to 20 years for deliberate non-disclosure.',
+  ico:
+    "Failure to register with the ICO is a criminal offence — fines up to £400 per organisation for non-registration alone. For data breaches caused by poor compliance, the ICO can issue fines up to £17.5 million or 4% of global turnover (whichever is higher). The ICO actively monitors hospitality businesses operating loyalty schemes and booking systems.",
+  gas:
+    'Operating gas appliances without a valid annual CP12 certificate is a criminal offence under the Gas Safety (Installation and Use) Regulations 1998 — unlimited fines and imprisonment. If a gas incident occurs and no valid certificate exists, criminal liability including manslaughter charges can apply. The HSE can prohibit use of the premises immediately.',
+  fbd:
+    'Operating as a food business without registration is a criminal offence — fines up to £5,000. More critically, it invalidates your FHRS rating and triggers an immediate EHO inspection. Platforms like Just Eat and Deliveroo require a valid food business registration number to keep your listing active.',
 }
 
 const RENEWAL_STEPS: Record<string, string[]> = {
-  fssai: [
-    '1. Log into the FoSCoS portal (foscos.fssai.gov.in)',
-    '2. Go to "Renewal of License/Registration" under My Account',
-    '3. Fill Form B — update any changes to your business',
-    '4. Upload required documents: kitchen layout, hygiene report, premises proof',
-    '5. Pay the renewal fee online: ₹2,000–₹7,500 depending on turnover',
-    '6. Submit and track via the portal — typically 7–15 working days for approval',
-    'Tip: Start 30 days before expiry to account for inspection scheduling.',
+  haccp: [
+    "1. Download the FSA's 'Safe Catering' pack or use a Safer Food Better Business (SFBB) folder",
+    '2. Adapt the HACCP plan to your specific kitchen — a generic template will not satisfy an EHO',
+    '3. Update temperature logs with fresh, real entries (avoid suspiciously round numbers)',
+    '4. Sign and date every cleaning schedule — unsigned records count as missing records',
+    '5. Document any new suppliers with due diligence records',
+    '6. Train any new staff and add their signatures to the training register',
+    'Tip: An EHO inspector spends 30 minutes on paperwork first. Neat, up-to-date records can turn a routine visit into a 5-star rating.',
   ],
-  bbmp: [
-    '1. Visit the BBMP Sakala portal (bbmpsa kala.in) or the nearest ward office',
-    '2. Submit the renewal application with the previous license copy',
-    '3. Attach the current year property tax paid receipt',
-    '4. Pay the renewal fee (₹1,000–₹10,000 depending on establishment type)',
-    "5. An inspector may visit for physical verification of your premises",
-    '6. License is typically issued within 15 working days after verification',
+  allergen: [
+    '1. List every ingredient in every dish and map against all 14 regulated allergens',
+    '2. Produce a written allergen matrix accessible to both customers and staff',
+    '3. For PPDS food, ensure a full ingredient list with allergens highlighted is on the packaging',
+    '4. For online orders, publish allergen information before the purchase is complete AND at delivery',
+    '5. Train all front-of-house and kitchen staff on allergen procedures and cross-contamination risks',
+    '6. Update the allergen matrix any time a supplier changes ingredients or a menu item changes',
+    "Tip: Owen's Law (likely 2027–2028) will make written allergen menus mandatory — getting this done now puts you ahead of the legislation.",
+  ],
+  premises: [
+    '1. Contact your local authority licensing team for the review or variation application form',
+    '2. Ensure your Designated Premises Supervisor (DPS) holds a valid Personal Licence',
+    '3. Check the DPS DBS certificate is within 3 years and Challenge 25 is actively enforced',
+    '4. Review your operating schedule — any changes require a formal variation application',
+    '5. Submit the application with the prescribed fee (varies by rateable value)',
+    '6. Reviews typically take 28 days — plan any licence variations at least 6 weeks in advance',
   ],
   fire: [
-    '1. Apply online at the Karnataka Fire NOC portal',
-    '2. Attach a scaled floor plan with all fire exits clearly marked',
-    '3. Provide fire extinguisher service certificate (must be within 6 months)',
-    '4. Schedule a fire safety inspection at your premises (₹2,000–₹10,000 fee)',
-    '5. Ensure all fire safety equipment is functional before the inspector visits',
-    '6. NOC is issued within 7–10 working days after a successful inspection',
+    '1. Commission a fire risk assessment from a competent person (BAFE certified assessors preferred)',
+    '2. Ensure all fire extinguishers have been serviced within the last 12 months',
+    '3. Test the fire detection system and log the result in your fire safety record',
+    '4. Update the emergency evacuation plan if anything has changed at the premises',
+    '5. Train all staff on fire safety and evacuation procedures and document the training',
+    '6. Implement any outstanding action items from the previous assessment before the new one',
+    'Tip: A complete fire risk assessment folder ready to show the inspector demonstrates compliance culture.',
   ],
-  excise: [
-    '1. Submit Form CL-9 (renewal application) to the Karnataka Excise Department',
-    '2. Attach Police NOC, floor plan, solvency certificate, and previous license',
-    '3. Pay the prescribed annual fee (varies by license type: ₹15,000–₹3 lakh)',
-    '4. Application is reviewed by the Deputy Commissioner of Excise',
-    '5. Inspection of premises may be conducted',
-    '6. License renewed within 30–45 days — start early, this one takes time.',
+  gas: [
+    '1. Find a Gas Safe registered engineer for commercial kitchen appliances (check gasregister.co.uk)',
+    '2. Book the inspection 4–6 weeks before your CP12 expiry date',
+    '3. Ensure access to all gas appliances — kitchen range, boiler, and all gas lines',
+    '4. The engineer will inspect, test, and issue the CP12 certificate on the day if appliances pass',
+    '5. Keep the CP12 on site at all times — it may be checked by the EHO or Fire Service',
+    '6. If any appliances fail, they must be repaired or replaced before a CP12 can be issued',
   ],
-  shops: [
-    '1. Visit the Karnataka Labour Department portal or the nearest Labour Office',
-    '2. Submit the S&E renewal application with employee count details',
-    '3. Attach previous certificate, employee register, and salary register',
-    '4. Pay the renewal fee (₹500–₹2,000 based on employee count)',
-    '5. Certificate is issued within 5–7 working days',
+  rtw: [
+    '1. Check right to work documents before the employee starts — not on day one',
+    '2. UK / Irish citizens: original passport or birth certificate plus NI number',
+    '3. EU settled status: request a share code from the employee and verify via gov.uk/prove-right-to-work',
+    '4. Non-EU visa holders: check Biometric Residence Permit or visa vignette',
+    '5. Copy, date, and sign all documents — note who carried out the check',
+    '6. File records securely and retain for 2 years after employment ends',
+    'Tip: UKVI online share code checks take under 2 minutes and provide a statutory defence against penalties.',
   ],
 }
 
@@ -86,14 +97,15 @@ export function getAISuggestions(compliances: Compliance[]): string[] {
   const soon    = compliances.filter(c => c.status !== 'Completed' && daysUntil(c.dueDate) >= 0 && daysUntil(c.dueDate) <= 30)
 
   if (overdue.length > 0) {
-    suggestions.push(`How do I renew my ${overdue[0].name.replace(/ \(.*\)/, '')}?`)
+    suggestions.push(`How do I fix my ${overdue[0].name.replace(/ \(.*\)/, '')}?`)
     suggestions.push(`What are the penalties for expired ${overdue[0].name.replace(/ \(.*\)/, '')}?`)
   }
   if (soon.length > 0) {
-    suggestions.push(`What documents do I need for ${soon[0].name.replace(/ \(.*\)/, '')} renewal?`)
+    suggestions.push(`What documents do I need for ${soon[0].name.replace(/ \(.*\)/, '')}?`)
   }
+  if (suggestions.length < 4) suggestions.push('What is my FHRS inspection risk right now?')
   if (suggestions.length < 4) suggestions.push('Show me my compliance summary')
-  if (suggestions.length < 4) suggestions.push('What is my health score?')
+  if (suggestions.length < 4) suggestions.push("What is Owen's Law and when does it apply?")
   if (suggestions.length < 4) suggestions.push('What are my upcoming deadlines?')
   return suggestions.slice(0, 4)
 }
@@ -102,20 +114,49 @@ export function generateAIResponse(question: string, compliances: Compliance[]):
   const q = question.toLowerCase().trim()
 
   // ── Greeting ──────────────────────────────────────────────────────────────
-  if (/^(hi|hello|hey|good morning|good afternoon|namaste|hlo|hii)/.test(q)) {
+  if (/^(hi|hello|hey|good morning|good afternoon|hlo|hii)/.test(q)) {
     const overdue = compliances.filter(c => c.status !== 'Completed' && daysUntil(c.dueDate) < 0)
     const soon    = compliances.filter(c => c.status !== 'Completed' && daysUntil(c.dueDate) >= 0 && daysUntil(c.dueDate) <= 30)
     if (overdue.length > 0) {
-      return `Hello! I can see you have **${overdue.length} overdue item${overdue.length > 1 ? 's' : ''}** that need immediate attention:\n${overdue.map(c => `• ${c.name} (${Math.abs(daysUntil(c.dueDate))}d overdue)`).join('\n')}\n\nWould you like help with the renewal process for any of these?`
+      return `Hello! I can see you have **${overdue.length} overdue item${overdue.length > 1 ? 's' : ''}** that need immediate attention:\n${overdue.map(c => `• ${c.name} (${Math.abs(daysUntil(c.dueDate))}d overdue)`).join('\n')}\n\nWould you like help with any of these?`
     }
     if (soon.length > 0) {
       return `Hello! Your compliance profile looks mostly good. You have **${soon.length} item${soon.length > 1 ? 's' : ''}** due within 30 days:\n${soon.map(c => `• ${c.name} — ${daysUntil(c.dueDate)} days`).join('\n')}\n\nI recommend starting the renewal process now. Ask me anything!`
     }
-    return `Hello! Your compliance profile looks great — no urgent items right now. Feel free to ask me anything about your licences, deadlines, or renewal processes!`
+    return `Hello! Your compliance profile looks great — no urgent items right now. Feel free to ask about your FHRS inspection readiness, allergen compliance, or any renewal process!`
   }
 
-  // ── Health score ──────────────────────────────────────────────────────────
-  if (q.includes('health score') || q.includes('health check') || q.includes('compliance score') || q.includes('how am i doing') || q === 'score') {
+  // ── FHRS / inspection readiness ───────────────────────────────────────────
+  if (q.includes('fhrs') || q.includes('food hygiene rating') || q.includes('hygiene rating') || q.includes('inspection ready') || q.includes('eho') || q.includes('inspection risk')) {
+    const haccp    = compliances.find(c => c.name.toLowerCase().includes('haccp') || c.name.toLowerCase().includes('food safety management'))
+    const training = compliances.find(c => c.name.toLowerCase().includes('food hygiene training') || c.name.toLowerCase().includes('staff food hygiene'))
+    const allergen = compliances.find(c => c.name.toLowerCase().includes('allergen'))
+    const issues: string[] = []
+
+    if (haccp && haccp.status !== 'Completed' && daysUntil(haccp.dueDate) < 0) {
+      issues.push('❗ **HACCP records overdue** — this alone can drop your FHRS rating to 2 or below')
+    }
+    if (training && training.status !== 'Completed' && daysUntil(training.dueDate) < 0) {
+      issues.push('❗ **Staff food hygiene training expired** — EHOs check certificates on every inspection')
+    }
+    if (allergen && allergen.status !== 'Completed' && daysUntil(allergen.dueDate) <= 14) {
+      issues.push("⚠️ **Allergen review pending** — Natasha's Law violations are actively prosecuted")
+    }
+
+    if (issues.length === 0) {
+      return `Your FHRS inspection readiness looks solid. Inspections assess three areas: **hygiene practices**, **structure and cleanliness**, and **confidence in management** (mainly your HACCP records). All three are tracking well.\n\nYour current rating should be safe at the next unannounced EHO visit. Remember — the EHO can visit without notice at any time during trading hours.`
+    }
+    return `Your FHRS inspection risk is **elevated**. An EHO can visit unannounced at any time, and the following issues would count against your rating:\n\n${issues.join('\n')}\n\nFix these in priority order — HACCP records first, then training certificates. Ask me "how do I fix my HACCP records" for step-by-step guidance.`
+  }
+
+  // ── Owen's Law ─────────────────────────────────────────────────────────────
+  if (q.includes("owen's law") || q.includes('owens law') || q.includes('written allergen') || q.includes('allergen menu')) {
+    const allergenItem = compliances.find(c => c.name.toLowerCase().includes('allergen'))
+    return `**Owen's Law — What You Need to Know:**\n\nOwen's Law is proposed legislation that would make written allergen menus mandatory in all UK restaurants and food businesses. Here's the timeline:\n\n• **March 2025**: FSA published best practice guidance urging written allergen information for all non-prepacked food\n• **Spring 2026**: FSA evaluates whether businesses are following the guidance (most aren't)\n• **2027–2028**: If the evaluation shows poor uptake (the more likely outcome), Owen's Law becomes mandatory legislation\n\n**What "written allergen menus" means:** Every customer must be able to see allergen information for every dish in writing — "ask the staff" is no longer sufficient.\n\nThe businesses getting ahead of this now will be compliant before the law forces it. Your allergen management is ${allergenItem?.status === 'Completed' ? 'marked complete ✓ — you\'re already ahead of the legislation.' : 'currently pending — sorting this now gets you ahead of Owen\'s Law at no extra effort.'}`
+  }
+
+  // ── Health score ───────────────────────────────────────────────────────────
+  if (q.includes('health score') || q.includes('compliance score') || q.includes('how am i doing') || q === 'score') {
     const total     = compliances.length
     const completed = compliances.filter(c => c.status === 'Completed').length
     const onTrack   = compliances.filter(c => c.status !== 'Completed' && daysUntil(c.dueDate) > 30).length
@@ -125,20 +166,20 @@ export function generateAIResponse(question: string, compliances: Compliance[]):
     let response = `Your compliance health score is **${score}/100** — ${grade}.\n\n`
     response += `• ${completed} items completed ✓\n• ${onTrack} on track (>30 days)\n• ${compliances.filter(c => c.status !== 'Completed' && daysUntil(c.dueDate) >= 0 && daysUntil(c.dueDate) <= 30).length} due within 30 days\n• ${overdue.length} overdue ❗`
     if (overdue.length > 0) {
-      response += `\n\nThe overdue items are dragging your score down: ${overdue.map(c => c.name).join(', ')}. Resolving these will significantly improve your score.`
+      response += `\n\nThe overdue items are dragging your score down: ${overdue.map(c => c.name).join(', ')}. Resolving these will improve your score — and your FHRS inspection readiness.`
     }
     return response
   }
 
-  // ── Overdue ───────────────────────────────────────────────────────────────
+  // ── Overdue ────────────────────────────────────────────────────────────────
   if (q.includes('overdue') || q.includes('expired') || q.includes('past due') || q.includes('lapsed')) {
     const items = compliances.filter(c => c.status !== 'Completed' && daysUntil(c.dueDate) < 0)
     if (items.length === 0) return `Great news — you have **no overdue items!** Everything is either completed or has time remaining. Keep it up!`
     const list = items.map(c => `• **${c.name}** — ${Math.abs(daysUntil(c.dueDate))} days overdue (expired ${c.dueDate})`).join('\n')
-    return `You have **${items.length} overdue item${items.length > 1 ? 's' : ''}:**\n${list}\n\nAddress these immediately to avoid penalties. Ask me "how to renew [license name]" for step-by-step guidance.`
+    return `You have **${items.length} overdue item${items.length > 1 ? 's' : ''}:**\n${list}\n\nAddress these immediately — overdue food safety records put your FHRS rating at risk. Ask me "how do I fix [item name]" for step-by-step guidance.`
   }
 
-  // ── Upcoming / due soon ───────────────────────────────────────────────────
+  // ── Upcoming / due soon ────────────────────────────────────────────────────
   if (q.includes('upcoming') || q.includes('due soon') || q.includes('coming up') || q.includes('next deadline') || q.includes('expiring')) {
     const soon = compliances
       .filter(c => c.status !== 'Completed' && daysUntil(c.dueDate) >= 0 && daysUntil(c.dueDate) <= 30)
@@ -151,10 +192,10 @@ export function generateAIResponse(question: string, compliances: Compliance[]):
       return `Nothing is due in the next 30 days. Your next upcoming deadlines are:\n${next.map(c => `• ${c.name} — in ${daysUntil(c.dueDate)} days (${c.dueDate})`).join('\n')}`
     }
     const list = soon.map(c => `• **${c.name}** — ${daysUntil(c.dueDate) === 0 ? 'Due TODAY' : `${daysUntil(c.dueDate)} days`} (${c.dueDate})`).join('\n')
-    return `You have **${soon.length} item${soon.length > 1 ? 's' : ''}** due in the next 30 days:\n${list}\n\nMost government approvals take 7–15 working days — start now to avoid lapses.`
+    return `You have **${soon.length} item${soon.length > 1 ? 's' : ''}** due in the next 30 days:\n${list}\n\nGovernment and council approvals can take 7–14 working days — start now to avoid lapses.`
   }
 
-  // ── Summary / status ──────────────────────────────────────────────────────
+  // ── Summary / status ───────────────────────────────────────────────────────
   if (q.includes('summary') || q.includes('overview') || q === 'status' || q === 'compliance summary' || q === 'show me my compliance summary') {
     const total     = compliances.length
     const completed = compliances.filter(c => c.status === 'Completed').length
@@ -165,12 +206,12 @@ export function generateAIResponse(question: string, compliances: Compliance[]):
     return `**Compliance Summary**\n\n• Total items tracked: ${total}\n• ✓ Completed: ${completed}\n• On track (>30 days): ${onTrack.length}\n• ⚠️ Due within 30 days: ${soon.length}\n• ❗ Overdue: ${overdue.length}\n\nHealth Score: **${score}/100**\n\n${overdue.length > 0 ? `Overdue: ${overdue.map(c => c.name).join(', ')}` : 'No overdue items — great work!'}`
   }
 
-  // ── Cost / fees ───────────────────────────────────────────────────────────
+  // ── Cost / fees ────────────────────────────────────────────────────────────
   if (q.includes('cost') || q.includes('fee') || q.includes('price') || q.includes('how much') || q.includes('charges')) {
-    return `Approximate renewal fees for common licences (Bengaluru, FY 2025-26):\n\n• **FSSAI License**: ₹2,000–₹7,500/year (based on turnover category)\n• **BBMP Trade License**: ₹1,000–₹10,000/year (based on business type & area)\n• **Excise / Liquor License**: ₹15,000–₹3 lakh/year (by license type)\n• **Fire NOC**: ₹2,000–₹10,000 (based on floor area)\n• **Health Trade License**: ₹500–₹3,000\n• **Eating House License**: ₹1,000–₹5,000\n• **GST Registration/Filing**: Free\n• **ESIC / EPFO**: Based on monthly contributions\n\nFees change annually — always verify on the official authority portal before payment.`
+    return `Approximate costs for common UK compliance requirements:\n\n• **Food Business Registration**: Free (local council)\n• **HACCP Records Update**: £0–£500 (DIY to consultant)\n• **Fire Risk Assessment**: £150–£500 (third-party assessor)\n• **Premises Licence**: £100–£1,905 (by rateable value)\n• **Gas Safety CP12**: £100–£250 (commercial kitchen)\n• **Employer's Liability Insurance**: £200–£800/year (varies by headcount)\n• **ICO Registration**: £40/year (most small businesses)\n• **Food Hygiene Training (Level 2)**: £20–£50 per person\n• **Allergen Consultancy**: £200–£800 (specialist review)\n• **VAT Registration**: Free\n\nFees change — always verify on the official authority's website before payment.`
   }
 
-  // ── What do I need to track ───────────────────────────────────────────────
+  // ── What do I need to track ────────────────────────────────────────────────
   if (q.includes('what license') || q.includes('what do i need') || q.includes('which license') || q.includes('all license') || q.includes('full list')) {
     const byCategory: Record<string, string[]> = {}
     compliances.forEach(c => {
@@ -181,27 +222,27 @@ export function generateAIResponse(question: string, compliances: Compliance[]):
     return `You're currently tracking **${compliances.length} compliance items**:\n\n${parts.join('\n\n')}\n\nYou can add more items using the "+ Add item" button in your Compliance tab.`
   }
 
-  // ── Completed items ───────────────────────────────────────────────────────
+  // ── Completed items ────────────────────────────────────────────────────────
   if ((q.includes('completed') || q.includes('done')) && !q.includes('how') && !q.includes('mark')) {
     const items = compliances.filter(c => c.status === 'Completed')
-    if (items.length === 0) return `You haven't marked any items as completed yet. Once you renew a license and upload the certificate, click "Mark as Done" inside the compliance item.`
+    if (items.length === 0) return `You haven't marked any items as completed yet. Once you complete a compliance task, click "Mark as Done" inside the compliance item.`
     return `You have **${items.length} completed items** ✓:\n${items.map(c => `• ${c.name}`).join('\n')}\n\nWell done on staying on top of these!`
   }
 
-  // ── License-specific queries ──────────────────────────────────────────────
+  // ── License-specific queries ───────────────────────────────────────────────
   const licenseMap: { keywords: string[]; name: string; penaltyKey: string; renewalKey: string }[] = [
-    { keywords: ['fssai', 'food license', 'food safety'],   name: 'FSSAI License',              penaltyKey: 'fssai',  renewalKey: 'fssai'  },
-    { keywords: ['bbmp', 'trade license', 'trade licence'], name: 'BBMP Trade License',          penaltyKey: 'bbmp',   renewalKey: 'bbmp'   },
-    { keywords: ['excise', 'liquor', 'bar license'],        name: 'Excise / Liquor License',     penaltyKey: 'excise', renewalKey: 'excise' },
-    { keywords: ['fire noc', 'fire safety', 'fire cert'],   name: 'Fire NOC',                    penaltyKey: 'fire',   renewalKey: 'fire'   },
-    { keywords: ['health trade', 'health license'],         name: 'Health Trade License',        penaltyKey: 'health', renewalKey: 'bbmp'   },
-    { keywords: ['eating house', 'eating license'],         name: 'Eating House License',        penaltyKey: 'eating', renewalKey: 'bbmp'   },
-    { keywords: ['gst'],                                    name: 'GST Registration',            penaltyKey: 'shops',  renewalKey: 'bbmp'   },
-    { keywords: ['shops', 'establishment', 's&e'],          name: 'Shops & Establishments Act',  penaltyKey: 'shops',  renewalKey: 'shops'  },
-    { keywords: ['esic', 'employee state'],                 name: 'ESIC Registration',           penaltyKey: 'esic',   renewalKey: 'bbmp'   },
-    { keywords: ['epfo', 'provident fund', ' pf ', 'pf registration'], name: 'EPFO / PF Registration', penaltyKey: 'epfo', renewalKey: 'bbmp' },
-    { keywords: ['pcb', 'pollution'],                       name: 'PCB Consent to Operate',      penaltyKey: 'pcb',    renewalKey: 'bbmp'   },
-    { keywords: ['lift', 'elevator'],                       name: 'Lift / Elevator License',     penaltyKey: 'lift',   renewalKey: 'bbmp'   },
+    { keywords: ['haccp', 'food safety management', 'food safety record', 'food hygiene record', 'temperature log', 'cleaning schedule'], name: 'HACCP Records',                    penaltyKey: 'haccp',    renewalKey: 'haccp'    },
+    { keywords: ['allergen', "natasha's law", 'natashas law', 'allergen review', 'allergen matrix', 'allergen management'],               name: 'Allergen Management',              penaltyKey: 'allergen', renewalKey: 'allergen' },
+    { keywords: ['food hygiene training', 'food hygiene cert', 'level 2 food', 'staff training certificate'],                              name: 'Staff Food Hygiene Training',      penaltyKey: 'haccp',    renewalKey: 'haccp'    },
+    { keywords: ['premises licence', 'premises license', 'alcohol licence', 'alcohol license', 'licensing act', 'dps'],                    name: 'Premises Licence',                 penaltyKey: 'premises', renewalKey: 'premises' },
+    { keywords: ['fire risk', 'fire assessment', 'fire safety', 'fire extinguisher'],                                                      name: 'Fire Risk Assessment',             penaltyKey: 'fire',     renewalKey: 'fire'     },
+    { keywords: ['gas safety', 'cp12', 'gas cert', 'gas inspection', 'gas safe'],                                                          name: 'Gas Safety Certificate',           penaltyKey: 'gas',      renewalKey: 'gas'      },
+    { keywords: ['employer liability', 'el insurance', "employers' liability", 'liability insurance', 'el cert'],                           name: "Employer's Liability Insurance",   penaltyKey: 'eli',      renewalKey: 'premises' },
+    { keywords: ['nlw', 'national living wage', 'minimum wage', 'payroll compliance', 'nwm'],                                              name: 'NLW Payroll Review',               penaltyKey: 'nlw',      renewalKey: 'rtw'      },
+    { keywords: ['right to work', 'rtw', 'share code', 'immigration check', 'visa check', 'settled status'],                               name: 'Right to Work',                    penaltyKey: 'rtw',      renewalKey: 'rtw'      },
+    { keywords: ['vat', 'making tax digital', 'mtd', 'hmrc vat', 'vat return'],                                                            name: 'VAT Registration',                 penaltyKey: 'vat',      renewalKey: 'premises' },
+    { keywords: ['ico', 'gdpr', 'data protection', 'ico registration', 'uk gdpr'],                                                         name: 'GDPR / ICO Registration',          penaltyKey: 'ico',      renewalKey: 'premises' },
+    { keywords: ['food business registration', 'food registration', 'fsa registration', 'fbd'],                                            name: 'Food Business Registration',       penaltyKey: 'fbd',      renewalKey: 'haccp'    },
   ]
 
   for (const { keywords, name, penaltyKey, renewalKey } of licenseMap) {
@@ -212,40 +253,36 @@ export function generateAIResponse(question: string, compliances: Compliance[]):
       keywords.some(kw => c.name.toLowerCase().includes(kw)) || c.name === name
     )
 
-    // Penalty / fine / consequences
     if (q.includes('penalt') || q.includes('fine') || q.includes('consequence') || q.includes('risk') || q.includes('what happen') || q.includes('if i don')) {
       const penalty = PENALTY_INFO[penaltyKey]
       if (item && item.status !== 'Completed' && daysUntil(item.dueDate) < 0) {
-        return `⚠️ Your **${item.name}** has been expired for **${Math.abs(daysUntil(item.dueDate))} days**. You are currently at risk:\n\n${penalty}\n\nPlease renew immediately. Ask me "how to renew ${item.name}" for steps.`
+        return `⚠️ Your **${item.name}** has been overdue for **${Math.abs(daysUntil(item.dueDate))} days**. You are currently at risk:\n\n${penalty}\n\nPlease act immediately. Ask me "how do I fix ${item.name.replace(/ \(.*\)/, '')}" for the steps.`
       }
-      return penalty || `Penalties vary by state and authority. Please check the official authority website for current penalty schedules.`
+      return penalty || `Penalties vary by authority. Please check the official regulator's website for current penalty schedules.`
     }
 
-    // Documents required
     if (q.includes('document') || q.includes('need') || q.includes('require') || q.includes('paper') || q.includes('checklist')) {
       if (item) {
-        return `For **${item.name}** renewal, you'll need:\n${formatList(item.documents)}\n\nAll copies should be self-attested. Some authorities require original documents for spot verification.`
+        return `For **${item.name}**, you'll need:\n${formatList(item.documents)}\n\nKeep all copies on site and available for inspection. Some authorities request originals for spot verification.`
       }
-      return `The standard documents for ${name} renewal include: application form, previous license copy, identity proof, address proof, and the applicable fee challan. Check the official portal for the current complete list.`
+      return `The standard documents for ${name} include: application form, previous certificate, identity proof, and the applicable fee. Check the official authority's website for the current complete list.`
     }
 
-    // How to renew / renewal steps
-    if (q.includes('how to renew') || q.includes('renewal process') || q.includes('steps') || q.includes('procedure') || q.includes('how do i renew') || q.includes('how to get') || q.startsWith('renew')) {
+    if (q.includes('how to') || q.includes('renewal process') || q.includes('steps') || q.includes('procedure') || q.includes('how do i') || q.startsWith('renew') || q.startsWith('fix') || q.startsWith('sort')) {
       const steps = RENEWAL_STEPS[renewalKey]
       if (steps) {
-        return `**How to renew your ${item?.name || name}:**\n\n${steps.join('\n')}`
+        return `**How to sort your ${item?.name || name}:**\n\n${steps.join('\n')}`
       }
-      return `Visit the relevant authority's portal or office with your previous license, identity proof, address proof, and renewal fee. Processing typically takes 7–15 working days. Start at least 30 days before expiry.`
+      return `Contact the relevant authority directly or visit their website. Have your previous certificate, identity proof, and renewal fee ready. Most UK regulatory approvals take 7–14 working days — start at least 30 days before expiry.`
     }
 
-    // When does it expire / due date / status
     if (item) {
       const days = daysUntil(item.dueDate)
-      if (item.status === 'Completed') return `Your **${item.name}** has been marked as completed ✓. It's all up to date!`
-      if (days < 0)   return `⚠️ Your **${item.name}** expired on **${item.dueDate}** — that's **${Math.abs(days)} days ago**. You need to renew this immediately. Ask me "how to renew ${item.name.replace(/ \(.*\)/, '')}" for the steps.`
+      if (item.status === 'Completed') return `Your **${item.name}** has been marked as completed ✓. All up to date!`
+      if (days < 0)   return `⚠️ Your **${item.name}** expired **${Math.abs(days)} days ago** (${item.dueDate}). You need to act immediately. Ask me "how do I fix ${item.name.replace(/ \(.*\)/, '')}" for the steps.`
       if (days === 0)  return `🚨 Your **${item.name}** is due **TODAY** (${item.dueDate}). Please take immediate action.`
-      if (days <= 7)   return `⚠️ Your **${item.name}** expires in **${days} day${days > 1 ? 's' : ''}** on ${item.dueDate}. Start the renewal immediately — approvals take 7–15 working days.`
-      if (days <= 30)  return `Your **${item.name}** expires in **${days} days** on ${item.dueDate}. I recommend starting the renewal process this week. Want the required documents checklist?`
+      if (days <= 7)   return `⚠️ Your **${item.name}** expires in **${days} day${days > 1 ? 's' : ''}** on ${item.dueDate}. Start the renewal process immediately — approvals take 7–14 working days.`
+      if (days <= 30)  return `Your **${item.name}** expires in **${days} days** on ${item.dueDate}. I recommend starting the process this week. Want the documents checklist?`
       return `Your **${item.name}** expires on **${item.dueDate}** — ${days} days from now. You have time, but set a reminder to start 30 days before. Anything specific you'd like to know?`
     } else {
       return `I don't see a **${name}** in your current compliance list. To add it, click the **"+ Add item"** button in the Compliance tab.`
@@ -259,6 +296,6 @@ export function generateAIResponse(question: string, compliances: Compliance[]):
   return `I can help you with your ${compliances.length} compliance items. ${
     overdueCount > 0 ? `You have **${overdueCount} overdue item${overdueCount > 1 ? 's' : ''}** needing attention. ` :
     soonCount > 0    ? `You have **${soonCount} item${soonCount > 1 ? 's' : ''}** due in the next 30 days. ` :
-    'Your compliance status is looking good! '
-  }\n\nTry asking:\n• "When does my FSSAI expire?"\n• "What documents do I need for BBMP renewal?"\n• "Penalties for expired Fire NOC?"\n• "How do I renew my Excise license?"\n• "Show me all overdue items"\n• "What is my health score?"`
+    'Your compliance status looks good! '
+  }\n\nTry asking:\n• "What is my FHRS inspection risk right now?"\n• "What are the penalties for expired HACCP records?"\n• "What documents do I need for my fire risk assessment?"\n• "How do I sort out my allergen compliance?"\n• "What is Owen's Law and when does it apply?"\n• "How do I renew my premises licence?"\n• "What is my health score?"`
 }

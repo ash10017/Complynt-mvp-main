@@ -41,7 +41,7 @@ const features = [
   {
     title: 'AI Assistant',
     desc: 'Ask compliance questions and get instant answers tailored to your region and business type.',
-    detail: ['Ask about deadlines, fines, and requirements', 'Region-aware answers (India, AU, UK)', 'Linked to your specific compliance items', 'Always learning from updated regulations'],
+    detail: ['Ask about deadlines, fines, and requirements', 'Region-aware answers (UK and AU)', 'Linked to your specific compliance items', 'Always learning from updated regulations'],
   },
   {
     title: 'Onboarding Wizard',
