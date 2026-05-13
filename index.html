@@ -3,76 +3,425 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Complynt — Compliance Tracking for Hospitality &amp; F&amp;B</title>
-  <meta name="description" content="Track every licence, deadline, and compliance obligation from one dashboard. Built for hospitality businesses in India, Australia, and the UK." />
+  <title>Complynt — Compliance Tracking for UK Hospitality</title>
+  <meta name="description" content="Every FHRS deadline, allergen obligation, licence renewal, and HMRC filing — tracked and alerted from one dashboard. Built for UK hospitality." />
   <link rel="manifest" href="/manifest.json" />
   <meta name="theme-color" content="#0071e3" />
   <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* ── Landing page overrides ── */
+    body { background: #f5f5f7; }
+
+    .lp-nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 32px; background: #f5f5f7;
+    }
+    .lp-nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); }
+    .lp-nav-logo-mark {
+      width: 32px; height: 32px; background: var(--blue);
+      border-radius: 9px; display: flex; align-items: center;
+      justify-content: center; color: #fff;
+    }
+    .lp-nav-logo-name { font-size: 17px; font-weight: 700; letter-spacing: -0.022em; }
+    .lp-nav-login { font-size: 13px; font-weight: 600; color: var(--blue); text-decoration: none; }
+    .lp-nav-login:hover { color: #0058b0; }
+
+    .lp-main { max-width: 860px; margin: 0 auto; padding: 0 20px 96px; }
+
+    /* Hero */
+    .lp-hero { text-align: center; padding: 56px 0 48px; }
+    .lp-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #e8f2ff; color: var(--blue);
+      padding: 6px 12px; border-radius: 99px;
+      font-size: 12px; font-weight: 700; margin-bottom: 20px;
+    }
+    .lp-badge-dot {
+      width: 6px; height: 6px; border-radius: 99px;
+      background: var(--blue); animation: pulse-dot 2s infinite;
+    }
+    .lp-h1 {
+      font-size: clamp(30px, 5vw, 50px); font-weight: 800;
+      color: var(--text); letter-spacing: -0.03em;
+      line-height: 1.08; margin-bottom: 16px;
+    }
+    .lp-hero-sub {
+      font-size: 17px; color: var(--text-2); max-width: 500px;
+      margin: 0 auto 32px; line-height: 1.6;
+    }
+    .lp-hero-cta {
+      display: inline-block; padding: 14px 32px;
+      background: var(--blue); color: #fff;
+      border-radius: 12px; font-weight: 700; font-size: 16px;
+      text-decoration: none; transition: background .18s;
+    }
+    .lp-hero-cta:hover { background: #0058b0; }
+    .lp-hero-note { font-size: 12px; color: var(--text-3); margin-top: 12px; }
+
+    /* Region cards */
+    .lp-regions {
+      display: flex; gap: 16px; justify-content: center;
+      flex-wrap: wrap; margin-bottom: 64px;
+    }
+    .lp-region-card {
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      background: #fff; border-radius: 18px; padding: 24px;
+      width: 220px; text-align: center; text-decoration: none; color: var(--text);
+      transition: box-shadow .18s, transform .18s;
+    }
+    .lp-region-card.active {
+      border: 1.5px solid var(--blue);
+      box-shadow: 0 4px 20px rgba(0,113,227,.12);
+    }
+    .lp-region-card.active:hover {
+      box-shadow: 0 8px 28px rgba(0,113,227,.18);
+      transform: translateY(-2px);
+    }
+    .lp-region-card.disabled {
+      border: 1.5px solid #e5e5ea;
+      opacity: 0.6; cursor: not-allowed; pointer-events: none;
+    }
+    .lp-region-flag { font-size: 36px; line-height: 1; }
+    .lp-region-flag.grayscale { filter: grayscale(1); }
+    .lp-region-name { font-size: 17px; font-weight: 700; }
+    .lp-region-auth { font-size: 11px; color: var(--text-2); line-height: 1.6; }
+    .lp-region-badge {
+      font-size: 11px; font-weight: 700;
+      padding: 3px 10px; border-radius: 99px;
+    }
+    .lp-region-badge.live { background: rgba(52,199,89,.12); color: #1a7a34; }
+    .lp-region-badge.soon { background: rgba(255,159,10,.1); color: #8a4d00; }
+
+    /* Feature tabs section */
+    .lp-section-label {
+      font-size: 12px; font-weight: 700; color: var(--blue);
+      text-transform: uppercase; letter-spacing: 0.1em;
+      text-align: center; margin-bottom: 8px;
+    }
+    .lp-section-title {
+      font-size: clamp(22px, 3vw, 32px); font-weight: 700;
+      color: var(--text); letter-spacing: -0.025em;
+      text-align: center; margin-bottom: 32px;
+    }
+
+    .lp-tabs {
+      display: flex; gap: 4px; background: #fff;
+      border: 1px solid #e5e5ea; border-radius: 14px;
+      padding: 6px; margin-bottom: 24px; overflow-x: auto;
+    }
+    .lp-tab {
+      display: flex; align-items: center; gap: 6px;
+      padding: 8px 14px; border-radius: 10px;
+      font-size: 13px; font-weight: 600; white-space: nowrap;
+      cursor: pointer; border: none; background: transparent;
+      color: var(--text-2); font-family: var(--font);
+      flex: 1; justify-content: center; transition: all .15s;
+    }
+    .lp-tab:hover { background: #f5f5f7; }
+    .lp-tab.active { background: var(--blue); color: #fff; }
+
+    .lp-tab-panel { display: none; }
+    .lp-tab-panel.active { display: block; }
+
+    .lp-tab-content {
+      background: #fff; border: 1px solid #e5e5ea;
+      border-radius: 20px; padding: 28px;
+    }
+    .lp-tab-headline {
+      font-size: 22px; font-weight: 700; color: var(--text);
+      letter-spacing: -0.02em; margin-bottom: 8px;
+    }
+    .lp-tab-sub {
+      font-size: 14px; color: var(--text-2); line-height: 1.6;
+      max-width: 640px; margin-bottom: 24px;
+    }
+    .lp-items {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    }
+    @media (max-width: 600px) { .lp-items { grid-template-columns: 1fr; } }
+    .lp-item {
+      display: flex; gap: 12px; padding: 16px;
+      background: #f5f5f7; border-radius: 14px;
+    }
+    .lp-item-check {
+      width: 20px; height: 20px; border-radius: 99px;
+      background: #e8f2ff; display: flex; align-items: center;
+      justify-content: center; flex-shrink: 0; margin-top: 2px;
+    }
+    .lp-item-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+    .lp-item-desc  { font-size: 12px; color: var(--text-2); line-height: 1.55; }
+
+    /* Bottom CTA */
+    .lp-cta {
+      margin-top: 32px;
+      background: linear-gradient(135deg, #0071e3, #0058b0);
+      border-radius: 20px; padding: 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap;
+    }
+    .lp-cta-title { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .lp-cta-sub   { font-size: 13px; color: rgba(255,255,255,.75); }
+    .lp-cta-btn {
+      background: #fff; color: var(--blue); padding: 12px 24px;
+      border-radius: 12px; font-weight: 700; font-size: 14px;
+      text-decoration: none; white-space: nowrap; flex-shrink: 0;
+      transition: background .15s;
+    }
+    .lp-cta-btn:hover { background: #f0f0f0; }
+
+    .lp-login-row {
+      margin-top: 24px; font-size: 13px; color: var(--text-3); text-align: center;
+    }
+    .lp-login-row a { color: var(--blue); font-weight: 600; text-decoration: none; }
+    .lp-login-row a:hover { text-decoration: underline; }
+    .lp-section-header { margin-bottom: 16px; }
+
+    @media (max-width: 600px) {
+      .lp-nav { padding: 16px 20px; }
+      .lp-cta { flex-direction: column; text-align: center; }
+      .lp-tabs { gap: 2px; }
+      .lp-tab  { padding: 8px 10px; font-size: 12px; }
+    }
+  </style>
 </head>
 <body>
 
-  <div class="cs-page">
-
-    <a href="#" class="cs-logo" aria-label="Complynt home">
-      <div class="cs-logo-mark">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+  <!-- Nav -->
+  <nav class="lp-nav">
+    <a href="/" class="lp-nav-logo">
+      <div class="lp-nav-logo-mark">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
           <path d="M12 2L2 7l10 5 10-5-10-5z" fill="currentColor"/>
           <path d="M2 17l10 5 10-5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/>
         </svg>
       </div>
-      <span class="cs-logo-name">Complynt</span>
+      <span class="lp-nav-logo-name">Complynt</span>
     </a>
+    <a href="login.html" class="lp-nav-login">Log in →</a>
+  </nav>
 
-    <h1 class="cs-headline">Where is your business?</h1>
-    <p class="cs-sub">Complynt is tailored to the compliance requirements of each country. Select yours to continue.</p>
+  <main class="lp-main">
 
-    <div class="cs-cards">
+    <!-- Hero -->
+    <div class="lp-hero">
+      <div class="lp-badge">
+        <span class="lp-badge-dot"></span>
+        Now live in the United Kingdom
+      </div>
+      <h1 class="lp-h1">Compliance tracking built<br>for UK hospitality.</h1>
+      <p class="lp-hero-sub">Every FHRS deadline, allergen obligation, licence renewal, and HMRC filing — tracked and alerted from one dashboard. Never fail an inspection again.</p>
+      <a href="uk/index.html" class="lp-hero-cta" onclick="localStorage.setItem('complynt_region','UK')">
+        Get started — it&rsquo;s free
+      </a>
+      <p class="lp-hero-note">No credit card required &middot; Set up in under 5 minutes</p>
+    </div>
 
-      <a href="in/index.html" class="cs-card" data-region="IN">
-        <div class="cs-flag">🇮🇳</div>
-        <div class="cs-country-name">India</div>
-        <p class="cs-authorities">FSSAI · BBMP · Karnataka Excise · ESIC · EPFO · GST · Fire NOC</p>
-        <span class="cs-status live">Live · Bangalore</span>
+    <!-- Region cards -->
+    <div class="lp-regions">
+
+      <!-- UK — live -->
+      <a href="uk/index.html" class="lp-region-card active" onclick="localStorage.setItem('complynt_region','UK')">
+        <span class="lp-region-flag">🇬🇧</span>
+        <span class="lp-region-name">United Kingdom</span>
+        <p class="lp-region-auth">FSA &middot; FHRS &middot; Premises Licence &middot; HMRC &middot; Fire Safety &middot; RTW</p>
+        <span class="lp-region-badge live">&#9679; Live &middot; London</span>
       </a>
 
-      <a href="au/index.html" class="cs-card" data-region="AU">
-        <div class="cs-flag">🇦🇺</div>
-        <div class="cs-country-name">Australia</div>
-        <p class="cs-authorities">Food Safety · VCGLR · Fair Work · ATO / BAS · WorkSafe · Superannuation</p>
-        <span class="cs-status live">Live · Melbourne</span>
-      </a>
-
-      <a href="uk/index.html" class="cs-card" data-region="UK">
-        <div class="cs-flag">🇬🇧</div>
-        <div class="cs-country-name">United Kingdom</div>
-        <p class="cs-authorities">FSA · Premises Licence · HMRC / VAT · Companies House · HSE · Employer Liability</p>
-        <span class="cs-status early">Early Access · London</span>
-      </a>
+      <!-- Australia — coming soon -->
+      <div class="lp-region-card disabled">
+        <span class="lp-region-flag grayscale">🇦🇺</span>
+        <span class="lp-region-name">Australia</span>
+        <p class="lp-region-auth">Food Safety &middot; VCGLR &middot; Fair Work &middot; ATO / BAS &middot; WorkSafe</p>
+        <span class="lp-region-badge soon">Coming Soon</span>
+      </div>
 
     </div>
 
-    <p class="cs-footer-row">
+    <!-- Feature tabs -->
+    <div class="lp-section-header">
+      <p class="lp-section-label">What Complynt covers</p>
+      <h2 class="lp-section-title">Every compliance area, in one place.</h2>
+    </div>
+
+    <div class="lp-tabs" role="tablist">
+      <button type="button" class="lp-tab active" role="tab" data-tab="food">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 12l2 2 4-4"/><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>
+        Food Safety
+      </button>
+      <button type="button" class="lp-tab" role="tab" data-tab="licensing">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+        Licensing
+      </button>
+      <button type="button" class="lp-tab" role="tab" data-tab="employment">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        Employment
+      </button>
+      <button type="button" class="lp-tab" role="tab" data-tab="tax">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        Tax &amp; Finance
+      </button>
+      <button type="button" class="lp-tab" role="tab" data-tab="safety">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Safety &amp; Insurance
+      </button>
+    </div>
+
+    <!-- Tab panels -->
+    <div class="lp-tab-content">
+
+      <div id="panel-food" class="lp-tab-panel active">
+        <h3 class="lp-tab-headline">Inspection-ready, every single day.</h3>
+        <p class="lp-tab-sub">88% of UK consumers check hygiene ratings before visiting. Your FHRS score is public — and so is every failure. Complynt tracks every food safety obligation so an unannounced EHO visit is never a surprise.</p>
+        <div class="lp-items">
+          <div class="lp-item">
+            <div class="lp-item-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0071e3" stroke-width="3" stroke-linecap="round"><polyline points="20,6 9,17 4,12"/></svg></div>
+            <div><div class="lp-item-title">HACCP Records &amp; Food Safety Management</div><div class="lp-item-desc">The #1 cause of sub-3 FHRS ratings. Complynt tracks your review dates and alerts you before records go stale — the inspector asks for these first.</div></div>
+          </div>
+          <div class="lp-item">
+            <div class="lp-item-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0071e3" stroke-width="3" stroke-linecap="round"><polyline points="20,6 9,17 4,12"/></svg></div>
+            <div><div class="lp-item-title">Natasha&rsquo;s Law Allergen Compliance</div><div class="lp-item-desc">All 14 regulated allergens mapped across every dish. Written allergen information ready for every customer, every service.</div></div>
+          </div>
+          <div class="lp-item">
+            <div class="lp-item-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0071e3" stroke-width="3" stroke-linecap="round"><polyline points="20,6 9,17 4,12"/></svg></div>
+            <div><div class="lp-item-title">Owen&rsquo;s Law Preparation</div><div class="lp-item-desc">Written allergen menus will be mandatory legislation by 2027–2028. Complynt gets you compliant before the law forces it — at no extra effort.</div></div>
+          </div>
+          <div class="lp-item">
+            <div class="lp-item-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0071e3" stroke-width="3" stroke-linecap="round"><polyline points="20,6 9,17 4,12"/></svg></div>
+            <div><div class="lp-item-title">Staff Food Hygiene Training Tracker</div><div class="lp-item-desc">Level 2 food hygiene certificate expiry tracked for every food handler. EHOs check training records on every inspection visit.</div></div>
+          </div>
+          <div class="lp-item">
+            <div class="lp-item-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0071e3" stroke-width="3" stroke-linecap="round"><polyline points="20,6 9,17 4,12"/></svg></div>
+            <div><div class="lp-item-title">Food Business Registration &amp; FHRS Link</div><div class="lp-item-desc">Your hygiene rating is tied to your registration address. Track your rating, monitor inspection history, and know when a re-inspection is due.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="panel-licensing" class="lp-tab-panel">
+        <h3 class="lp-tab-headline">Never let a licence lapse.</h3>
+        <p class="lp-tab-sub">Selling alcohol without a valid premises licence is a criminal offence — fines up to £20,000 and up to 6 months imprisonment. Complynt tracks every licence condition, renewal date, and DPS obligation.</p>
+        <div class="lp-items">
+          <div class="lp-item">
+            <div class="lp-item-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0071e3" stroke-width="3" stroke-linecap="round"><polyline points="20,6 9,17 4,12"/></svg></div>
+            <div><div class="lp-item-title">Premises Licence (Licensing Act 2003)</div><div class="lp-item-desc">Renewal dates, DPS conditions, and Challenge 25 compliance all tracked. Any change to hours, layout, or activities requires a formal variation — Complynt flags the trigger.</div></div>
+          </div>
+          <div class="lp-item">
+            <div class="lp-item-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0071e3" stroke-width="3" stroke-linecap="round"><polyline points="20,6 9,17 4,12"/></svg></div>
+            <div><div class="lp-item-title">DPS DBS Certificate Renewal</div><div class="lp-item-desc">Designated Premises Supervisor background checks expire every 3 years. Complynt alerts you 60 days before expiry.</div></div>
+          </div>
+          <div class="lp-item">
+            <div class="lp-item-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0071e3" stroke-width="3" stroke-linecap="round"><polyline points="20,6 9,17 4,12"/></svg></div>
+            <div><div class="lp-item-title">Licence Conditions Vault</div><div class="lp-item-desc">Your specific premises licence conditions — noise, capacity, security requirements — stored and accessible to all relevant staff.</div></div>
+          </div>
+          <div class="lp-item">
+            <div class="lp-item-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0071e3" stroke-width="3" stroke-linecap="round"><polyline points="20,6 9,17 4,12"/></svg></div>
+            <div><div class="lp-item-title">Licence Variation Alerts</div><div class="lp-item-desc">Changing your layout, hours, or adding a new licensable activity? A formal variation application is required. Complynt prevents accidental breaches.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="panel-employment" class="lp-tab-panel">
+        <h3 class="lp-tab-headline">Staff compliance that actually works.</h3>
+        <p class="lp-tab-sub">Civil penalties up to £45,000 per illegal worker. HMRC publicly names businesses that underpay the minimum wage. Complynt keeps every employment obligation tracked and on time.</p>
+        <div class="lp-items">
+          <div class="lp-item">
+            <div class="lp-item-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0071e3" stroke-width="3" stroke-linecap="round"><polyline points="20,6 9,17 4,12"/></svg></div>
+            <div><div class="lp-item-title">National Living Wage — April Updates</div><div class="lp-item-desc">Every April the NLW changes. Complynt alerts you ahead of time with the new rates for each age band — missed upratings are HMRC&rsquo;s #1 hospitality enforcement target.</div></div>
+          </div>
+          <div class="lp-item">
+            <div class="lp-item-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0071e3" stroke-width="3" stroke-linecap="round"><polyline points="20,6 9,17 4,12"/></svg></div>
+            <div><div class="lp-item-title">Right to Work Records</div><div class="lp-item-desc">UK nationals, EU settled status share codes, and non-EU visa holders all tracked with document expiry alerts. Joint immigration and EHO inspections happen.</div></div>
+          </div>
+          <div class="lp-item">
+            <div class="lp-item-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0071e3" stroke-width="3" stroke-linecap="round"><polyline points="20,6 9,17 4,12"/></svg></div>
+            <div><div class="lp-item-title">Holiday Pay Compliance</div><div class="lp-item-desc">Variable-hours staff holiday pay calculations are notoriously complex and frequently wrong. Complynt flags when records need an annual review.</div></div>
+          </div>
+          <div class="lp-item">
+            <div class="lp-item-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0071e3" stroke-width="3" stroke-linecap="round"><polyline points="20,6 9,17 4,12"/></svg></div>
+            <div><div class="lp-item-title">PAYE &amp; Payroll Deadlines</div><div class="lp-item-desc">Monthly PAYE payment deadlines and RTI submission reminders so you never incur late payment surcharges from HMRC.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="panel-tax" class="lp-tab-panel">
+        <h3 class="lp-tab-headline">Never miss an HMRC deadline.</h3>
+        <p class="lp-tab-sub">VAT surcharges, PAYE penalties, and late filing fines are entirely avoidable. Complynt tracks every HMRC obligation with automated alerts so nothing slips through the cracks.</p>
+        <div class="lp-items">
+          <div class="lp-item">
+            <div class="lp-item-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0071e3" stroke-width="3" stroke-linecap="round"><polyline points="20,6 9,17 4,12"/></svg></div>
+            <div><div class="lp-item-title">VAT Returns (Making Tax Digital)</div><div class="lp-item-desc">Quarterly MTD VAT return deadlines tracked and alerted. 20% standard rate applies to hot food and restaurant service — Complynt flags the rules that catch operators out.</div></div>
+          </div>
+          <div class="lp-item">
+            <div class="lp-item-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0071e3" stroke-width="3" stroke-linecap="round"><polyline points="20,6 9,17 4,12"/></svg></div>
+            <div><div class="lp-item-title">VAT Registration Threshold Watch</div><div class="lp-item-desc">Automatic alert when your 12-month rolling turnover approaches the £90,000 registration threshold — with time to register before penalties apply.</div></div>
+          </div>
+          <div class="lp-item">
+            <div class="lp-item-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0071e3" stroke-width="3" stroke-linecap="round"><polyline points="20,6 9,17 4,12"/></svg></div>
+            <div><div class="lp-item-title">PAYE Payment Deadlines</div><div class="lp-item-desc">Monthly PAYE payment reminders. Late payment triggers automatic surcharges and HMRC interest — easily avoided with a reminder.</div></div>
+          </div>
+          <div class="lp-item">
+            <div class="lp-item-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0071e3" stroke-width="3" stroke-linecap="round"><polyline points="20,6 9,17 4,12"/></svg></div>
+            <div><div class="lp-item-title">Companies House Annual Filings</div><div class="lp-item-desc">Confirmation statement and annual accounts deadlines tracked for your registered company. Missed filings lead to automatic strike-off.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="panel-safety" class="lp-tab-panel">
+        <h3 class="lp-tab-headline">Cover every legal safety obligation.</h3>
+        <p class="lp-tab-sub">Operating without EL insurance costs £2,500 per day. An expired fire risk assessment can close your premises with immediate effect. Complynt ensures nothing lapses — ever.</p>
+        <div class="lp-items">
+          <div class="lp-item">
+            <div class="lp-item-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0071e3" stroke-width="3" stroke-linecap="round"><polyline points="20,6 9,17 4,12"/></svg></div>
+            <div><div class="lp-item-title">Employer&rsquo;s Liability Insurance</div><div class="lp-item-desc">Minimum £5m cover mandatory under the 1969 Act. Annual renewal tracked with 60-day advance alerts. Must be displayed at the premises at all times.</div></div>
+          </div>
+          <div class="lp-item">
+            <div class="lp-item-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0071e3" stroke-width="3" stroke-linecap="round"><polyline points="20,6 9,17 4,12"/></svg></div>
+            <div><div class="lp-item-title">Fire Risk Assessment</div><div class="lp-item-desc">Annual FRA required under the Regulatory Reform (Fire Safety) Order 2005. The Fire Service can issue a Prohibition Notice closing your premises immediately for non-compliance.</div></div>
+          </div>
+          <div class="lp-item">
+            <div class="lp-item-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0071e3" stroke-width="3" stroke-linecap="round"><polyline points="20,6 9,17 4,12"/></svg></div>
+            <div><div class="lp-item-title">Gas Safety Certificate (CP12)</div><div class="lp-item-desc">All commercial gas appliances inspected annually by a Gas Safe registered engineer. Complynt tracks expiry and stores the CP12 in your document vault.</div></div>
+          </div>
+          <div class="lp-item">
+            <div class="lp-item-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0071e3" stroke-width="3" stroke-linecap="round"><polyline points="20,6 9,17 4,12"/></svg></div>
+            <div><div class="lp-item-title">Electrical Safety (EICR)</div><div class="lp-item-desc">Fixed electrical installation condition reports required every 5 years. Complynt tracks this long cycle automatically so it never catches you off-guard.</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /.lp-tab-content -->
+
+    <!-- Bottom CTA -->
+    <div class="lp-cta">
+      <div>
+        <div class="lp-cta-title">Ready to stay compliant?</div>
+        <div class="lp-cta-sub">Free plan forever &middot; No credit card &middot; Set up in 5 minutes</div>
+      </div>
+      <a href="uk/index.html" class="lp-cta-btn" onclick="localStorage.setItem('complynt_region','UK')">
+        Start free →
+      </a>
+    </div>
+
+    <p class="lp-login-row">
       Already have an account? <a href="login.html">Log in →</a>
-      &nbsp;·&nbsp; More regions coming soon
     </p>
 
-  </div>
+  </main>
 
   <script>
     (() => {
-      // Highlight previously chosen region
-      const saved = localStorage.getItem('complynt_region');
-      if (saved) {
-        const card = document.querySelector(`[data-region="${saved}"]`);
-        if (card) card.style.borderColor = 'var(--blue)';
-      }
-      // Save choice on click
-      document.querySelectorAll('.cs-card').forEach(card => {
-        card.addEventListener('click', () => {
-          localStorage.setItem('complynt_region', card.dataset.region);
+      // Tab switching
+      const tabs   = document.querySelectorAll('.lp-tab');
+      const panels = document.querySelectorAll('.lp-tab-panel');
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const target = tab.dataset.tab;
+          tabs.forEach(t => t.classList.toggle('active', t === tab));
+          panels.forEach(p => p.classList.toggle('active', p.id === 'panel-' + target));
         });
       });
     })();
   </script>
+
 </body>
 </html>
