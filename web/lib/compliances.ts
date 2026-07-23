@@ -40,18 +40,18 @@ export const DEFAULT_COMPLIANCES: Compliance[] = [
 ]
 
 export const ALL_LICENSES = [
-  { id: 'fbd',      name: 'Food Business Registration',           authority: 'FSA / Local Council',                  category: 'Food Safety',    types: ['restaurant', 'hotel', 'cafe', 'delivery_kitchen', 'retail', 'other'] },
-  { id: 'haccp',    name: 'HACCP Records & Food Safety Mgmt',     authority: 'Food Standards Agency (EHO)',           category: 'Food Safety',    types: ['restaurant', 'hotel', 'cafe', 'delivery_kitchen', 'retail', 'other'] },
-  { id: 'allergen', name: "Allergen Management (Natasha's Law)",   authority: 'FSA / Trading Standards',              category: 'Food Safety',    types: ['restaurant', 'hotel', 'cafe', 'delivery_kitchen', 'retail', 'other'] },
+  { id: 'fbd',      name: 'Food Business Registration',           authority: 'FSA / Local Council',                  category: 'Food Safety',    types: ['restaurant', 'hotel', 'cafe', 'cloud_kitchen', 'retail', 'other'] },
+  { id: 'haccp',    name: 'HACCP Records & Food Safety Mgmt',     authority: 'Food Standards Agency (EHO)',           category: 'Food Safety',    types: ['restaurant', 'hotel', 'cafe', 'cloud_kitchen', 'retail', 'other'] },
+  { id: 'allergen', name: "Allergen Management (Natasha's Law)",   authority: 'FSA / Trading Standards',              category: 'Food Safety',    types: ['restaurant', 'hotel', 'cafe', 'cloud_kitchen', 'retail', 'other'] },
   { id: 'premises', name: 'Premises Licence (Alcohol)',            authority: 'Local Authority',                       category: 'Licensing',      types: ['restaurant', 'hotel', 'cafe'] },
-  { id: 'fire',     name: 'Fire Risk Assessment',                   authority: 'Local Fire Service',                   category: 'Safety',         types: ['restaurant', 'hotel', 'cafe', 'delivery_kitchen', 'retail', 'other'] },
-  { id: 'gas',      name: 'Gas Safety Certificate (CP12)',          authority: 'Gas Safe Register / HSE',              category: 'Safety',         types: ['restaurant', 'hotel', 'cafe', 'delivery_kitchen', 'other'] },
-  { id: 'eli',      name: "Employer's Liability Insurance",         authority: 'HSE / Insurance Provider',             category: 'Legal',          types: ['restaurant', 'hotel', 'cafe', 'delivery_kitchen', 'retail', 'other'] },
-  { id: 'nlw',      name: 'National Living Wage Payroll Review',    authority: 'HMRC',                                 category: 'Labour & HR',    types: ['restaurant', 'hotel', 'cafe', 'delivery_kitchen', 'retail', 'other'] },
-  { id: 'rtw',      name: 'Right to Work Records',                  authority: 'Home Office / UKVI',                   category: 'Labour & HR',    types: ['restaurant', 'hotel', 'cafe', 'delivery_kitchen', 'retail', 'other'] },
-  { id: 'vat',      name: 'VAT Registration & MTD Returns',         authority: 'HMRC',                                 category: 'Tax',            types: ['restaurant', 'hotel', 'cafe', 'delivery_kitchen', 'retail', 'other'] },
-  { id: 'ico',      name: 'GDPR / ICO Data Protection Reg.',        authority: "Information Commissioner's Office",    category: 'Data & Privacy', types: ['restaurant', 'hotel', 'cafe', 'delivery_kitchen', 'retail', 'other'] },
-  { id: 'eicr',     name: 'Electrical Safety Certificate (EICR)',   authority: 'Local Authority / HSE',                category: 'Safety',         types: ['restaurant', 'hotel', 'cafe', 'delivery_kitchen', 'other'] },
+  { id: 'fire',     name: 'Fire Risk Assessment',                   authority: 'Local Fire Service',                   category: 'Safety',         types: ['restaurant', 'hotel', 'cafe', 'cloud_kitchen', 'retail', 'other'] },
+  { id: 'gas',      name: 'Gas Safety Certificate (CP12)',          authority: 'Gas Safe Register / HSE',              category: 'Safety',         types: ['restaurant', 'hotel', 'cafe', 'cloud_kitchen', 'other'] },
+  { id: 'eli',      name: "Employer's Liability Insurance",         authority: 'HSE / Insurance Provider',             category: 'Legal',          types: ['restaurant', 'hotel', 'cafe', 'cloud_kitchen', 'retail', 'other'] },
+  { id: 'nlw',      name: 'National Living Wage Payroll Review',    authority: 'HMRC',                                 category: 'Labour & HR',    types: ['restaurant', 'hotel', 'cafe', 'cloud_kitchen', 'retail', 'other'] },
+  { id: 'rtw',      name: 'Right to Work Records',                  authority: 'Home Office / UKVI',                   category: 'Labour & HR',    types: ['restaurant', 'hotel', 'cafe', 'cloud_kitchen', 'retail', 'other'] },
+  { id: 'vat',      name: 'VAT Registration & MTD Returns',         authority: 'HMRC',                                 category: 'Tax',            types: ['restaurant', 'hotel', 'cafe', 'cloud_kitchen', 'retail', 'other'] },
+  { id: 'ico',      name: 'GDPR / ICO Data Protection Reg.',        authority: "Information Commissioner's Office",    category: 'Data & Privacy', types: ['restaurant', 'hotel', 'cafe', 'cloud_kitchen', 'retail', 'other'] },
+  { id: 'eicr',     name: 'Electrical Safety Certificate (EICR)',   authority: 'Local Authority / HSE',                category: 'Safety',         types: ['restaurant', 'hotel', 'cafe', 'cloud_kitchen', 'other'] },
 ]
 
 export const LICENSE_DOCS: Record<string, string[]> = {

@@ -160,7 +160,7 @@ export default function AddComplianceModal({ compliances, onAdd, onClose }: Prop
                 </div>
                 <div>
                   <label className="text-[12px] font-semibold text-[#6e6e73] uppercase tracking-wide block mb-1.5">Issuing authority</label>
-                  <input className={inputCls} type="text" placeholder="e.g. District Collector, PPRS" value={custAuth} onChange={e => setCustAuth(e.target.value)} />
+                  <input className={inputCls} type="text" placeholder="e.g. Local Council, HMRC, Fire Service" value={custAuth} onChange={e => setCustAuth(e.target.value)} />
                 </div>
                 <div>
                   <label className="text-[12px] font-semibold text-[#6e6e73] uppercase tracking-wide block mb-1.5">Category</label>

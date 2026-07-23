@@ -236,7 +236,7 @@ export default function OnboardingPage() {
               <label className="form-label" htmlFor="ob-phone">
                 Phone number <span className="text-[#a1a1a6] font-normal">— optional</span>
               </label>
-              <input className="form-input" id="ob-phone" type="tel" placeholder="+91 98765 43210" value={alertPhone} onChange={e => setAlertPhone(e.target.value)} />
+              <input className="form-input" id="ob-phone" type="tel" placeholder="+44 7700 900123" value={alertPhone} onChange={e => setAlertPhone(e.target.value)} />
             </div>
             <div className="form-group">
               <label className="form-label" htmlFor="ob-method">Preferred method</label>

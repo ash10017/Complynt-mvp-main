@@ -27,7 +27,6 @@ export default function Nav({ region, solid = false }: NavProps) {
     return () => window.removeEventListener('scroll', onScroll)
   }, [solid])
 
-  const base     = region ? `/${region}` : ''
   const homeHref = region ? `/${region}` : '/'
 
   const navBg = solid || scrolled
@@ -36,7 +35,7 @@ export default function Nav({ region, solid = false }: NavProps) {
 
   return (
     <>
-      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${navBg}`} style={{ height: '56px' }}>
+      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 h-14 ${navBg}`}>
         <div className="max-w-[1140px] mx-auto px-6 h-full flex items-center justify-between gap-6">
           {/* Brand */}
           <Link href={homeHref} className="flex items-center gap-2 no-underline">
@@ -63,6 +62,7 @@ export default function Nav({ region, solid = false }: NavProps) {
 
           {/* Hamburger */}
           <button
+            type="button"
             className="md:hidden flex flex-col gap-1.5 p-1.5"
             onClick={() => setDrawerOpen(v => !v)}
             aria-label="Toggle menu"

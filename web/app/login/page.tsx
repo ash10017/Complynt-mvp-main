@@ -141,7 +141,7 @@ export default function LoginPage() {
             <div className="text-[11px] text-white/65 mt-0.5">Missed deadlines</div>
           </div>
           <div>
-            <div className="text-[22px] font-extrabold">₹12L</div>
+            <div className="text-[22px] font-extrabold">£20K+</div>
             <div className="text-[11px] text-white/65 mt-0.5">Fines prevented</div>
           </div>
         </div>
