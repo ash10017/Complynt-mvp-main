@@ -1,6 +1,10 @@
-// India market is not currently active — redirect to region selector
-import { redirect } from 'next/navigation'
+'use client'
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 
+// India market not active — redirect to homepage
 export default function IndiaPage() {
-  redirect('/')
+  const router = useRouter()
+  useEffect(() => { router.replace('/') }, [router])
+  return null
 }
