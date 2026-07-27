@@ -2,10 +2,9 @@
   "hosting": {
     "public": "web/out",
     "cleanUrls": true,
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      { "source": "/api/ai", "function": "aiChat", "region": "europe-west2" }
     ],
     "headers": [
       {
@@ -23,5 +22,8 @@
         ]
       }
     ]
-  }
+  },
+  "functions": [
+    { "source": "functions", "codebase": "default", "ignore": ["node_modules", ".git"] }
+  ]
 }

@@ -28,6 +28,52 @@ export interface UserProfile {
   createdAt: string
 }
 
+export interface TemperatureLog {
+  id: string
+  date: string
+  time: string
+  probe: 'fridge' | 'freezer' | 'hot_hold' | 'delivery' | 'cooking'
+  label: string
+  tempC: number
+  pass: boolean
+  corrective?: string
+  recordedBy: string
+}
+
+export interface StaffCert {
+  type: string
+  provider: string
+  certNumber: string
+  completedDate: string
+  expiryDate: string
+}
+
+export interface StaffMember {
+  id: string
+  name: string
+  role: string
+  startDate: string
+  rtwChecked: boolean
+  rtwDate: string
+  certs: StaffCert[]
+}
+
+export interface AllergenDish {
+  id: string
+  name: string
+  description?: string
+  allergens: string[]
+}
+
+export interface HACCPData {
+  updatedAt: string
+  bizType: string
+  kitchenType: string
+  activities: string[]
+  managerName: string
+  reviewFrequency: string
+}
+
 export type Region = 'IN' | 'AU' | 'UK'
 
 export interface ContactSubmission {

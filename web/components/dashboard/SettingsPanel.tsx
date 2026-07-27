@@ -11,6 +11,16 @@ interface Props {
   onToast: (msg: string) => void
 }
 
+interface FHRSResult {
+  FHRSID: number
+  BusinessName: string
+  AddressLine1?: string
+  PostCode?: string
+  RatingValue: string
+  RatingDate: string
+  LocalAuthorityName: string
+}
+
 const BIZ_LABELS: Record<string, string> = {
   restaurant:    'Restaurant',
   hotel:         'Hotel',
@@ -33,6 +43,14 @@ export default function SettingsPanel({ uid, user, onToast }: Props) {
   const [alertPhone,     setAlertPhone]     = useState('')
   const [alertMethod,    setAlertMethod]    = useState('email')
 
+  // FSA FHRS lookup
+  const [fhrsQuery,      setFhrsQuery]      = useState('')
+  const [fhrsPostcode,   setFhrsPostcode]   = useState('')
+  const [fhrsLoading,    setFhrsLoading]    = useState(false)
+  const [fhrsResults,    setFhrsResults]    = useState<FHRSResult[]>([])
+  const [fhrsSaved,      setFhrsSaved]      = useState<{ rating: string; businessName: string; date: string } | null>(null)
+  const [fhrsSearched,   setFhrsSearched]   = useState(false)
+
   useEffect(() => {
     getDoc(doc(db, 'users', uid)).then(snap => {
       if (snap.exists()) {
@@ -42,10 +60,41 @@ export default function SettingsPanel({ uid, user, onToast }: Props) {
         setAlertEmail(d.alertPrefs?.email || user.email || '')
         setAlertPhone(d.alertPrefs?.phone || '')
         setAlertMethod(d.alertPrefs?.method || 'email')
+        if (d.fhrsRating) setFhrsSaved(d.fhrsRating)
       }
       setLoading(false)
     })
   }, [uid, user.email])
+
+  const handleFHRSLookup = async () => {
+    if (!fhrsQuery.trim()) { onToast('Enter your business name to search'); return }
+    setFhrsLoading(true)
+    setFhrsResults([])
+    setFhrsSearched(false)
+    try {
+      const params = new URLSearchParams({ name: fhrsQuery, pageSize: '5' })
+      if (fhrsPostcode.trim()) params.set('address', fhrsPostcode.trim())
+      const res = await fetch(`https://api2.ratings.food.gov.uk/establishments?${params}`, {
+        headers: { 'x-api-version': '2' }
+      })
+      if (!res.ok) throw new Error('API error')
+      const data = await res.json()
+      setFhrsResults(data.establishments || [])
+    } catch {
+      onToast('Could not reach FSA API — check your connection and try again')
+    }
+    setFhrsLoading(false)
+    setFhrsSearched(true)
+  }
+
+  const handleSaveFHRS = async (r: FHRSResult) => {
+    const rating = { rating: r.RatingValue, businessName: r.BusinessName, date: r.RatingDate }
+    await updateDoc(doc(db, 'users', uid), { fhrsRating: rating }).catch(() => {})
+    setFhrsSaved(rating)
+    setFhrsResults([])
+    setFhrsSearched(false)
+    onToast('FHRS rating saved to your profile ✓')
+  }
 
   const handleSave = async () => {
     if (!alertEmail || !alertEmail.includes('@')) { onToast('Please enter a valid email address'); return }
@@ -141,6 +190,84 @@ export default function SettingsPanel({ uid, user, onToast }: Props) {
         >
           {saving ? 'Saving…' : 'Save changes'}
         </button>
+      </section>
+
+      {/* FHRS Rating Lookup */}
+      <section className="bg-white border border-[#e5e5ea] rounded-[16px] p-5 mb-4">
+        <div className="flex items-center justify-between mb-1">
+          <h2 className="text-[15px] font-bold text-[#1d1d1f]">Live FHRS Rating Lookup</h2>
+          {fhrsSaved && (
+            <div className="flex items-center gap-2">
+              <span className="text-[13px] font-bold text-[#1d1d1f]">
+                {'★'.repeat(parseInt(fhrsSaved.rating) || 0)}{'☆'.repeat(5 - (parseInt(fhrsSaved.rating) || 0))}
+              </span>
+              <span className={`badge ${parseInt(fhrsSaved.rating) >= 4 ? 'badge-green' : parseInt(fhrsSaved.rating) >= 3 ? 'badge-orange' : 'badge-red'}`}>
+                {fhrsSaved.rating} stars
+              </span>
+            </div>
+          )}
+        </div>
+        <p className="text-[13px] text-[#a1a1a6] mb-4">
+          Search the FSA database for your official FHRS rating from your last EHO inspection.
+          {fhrsSaved && ` Last saved: ${fhrsSaved.businessName} — ${new Date(fhrsSaved.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}`}
+        </p>
+        <div className="grid grid-cols-[1fr_140px] gap-2 mb-3">
+          <input
+            className={inputCls}
+            placeholder="Business name (e.g. The Crown Kitchen)"
+            value={fhrsQuery}
+            onChange={e => setFhrsQuery(e.target.value)}
+            onKeyDown={e => { if (e.key === 'Enter') handleFHRSLookup() }}
+          />
+          <input
+            className={inputCls}
+            placeholder="Postcode / area"
+            value={fhrsPostcode}
+            onChange={e => setFhrsPostcode(e.target.value)}
+            onKeyDown={e => { if (e.key === 'Enter') handleFHRSLookup() }}
+          />
+        </div>
+        <button
+          onClick={handleFHRSLookup}
+          disabled={fhrsLoading}
+          className="px-5 py-2.5 bg-[#0071e3] text-white border-0 rounded-[10px] text-[14px] font-semibold cursor-pointer hover:bg-[#0058b0] transition-colors disabled:opacity-60"
+        >
+          {fhrsLoading ? 'Searching…' : 'Search FSA database'}
+        </button>
+
+        {fhrsSearched && fhrsResults.length === 0 && !fhrsLoading && (
+          <p className="text-[13px] text-[#a1a1a6] mt-3">No results found — try a different name or add the postcode.</p>
+        )}
+
+        {fhrsResults.length > 0 && (
+          <div className="mt-4 flex flex-col gap-2">
+            <div className="text-[12px] text-[#6e6e73] mb-1">Select your business to save the rating:</div>
+            {fhrsResults.map(r => (
+              <div key={r.FHRSID} className="flex items-center justify-between p-3.5 bg-[#f5f5f7] rounded-[10px] border border-[#e5e5ea]">
+                <div>
+                  <div className="text-[13px] font-semibold text-[#1d1d1f]">{r.BusinessName}</div>
+                  <div className="text-[11px] text-[#a1a1a6] mt-0.5">
+                    {[r.AddressLine1, r.PostCode].filter(Boolean).join(', ')} · {r.LocalAuthorityName}
+                  </div>
+                  <div className="text-[11px] text-[#a1a1a6] mt-0.5">
+                    Last inspection: {r.RatingDate ? new Date(r.RatingDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Unknown'}
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 shrink-0 ml-3">
+                  <span className={`badge ${parseInt(r.RatingValue) >= 4 ? 'badge-green' : parseInt(r.RatingValue) >= 3 ? 'badge-orange' : 'badge-red'}`}>
+                    {r.RatingValue === 'AwaitingInspection' ? 'Awaiting' : `${r.RatingValue} ★`}
+                  </span>
+                  <button
+                    onClick={() => handleSaveFHRS(r)}
+                    className="px-3 py-1.5 bg-[#0071e3] text-white border-0 rounded-[8px] text-[12px] font-semibold cursor-pointer hover:bg-[#0058b0] transition-colors"
+                  >
+                    Save
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Account */}
