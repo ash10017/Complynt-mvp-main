@@ -52,6 +52,7 @@ export const ALL_LICENSES = [
   { id: 'vat',      name: 'VAT Registration & MTD Returns',         authority: 'HMRC',                                 category: 'Tax',            types: ['restaurant', 'hotel', 'cafe', 'cloud_kitchen', 'retail', 'other'] },
   { id: 'ico',      name: 'GDPR / ICO Data Protection Reg.',        authority: "Information Commissioner's Office",    category: 'Data & Privacy', types: ['restaurant', 'hotel', 'cafe', 'cloud_kitchen', 'retail', 'other'] },
   { id: 'eicr',     name: 'Electrical Safety Certificate (EICR)',   authority: 'Local Authority / HSE',                category: 'Safety',         types: ['restaurant', 'hotel', 'cafe', 'cloud_kitchen', 'other'] },
+  { id: 'training', name: 'Staff Food Hygiene Training',            authority: 'FSA / Highfield Awarding Body',        category: 'Food Safety',    types: ['restaurant', 'hotel', 'cafe', 'cloud_kitchen', 'retail', 'other'] },
 ]
 
 export const LICENSE_DOCS: Record<string, string[]> = {
@@ -67,4 +68,5 @@ export const LICENSE_DOCS: Record<string, string[]> = {
   vat:      ['VAT Registration Certificate', 'Quarterly VAT Returns', 'MTD Software Authorisation'],
   ico:      ['ICO Registration Certificate', 'Privacy Policy', 'Data Retention Policy'],
   eicr:     ['EICR Report', 'Electrician Certification', 'Remedial Work Records'],
+  training: ['Level 2 Food Hygiene Certificates (all food handlers)', 'Level 3 Award in Food Safety (supervisors)', 'Allergen Awareness Training Certificates', 'Staff Training Register'],
 }

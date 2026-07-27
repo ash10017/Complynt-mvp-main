@@ -7,7 +7,7 @@ function daysUntil(dateStr: string): number {
   return Math.round((due.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
 }
 
-const PENALTY_INFO: Record<string, string> = {
+export const PENALTY_INFO: Record<string, string> = {
   haccp:
     'Inadequate HACCP records are the most common reason for a sub-3 FHRS rating. An EHO inspector can issue a Hygiene Improvement Notice, which triggers a re-inspection and appears on your public FHRS record. A score of 2 or below can get you delisted from Deliveroo and Uber Eats, costing thousands per week. In severe cases, a Hygiene Emergency Prohibition Notice can close your kitchen with immediate effect.',
   allergen:
@@ -30,9 +30,13 @@ const PENALTY_INFO: Record<string, string> = {
     'Operating gas appliances without a valid annual CP12 certificate is a criminal offence under the Gas Safety (Installation and Use) Regulations 1998 — unlimited fines and imprisonment. If a gas incident occurs and no valid certificate exists, criminal liability including manslaughter charges can apply. The HSE can prohibit use of the premises immediately.',
   fbd:
     'Operating as a food business without registration is a criminal offence — fines up to £5,000. More critically, it invalidates your FHRS rating and triggers an immediate EHO inspection. Platforms like Just Eat and Deliveroo require a valid food business registration number to keep your listing active.',
+  training:
+    'Employing food handlers without valid food hygiene training directly impacts your FHRS rating — EHOs check training certificates on every inspection. Expired certificates count against your Management of Food Safety score, which is the highest-weighted component of the FHRS assessment. A score below 3 stars can trigger mandatory display of your rating and may lead to delisting from delivery platforms.',
+  eicr:
+    'Failure to maintain a valid Electrical Installation Condition Report (EICR) can result in enforcement action under the Electricity at Work Regulations 1989 — unlimited fines and up to 2 years imprisonment. In a commercial kitchen, an unsafe electrical installation is a serious fire hazard. Local authorities can prohibit use of the premises immediately.',
 }
 
-const RENEWAL_STEPS: Record<string, string[]> = {
+export const RENEWAL_STEPS: Record<string, string[]> = {
   haccp: [
     "1. Download the FSA's 'Safe Catering' pack or use a Safer Food Better Business (SFBB) folder",
     '2. Adapt the HACCP plan to your specific kitchen — a generic template will not satisfy an EHO',
@@ -130,10 +134,58 @@ const RENEWAL_STEPS: Record<string, string[]> = {
     '6. Maintain your FHRS food hygiene rating — it is linked to this registration address and is publicly visible on the FSA website',
     'Tip: Delivery platforms (Deliveroo, Uber Eats, Just Eat) require a valid food business registration number to list your business — an unregistered kitchen can be delisted.',
   ],
+  training: [
+    '1. Identify every food handler on your team and check the expiry date on their Level 2 Food Hygiene certificate (valid 3 years)',
+    '2. Book expired or expiring staff onto a Level 2 Award in Food Safety for Catering — online courses from Highfield, RSPH or CIEH cost £20–£50 per person and take 4–6 hours',
+    '3. Supervisors and managers must hold a Level 3 Award in Food Safety — this typically takes one day of classroom or online study',
+    '4. All staff need allergen awareness training — this can be combined with food hygiene renewals for efficiency',
+    '5. Update the staff training register with new certificate numbers, completion dates, and expiry dates',
+    '6. Keep original or certified copies of all certificates on site — EHO inspectors check training records during every unannounced visit',
+    'Tip: Online training can be completed on a phone during a quiet shift. Getting a full team certified costs under £500 and directly protects your FHRS rating.',
+  ],
+  eicr: [
+    '1. Appoint a qualified electrician registered with NICEIC, NAPIT or ECA to carry out the inspection',
+    '2. Ensure access to all electrical distribution boards, circuits, and fixed equipment in the kitchen and front-of-house',
+    '3. The electrician will issue a report grading any defects C1 (immediate danger), C2 (potentially dangerous), or C3 (recommendation)',
+    '4. C1 and C2 defects must be remedied immediately before a satisfactory EICR can be issued',
+    '5. Retain the EICR report on site and make it available to the EHO, Fire Service, or local authority on request',
+    '6. EICR inspections are required every 5 years for commercial premises, or sooner if the installation is older or has been modified',
+    'Tip: Combine the EICR with the annual PAT test (portable appliance testing) to reduce downtime and call-out costs.',
+  ],
 }
+
+// Module-level map — used by both generateAIResponse and getComplianceGuide
+const LICENSE_GUIDE_MAP: { keywords: string[]; name: string; penaltyKey: string; renewalKey: string }[] = [
+  { keywords: ['haccp', 'food safety management', 'food safety record', 'food hygiene record', 'temperature log', 'cleaning schedule'], name: 'HACCP Records',                    penaltyKey: 'haccp',    renewalKey: 'haccp'    },
+  { keywords: ['allergen', "natasha's law", 'natashas law', 'allergen review', 'allergen matrix', 'allergen management', 'owens law', "owen's law"], name: 'Allergen Management', penaltyKey: 'allergen', renewalKey: 'allergen' },
+  { keywords: ['food hygiene training', 'food hygiene cert', 'level 2 food', 'staff training certificate', 'staff food hygiene', 'food hygiene training'], name: 'Staff Food Hygiene Training', penaltyKey: 'training', renewalKey: 'training' },
+  { keywords: ['premises licence', 'premises license', 'alcohol licence', 'alcohol license', 'licensing act', 'dps'],                    name: 'Premises Licence',                 penaltyKey: 'premises', renewalKey: 'premises' },
+  { keywords: ['fire risk', 'fire assessment', 'fire safety', 'fire extinguisher'],                                                      name: 'Fire Risk Assessment',             penaltyKey: 'fire',     renewalKey: 'fire'     },
+  { keywords: ['gas safety', 'cp12', 'gas cert', 'gas inspection', 'gas safe'],                                                          name: 'Gas Safety Certificate',           penaltyKey: 'gas',      renewalKey: 'gas'      },
+  { keywords: ['employer liability', 'el insurance', "employers' liability", 'liability insurance', 'el cert'],                           name: "Employer's Liability Insurance",   penaltyKey: 'eli',      renewalKey: 'eli'      },
+  { keywords: ['nlw', 'national living wage', 'minimum wage', 'payroll compliance', 'nwm'],                                              name: 'NLW Payroll Review',               penaltyKey: 'nlw',      renewalKey: 'nlw'      },
+  { keywords: ['right to work', 'rtw', 'share code', 'immigration check', 'visa check', 'settled status'],                               name: 'Right to Work',                    penaltyKey: 'rtw',      renewalKey: 'rtw'      },
+  { keywords: ['vat', 'making tax digital', 'mtd', 'hmrc vat', 'vat return'],                                                            name: 'VAT Registration',                 penaltyKey: 'vat',      renewalKey: 'vat'      },
+  { keywords: ['ico', 'gdpr', 'data protection', 'ico registration', 'uk gdpr'],                                                         name: 'GDPR / ICO Registration',          penaltyKey: 'ico',      renewalKey: 'ico'      },
+  { keywords: ['food business registration', 'food registration', 'fsa registration', 'fbd'],                                            name: 'Food Business Registration',       penaltyKey: 'fbd',      renewalKey: 'fbd'      },
+  { keywords: ['eicr', 'electrical safety', 'electrical certificate', 'pat test', 'electrical inspection'],                              name: 'Electrical Safety Certificate',    penaltyKey: 'eicr',     renewalKey: 'eicr'     },
+]
 
 function formatList(items: string[]): string {
   return items.map(i => `• ${i}`).join('\n')
+}
+
+export function getComplianceGuide(complianceName: string): { renewalSteps: string[] | null; penaltyInfo: string | null } {
+  const name = complianceName.toLowerCase()
+  for (const { keywords, penaltyKey, renewalKey } of LICENSE_GUIDE_MAP) {
+    if (keywords.some(kw => name.includes(kw))) {
+      return {
+        renewalSteps: RENEWAL_STEPS[renewalKey] ?? null,
+        penaltyInfo:  PENALTY_INFO[penaltyKey]  ?? null,
+      }
+    }
+  }
+  return { renewalSteps: null, penaltyInfo: null }
 }
 
 export function getAISuggestions(compliances: Compliance[]): string[] {
@@ -253,7 +305,7 @@ export function generateAIResponse(question: string, compliances: Compliance[]):
 
   // ── Cost / fees ────────────────────────────────────────────────────────────
   if (q.includes('cost') || q.includes('fee') || q.includes('price') || q.includes('how much') || q.includes('charges')) {
-    return `Approximate costs for common UK compliance requirements:\n\n• **Food Business Registration**: Free (local council)\n• **HACCP Records Update**: £0–£500 (DIY to consultant)\n• **Fire Risk Assessment**: £150–£500 (third-party assessor)\n• **Premises Licence**: £100–£1,905 (by rateable value)\n• **Gas Safety CP12**: £100–£250 (commercial kitchen)\n• **Employer's Liability Insurance**: £200–£800/year (varies by headcount)\n• **ICO Registration**: £40/year (most small businesses)\n• **Food Hygiene Training (Level 2)**: £20–£50 per person\n• **Allergen Consultancy**: £200–£800 (specialist review)\n• **VAT Registration**: Free\n\nFees change — always verify on the official authority's website before payment.`
+    return `Approximate costs for common UK compliance requirements:\n\n• **Food Business Registration**: Free (local council)\n• **HACCP Records Update**: £0–£500 (DIY to consultant)\n• **Fire Risk Assessment**: £150–£500 (third-party assessor)\n• **Premises Licence**: £100–£1,905 (by rateable value)\n• **Gas Safety CP12**: £100–£250 (commercial kitchen)\n• **Employer's Liability Insurance**: £200–£800/year (varies by headcount)\n• **ICO Registration**: £40/year (most small businesses)\n• **Food Hygiene Training (Level 2)**: £20–£50 per person\n• **Allergen Consultancy**: £200–£800 (specialist review)\n• **VAT Registration**: Free\n• **Electrical Safety (EICR)**: £250–£600 (commercial premises)\n\nFees change — always verify on the official authority's website before payment.`
   }
 
   // ── What do I need to track ────────────────────────────────────────────────
@@ -275,22 +327,7 @@ export function generateAIResponse(question: string, compliances: Compliance[]):
   }
 
   // ── License-specific queries ───────────────────────────────────────────────
-  const licenseMap: { keywords: string[]; name: string; penaltyKey: string; renewalKey: string }[] = [
-    { keywords: ['haccp', 'food safety management', 'food safety record', 'food hygiene record', 'temperature log', 'cleaning schedule'], name: 'HACCP Records',                    penaltyKey: 'haccp',    renewalKey: 'haccp'    },
-    { keywords: ['allergen', "natasha's law", 'natashas law', 'allergen review', 'allergen matrix', 'allergen management'],               name: 'Allergen Management',              penaltyKey: 'allergen', renewalKey: 'allergen' },
-    { keywords: ['food hygiene training', 'food hygiene cert', 'level 2 food', 'staff training certificate'],                              name: 'Staff Food Hygiene Training',      penaltyKey: 'haccp',    renewalKey: 'haccp'    },
-    { keywords: ['premises licence', 'premises license', 'alcohol licence', 'alcohol license', 'licensing act', 'dps'],                    name: 'Premises Licence',                 penaltyKey: 'premises', renewalKey: 'premises' },
-    { keywords: ['fire risk', 'fire assessment', 'fire safety', 'fire extinguisher'],                                                      name: 'Fire Risk Assessment',             penaltyKey: 'fire',     renewalKey: 'fire'     },
-    { keywords: ['gas safety', 'cp12', 'gas cert', 'gas inspection', 'gas safe'],                                                          name: 'Gas Safety Certificate',           penaltyKey: 'gas',      renewalKey: 'gas'      },
-    { keywords: ['employer liability', 'el insurance', "employers' liability", 'liability insurance', 'el cert'],                           name: "Employer's Liability Insurance",   penaltyKey: 'eli',      renewalKey: 'eli'      },
-    { keywords: ['nlw', 'national living wage', 'minimum wage', 'payroll compliance', 'nwm'],                                              name: 'NLW Payroll Review',               penaltyKey: 'nlw',      renewalKey: 'nlw'      },
-    { keywords: ['right to work', 'rtw', 'share code', 'immigration check', 'visa check', 'settled status'],                               name: 'Right to Work',                    penaltyKey: 'rtw',      renewalKey: 'rtw'      },
-    { keywords: ['vat', 'making tax digital', 'mtd', 'hmrc vat', 'vat return'],                                                            name: 'VAT Registration',                 penaltyKey: 'vat',      renewalKey: 'vat'      },
-    { keywords: ['ico', 'gdpr', 'data protection', 'ico registration', 'uk gdpr'],                                                         name: 'GDPR / ICO Registration',          penaltyKey: 'ico',      renewalKey: 'ico'      },
-    { keywords: ['food business registration', 'food registration', 'fsa registration', 'fbd'],                                            name: 'Food Business Registration',       penaltyKey: 'fbd',      renewalKey: 'fbd'      },
-  ]
-
-  for (const { keywords, name, penaltyKey, renewalKey } of licenseMap) {
+  for (const { keywords, name, penaltyKey, renewalKey } of LICENSE_GUIDE_MAP) {
     const matched = keywords.some(kw => q.includes(kw))
     if (!matched) continue
 

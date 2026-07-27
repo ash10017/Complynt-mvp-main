@@ -10,6 +10,7 @@ export interface Compliance {
   status: 'Pending' | 'Completed' | 'Overdue'
   history: string[]
   vaultDocs?: VaultDoc[]
+  licenseId?: string
 }
 
 export interface VaultDoc {
