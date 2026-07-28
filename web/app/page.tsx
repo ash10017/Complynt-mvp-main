@@ -1,239 +1,560 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 
-const TABS = [
+/* ─── animated counter ─── */
+function useCounter(target: number, duration = 1400, enabled = false) {
+  const [val, setVal] = useState(0)
+  useEffect(() => {
+    if (!enabled) return
+    let frame = 0
+    const steps = Math.round(duration / 16)
+    const step = () => {
+      frame++
+      const ease = 1 - Math.pow(1 - frame / steps, 3)
+      setVal(Math.round(target * ease))
+      if (frame < steps) requestAnimationFrame(step)
+      else setVal(target)
+    }
+    requestAnimationFrame(step)
+  }, [target, duration, enabled])
+  return val
+}
+
+/* ─── quiz data ─── */
+const QUIZ_Q = [
   {
-    id: 'food',
-    label: 'Food Safety',
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-        <path d="M9 12l2 2 4-4"/><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/>
-      </svg>
-    ),
-    headline: 'Inspection-ready, every single day.',
-    sub: "88% of UK consumers check hygiene ratings before visiting. Your FHRS score is public — and so is every failure. Complynt tracks every food safety obligation so an unannounced EHO visit is never a surprise.",
-    items: [
-      { title: 'HACCP Records & Food Safety Management', desc: 'The #1 cause of sub-3 FHRS ratings. Complynt tracks your review dates and alerts you before records go stale — the inspector asks for these first.' },
-      { title: "Natasha's Law Allergen Compliance", desc: 'All 14 regulated allergens mapped across every dish. Written allergen information ready for every customer, every service.' },
-      { title: "Owen's Law Preparation", desc: 'Written allergen menus will be mandatory legislation by 2027–2028. Complynt gets you compliant before the law forces it — at no extra effort.' },
-      { title: 'Staff Food Hygiene Training Tracker', desc: 'Level 2 food hygiene certificate expiry tracked for every food handler. EHOs check training records on every inspection visit.' },
-      { title: 'Food Business Registration & FHRS Link', desc: 'Your hygiene rating is tied to your registration address. Track your rating, monitor inspection history, and know when a re-inspection is due.' },
+    q: 'Do you have a current HACCP plan with up-to-date temperature monitoring records?',
+    opts: [
+      { label: 'Yes — complete and reviewed within the last 12 months', score: 0 },
+      { label: 'We have one but it\'s outdated / incomplete', score: 1 },
+      { label: 'No — we don\'t have formal HACCP records', score: 2 },
     ],
   },
   {
-    id: 'licensing',
-    label: 'Licensing',
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/>
-      </svg>
-    ),
-    headline: 'Never let a licence lapse.',
-    sub: 'Selling alcohol without a valid premises licence is a criminal offence — fines up to £20,000 and up to 6 months imprisonment. Complynt tracks every licence condition, renewal date, and DPS obligation.',
-    items: [
-      { title: 'Premises Licence (Licensing Act 2003)', desc: 'Renewal dates, DPS conditions, and Challenge 25 compliance all tracked. Any change to hours, layout, or activities requires a formal variation — Complynt flags the trigger.' },
-      { title: 'DPS DBS Certificate Renewal', desc: 'Designated Premises Supervisor background checks expire every 3 years. Complynt alerts you 60 days before expiry.' },
-      { title: 'Licence Conditions Vault', desc: 'Your specific premises licence conditions — noise, capacity, security requirements — stored and accessible to all relevant staff.' },
-      { title: 'Licence Variation Alerts', desc: 'Changing your layout, hours, or adding a new licensable activity? A formal variation application is required. Complynt prevents accidental breaches.' },
+    q: 'Do all food handlers have valid Level 2 Food Hygiene certificates on file?',
+    opts: [
+      { label: 'Yes — all staff are trained and certified', score: 0 },
+      { label: 'Some are, some aren\'t', score: 1 },
+      { label: 'No — training hasn\'t been formalised', score: 2 },
     ],
   },
   {
-    id: 'employment',
-    label: 'Employment',
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-        <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
-      </svg>
-    ),
-    headline: 'Staff compliance that actually works.',
-    sub: 'Civil penalties up to £45,000 per illegal worker. HMRC publicly names businesses that underpay the minimum wage. Complynt keeps every employment obligation tracked and on time.',
-    items: [
-      { title: 'National Living Wage — April Updates', desc: "Every April the NLW changes. Complynt alerts you ahead of time with the new rates for each age band — missed upratings are HMRC's #1 hospitality enforcement target." },
-      { title: 'Right to Work Records', desc: 'UK nationals, EU settled status share codes, and non-EU visa holders all tracked with document expiry alerts. Joint immigration and EHO inspections happen.' },
-      { title: 'Holiday Pay Compliance', desc: 'Variable-hours staff holiday pay calculations are notoriously complex and frequently wrong. Complynt flags when records need an annual review.' },
-      { title: 'PAYE & Payroll Deadlines', desc: 'Monthly PAYE payment deadlines and RTI submission reminders so you never incur late payment surcharges from HMRC.' },
-    ],
-  },
-  {
-    id: 'tax',
-    label: 'Tax & Finance',
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-        <rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>
-      </svg>
-    ),
-    headline: 'Never miss an HMRC deadline.',
-    sub: 'VAT surcharges, PAYE penalties, and late filing fines are entirely avoidable. Complynt tracks every HMRC obligation with automated alerts so nothing slips through the cracks.',
-    items: [
-      { title: 'VAT Returns (Making Tax Digital)', desc: 'Quarterly MTD VAT return deadlines tracked and alerted. 20% standard rate applies to hot food and restaurant service — Complynt flags the rules that catch operators out.' },
-      { title: 'VAT Registration Threshold Watch', desc: 'Automatic alert when your 12-month rolling turnover approaches the £90,000 registration threshold — with time to register before penalties apply.' },
-      { title: 'PAYE Payment Deadlines', desc: 'Monthly PAYE payment reminders. Late payment triggers automatic surcharges and HMRC interest — easily avoided with a reminder.' },
-      { title: 'Companies House Annual Filings', desc: 'Confirmation statement and annual accounts deadlines tracked for your registered company. Missed filings lead to automatic strike-off.' },
-    ],
-  },
-  {
-    id: 'safety',
-    label: 'Safety & Insurance',
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-      </svg>
-    ),
-    headline: 'Cover every legal safety obligation.',
-    sub: "Operating without EL insurance costs £2,500 per day. An expired fire risk assessment can close your premises with immediate effect. Complynt ensures nothing lapses — ever.",
-    items: [
-      { title: "Employer's Liability Insurance", desc: 'Minimum £5m cover mandatory under the 1969 Act. Annual renewal tracked with 60-day advance alerts. Must be displayed at the premises at all times.' },
-      { title: 'Fire Risk Assessment', desc: 'Annual FRA required under the Regulatory Reform (Fire Safety) Order 2005. The Fire Service can issue a Prohibition Notice closing your premises immediately for non-compliance.' },
-      { title: 'Gas Safety Certificate (CP12)', desc: 'All commercial gas appliances inspected annually by a Gas Safe registered engineer. Complynt books ahead of expiry and stores the CP12 in your document vault.' },
-      { title: 'Electrical Safety (EICR)', desc: 'Fixed electrical installation condition reports required every 5 years. Complynt tracks this long cycle automatically so it never catches you off-guard.' },
+    q: 'Do you have written allergen information for every dish on your menu?',
+    opts: [
+      { label: 'Yes — full written allergen matrix for every dish', score: 0 },
+      { label: 'Partially — we mostly tell customers verbally', score: 1 },
+      { label: 'No formal allergen information in place', score: 2 },
     ],
   },
 ]
 
+const RISK = [
+  { min: 0, max: 0, level: 'LOW RISK', color: '#1c7a34', bg: 'rgba(52,199,89,.07)', border: 'rgba(52,199,89,.22)', title: 'You\'re in good shape.', body: 'Your fundamentals are covered. Sign up to maintain this standard year-round — automated reminders catch what busy kitchens forget.' },
+  { min: 1, max: 2, level: 'MEDIUM RISK', color: '#7a4400', bg: 'rgba(255,159,10,.07)', border: 'rgba(255,159,10,.22)', title: 'You have compliance gaps.', body: 'An EHO inspector visiting today would likely find these. A downgraded FHRS rating stays on your public record for up to 3 years.' },
+  { min: 3, max: 4, level: 'HIGH RISK', color: '#a00000', bg: 'rgba(255,59,48,.07)', border: 'rgba(255,59,48,.22)', title: 'Significant enforcement exposure.', body: 'You\'re vulnerable to a 1–2 star FHRS rating, Hygiene Improvement Notices, and potential removal from Deliveroo / Uber Eats platforms.' },
+  { min: 5, max: 6, level: 'CRITICAL RISK', color: '#7a0000', bg: 'rgba(160,0,0,.07)', border: 'rgba(160,0,0,.28)', title: 'Immediate action required.', body: 'Serious risk of enforcement action, voluntary closure notices, and personal criminal liability under Natasha\'s Law for allergen failures.' },
+]
+
+/* ─── ticker items — duplicated for seamless loop ─── */
+const TICK_ITEMS = [
+  '£45,000 fine — Right to Work violation',
+  '£20,000 fine — Unlicensed alcohol sale',
+  '£2,500 fine — Late Personal Licence renewal',
+  '£10,000 fine — Premises Licence breach',
+  '£15,000 legal cost — Allergen claim, County Court',
+  '5★ → 1★ — FHRS downgrade after surprise inspection',
+  '30% revenue loss — Delivery platform suspension',
+  '£80,000 fine — Serious Food Safety Act offence',
+]
+
+/* ─── features ─── */
+const FEATURES = [
+  {
+    tag: 'FHRS',
+    title: 'Live Compliance Dashboard',
+    body: 'Every licence, certificate, and legal deadline in one real-time view. Color-coded by urgency — nothing ever falls through the cracks.',
+    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>,
+  },
+  {
+    tag: 'Inspection',
+    title: 'EHO Inspection Simulator',
+    body: 'Walk through the exact 10-question scoring matrix that Environmental Health Officers use. Know your predicted FHRS rating before they knock.',
+    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>,
+  },
+  {
+    tag: 'Food Safety',
+    title: 'HACCP Plan Generator',
+    body: 'Answer 4 questions. Get a legally compliant HACCP plan with every Critical Control Point pre-populated for your kitchen type. Print and sign.',
+    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>,
+  },
+  {
+    tag: "Natasha's Law",
+    title: 'Allergen Matrix Builder',
+    body: 'Build a printable allergen matrix for your full menu. All 14 UK regulated allergens. Stay compliant with Natasha\'s Law — automatically.',
+    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>,
+  },
+  {
+    tag: 'Employment',
+    title: 'Staff Training Tracker',
+    body: 'Track every food hygiene cert, fire safety course, and Right to Work check. Automated alerts 30 days before any certificate expires.',
+    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>,
+  },
+  {
+    tag: 'AI',
+    title: 'AI Compliance Assistant',
+    body: 'Ask anything about UK food law — fridge temps, DPS renewal, allergen thresholds. Answers specific to UK legislation, not generic advice.',
+    icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>,
+  },
+]
+
+const LAWS = [
+  { abbr: 'FHRS', full: 'Food Hygiene Rating Scheme', body: 'Track EHO readiness and simulate your next inspection before it happens.' },
+  { abbr: "Natasha's Law", full: 'Allergen Labelling Regulations 2021', body: 'Written allergen info required for all PPDs since October 2021.' },
+  { abbr: "Owen's Law", full: 'Allergen disclosure legislation', body: 'Written allergen menus on every table — be ready before it becomes law.' },
+  { abbr: 'SFBB', full: 'Safer Food Better Business', body: "The FSA's own compliance framework, built into your HACCP generator." },
+  { abbr: 'DPS & TENs', full: 'Licensing Act 2003', body: 'Track your DPS, premises licence conditions, and Temporary Events Notices.' },
+  { abbr: 'Right to Work', full: 'Immigration, Asylum and Nationality Act', body: 'Track RTW check dates for all staff — avoid £45,000 fines per worker.' },
+]
+
+const EHO_AREAS = [
+  { pct: '30%', area: 'Hygienic food handling', desc: 'Cooking, re-heating, cooling, storage. Temperature records, cross-contamination controls.' },
+  { pct: '25%', area: 'Cleanliness & condition', desc: 'Structure of the premises, equipment cleanliness, pest control, lighting, ventilation.' },
+  { pct: '45%', area: 'Confidence in management', desc: 'HACCP plans, staff training records, allergen documents, food safety policies. This is where most businesses lose points.' },
+]
+
 export default function HomePage() {
-  const [activeTab, setActiveTab] = useState('food')
-  const tab = TABS.find(t => t.id === activeTab)!
+  const [scrolled, setScrolled] = useState(false)
+  const [statsVis, setStatsVis] = useState(false)
+  const [quiz, setQuiz] = useState<(number | null)[]>([null, null, null])
+  const [showResult, setShowResult] = useState(false)
+  const statsRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const h = () => setScrolled(window.scrollY > 56)
+    window.addEventListener('scroll', h, { passive: true })
+    return () => window.removeEventListener('scroll', h)
+  }, [])
+
+  useEffect(() => {
+    const io = new IntersectionObserver(
+      es => es.forEach(e => e.target.classList.toggle('is-visible', e.isIntersecting)),
+      { threshold: 0.1 }
+    )
+    document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el))
+    return () => io.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const io = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) setStatsVis(true) },
+      { threshold: 0.25 }
+    )
+    if (statsRef.current) io.observe(statsRef.current)
+    return () => io.disconnect()
+  }, [])
+
+  const c1 = useCounter(45000, 1200, statsVis)
+  const c2 = useCounter(20000, 1000, statsVis)
+  const c3 = useCounter(2500, 900, statsVis)
+  const c4 = useCounter(94, 700, statsVis)
+
+  const score = quiz.reduce<number>((s, v) => s + (v ?? 0), 0)
+  const risk = RISK.find(r => score >= r.min && score <= r.max)!
+  const quizDone = quiz.every(v => v !== null)
+
+  /* helpers */
+  const S: React.CSSProperties = {}
+  void S
 
   return (
-    <div className="min-h-screen bg-[#f5f5f7]">
+    <div style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', WebkitFontSmoothing: 'antialiased', overflowX: 'hidden' }}>
 
-      {/* Top nav */}
-      <nav className="flex items-center justify-between px-8 py-5 bg-[#f5f5f7]">
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 bg-[#0071e3] rounded-[9px] flex items-center justify-center text-white">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-              <path d="M12 2L2 7l10 5 10-5-10-5z" fill="currentColor"/>
-              <path d="M2 17l10 5 10-5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
-            </svg>
+      {/* ════════ NAV ════════ */}
+      <nav style={{
+        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
+        height: 62,
+        background: scrolled ? 'rgba(2,12,21,0.88)' : 'transparent',
+        backdropFilter: scrolled ? 'blur(20px) saturate(160%)' : 'none',
+        WebkitBackdropFilter: scrolled ? 'blur(20px) saturate(160%)' : 'none',
+        borderBottom: scrolled ? '1px solid rgba(255,255,255,0.07)' : 'none',
+        transition: 'background 0.35s, border-color 0.35s',
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        padding: '0 clamp(20px, 4vw, 48px)',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
+          <div style={{ width: 30, height: 30, borderRadius: 9, background: '#0071e3', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
           </div>
-          <span className="text-[17px] font-bold text-[#1d1d1f] tracking-tight">Complynt</span>
+          <span style={{ color: '#fff', fontSize: 18, fontWeight: 800, letterSpacing: '-0.4px' }}>Complynt</span>
         </div>
-        <Link href="/login" className="text-[13px] font-medium text-[#0071e3] hover:text-[#0058b0]">
-          Log in →
-        </Link>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <span className="live-dot" />
+            <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13, fontWeight: 500 }}>UK only</span>
+          </div>
+          <Link href="/login" style={{ color: 'rgba(255,255,255,0.7)', fontSize: 14, fontWeight: 500 }}>Log in</Link>
+          <Link href="/signup" style={{
+            background: '#0071e3', color: '#fff', fontSize: 14, fontWeight: 700,
+            padding: '8px 20px', borderRadius: 100, textDecoration: 'none',
+            boxShadow: '0 2px 12px rgba(0,113,227,0.4)',
+          }}>Get started free</Link>
+        </div>
       </nav>
 
-      <main className="max-w-[860px] mx-auto px-5 pb-24">
+      {/* ════════ HERO ════════ */}
+      <section style={{
+        position: 'relative', minHeight: '100vh', background: '#020c15',
+        display: 'flex', alignItems: 'center', overflow: 'hidden',
+        padding: 'clamp(100px,12vw,140px) clamp(20px,4vw,48px) 80px',
+      }}>
+        {/* background blobs */}
+        <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
+          <div style={{ position: 'absolute', top: '-8%', left: '-4%', width: 640, height: 640, borderRadius: '50%', background: 'radial-gradient(circle, rgba(0,113,227,0.16) 0%, transparent 68%)', animation: 'blob 20s ease-in-out infinite' }} />
+          <div style={{ position: 'absolute', bottom: '-12%', right: '2%', width: 540, height: 540, borderRadius: '50%', background: 'radial-gradient(circle, rgba(0,70,160,0.14) 0%, transparent 68%)', animation: 'blob2 25s ease-in-out infinite' }} />
+          <div style={{ position: 'absolute', top: '28%', right: '18%', width: 420, height: 420, borderRadius: '50%', background: 'radial-gradient(circle, rgba(0,40,100,0.18) 0%, transparent 68%)', animation: 'blob3 30s ease-in-out infinite' }} />
+          <div style={{
+            position: 'absolute', inset: 0,
+            backgroundImage: 'linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px)',
+            backgroundSize: '64px 64px',
+          }} />
+        </div>
 
-        {/* Hero */}
-        <div className="text-center pt-14 pb-12">
-          <div className="inline-flex items-center gap-2 bg-[#e8f2ff] text-[#0071e3] px-3 py-1.5 rounded-full text-[12px] font-semibold mb-5">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#0071e3] animate-pulse" />
-            Now live in the United Kingdom
+        <div style={{ position: 'relative', maxWidth: 1160, margin: '0 auto', width: '100%', display: 'grid', gridTemplateColumns: '1fr 400px', gap: 'clamp(40px,6vw,80px)', alignItems: 'center' }}>
+
+          {/* left */}
+          <div>
+            <div className="hero-text-1" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(0,113,227,0.14)', border: '1px solid rgba(0,113,227,0.28)', borderRadius: 100, padding: '5px 15px', marginBottom: 28 }}>
+              <span className="live-dot" />
+              <span style={{ color: '#60a5fa', fontSize: 13, fontWeight: 700 }}>Now live for UK food businesses</span>
+            </div>
+
+            <h1 className="hero-text-2" style={{ color: '#fff', fontSize: 'clamp(36px,5vw,64px)', fontWeight: 900, lineHeight: 1.06, letterSpacing: '-1.8px', marginBottom: 26 }}>
+              Stop failing EHO{' '}
+              <span style={{ color: '#0071e3' }}>inspections</span>{' '}
+              you&nbsp;should have aced.
+            </h1>
+
+            <p className="hero-text-3" style={{ color: 'rgba(255,255,255,0.58)', fontSize: 18, lineHeight: 1.68, marginBottom: 38, maxWidth: 460 }}>
+              Complynt tracks every licence, certificate, and food safety deadline for your UK restaurant or café — and tells you exactly what to fix before the EHO arrives.
+            </p>
+
+            <div className="hero-text-4" style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 32 }}>
+              <Link href="/signup" style={{ display: 'inline-flex', alignItems: 'center', gap: 9, background: '#0071e3', color: '#fff', fontWeight: 800, fontSize: 16, padding: '15px 30px', borderRadius: 100, textDecoration: 'none', boxShadow: '0 8px 32px rgba(0,113,227,0.42)', letterSpacing: '-0.2px' }}>
+                Get started — it&apos;s free
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg>
+              </Link>
+              <Link href="/login" style={{ display: 'inline-flex', alignItems: 'center', color: 'rgba(255,255,255,0.65)', fontWeight: 600, fontSize: 15, padding: '15px 24px', borderRadius: 100, border: '1px solid rgba(255,255,255,0.14)', textDecoration: 'none' }}>
+                Log in
+              </Link>
+            </div>
+
+            <div style={{ display: 'flex', gap: 22 }}>
+              {['Free to start', 'UK food law', 'No card needed'].map(l => (
+                <div key={l} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#34c759" strokeWidth="2.5" strokeLinecap="round"><polyline points="20,6 9,17 4,12"/></svg>
+                  <span style={{ color: 'rgba(255,255,255,0.45)', fontSize: 13, fontWeight: 500 }}>{l}</span>
+                </div>
+              ))}
+            </div>
           </div>
-          <h1 className="text-[clamp(30px,5vw,50px)] font-extrabold text-[#1d1d1f] tracking-tight leading-[1.08] mb-4">
-            Compliance tracking built<br />for UK hospitality.
-          </h1>
-          <p className="text-[17px] text-[#6e6e73] max-w-[500px] mx-auto leading-relaxed mb-8">
-            Every FHRS deadline, allergen obligation, licence renewal, and HMRC filing — tracked and alerted from one dashboard. Never fail an inspection again.
-          </p>
-          <Link
-            href="/uk"
-            onClick={() => localStorage.setItem('complynt_region', 'UK')}
-            className="inline-block px-8 py-3.5 bg-[#0071e3] text-white rounded-[12px] font-semibold text-[16px] hover:bg-[#0058b0] transition-colors"
-          >
-            Get started — it&apos;s free
-          </Link>
-          <p className="text-[12px] text-[#a1a1a6] mt-3">No credit card required · Set up in under 5 minutes</p>
-        </div>
 
-        {/* Region cards */}
-        <div className="flex gap-4 justify-center flex-wrap mb-16">
-          {/* UK — live */}
-          <Link
-            href="/uk"
-            onClick={() => localStorage.setItem('complynt_region', 'UK')}
-            className="flex flex-col items-center gap-2.5 bg-white border-[1.5px] border-[#0071e3] shadow-[0_4px_20px_rgba(0,113,227,.12)] rounded-[18px] p-6 w-[220px] text-center no-underline transition-all duration-[180ms] hover:shadow-[0_8px_28px_rgba(0,113,227,.18)] hover:-translate-y-0.5"
-          >
-            <span className="text-4xl leading-none">🇬🇧</span>
-            <span className="text-[17px] font-bold text-[#1d1d1f]">United Kingdom</span>
-            <p className="text-[11px] text-[#6e6e73] leading-relaxed">FSA · FHRS · Premises Licence · HMRC · Fire Safety · RTW</p>
-            <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-[rgba(52,199,89,0.12)] text-[#1a7a34]">
-              ● Live · London
-            </span>
-          </Link>
+          {/* right — floating dashboard card */}
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <div className="hero-card" style={{ width: '100%', background: 'rgba(255,255,255,0.055)', backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 24, boxShadow: '0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04)', padding: 22 }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 18 }}>
+                <div>
+                  <div style={{ color: 'rgba(255,255,255,0.38)', fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 2 }}>The Crown &amp; Kitchen</div>
+                  <div style={{ color: '#fff', fontSize: 15, fontWeight: 700 }}>Compliance overview</div>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'rgba(52,199,89,0.13)', border: '1px solid rgba(52,199,89,0.24)', borderRadius: 100, padding: '4px 11px' }}>
+                  <span className="live-dot" style={{ width: 6, height: 6 }} />
+                  <span style={{ color: '#34c759', fontSize: 11, fontWeight: 700 }}>Live</span>
+                </div>
+              </div>
 
-          {/* Australia — coming soon */}
-          <div className="flex flex-col items-center gap-2.5 bg-white border-[1.5px] border-[#e5e5ea] rounded-[18px] p-6 w-[220px] text-center opacity-60 cursor-not-allowed select-none">
-            <span className="text-4xl leading-none grayscale">🇦🇺</span>
-            <span className="text-[17px] font-bold text-[#1d1d1f]">Australia</span>
-            <p className="text-[11px] text-[#a1a1a6] leading-relaxed">Food Safety · VCGLR · Fair Work · ATO / BAS · WorkSafe</p>
-            <span className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-[rgba(255,159,10,0.10)] text-[#8a4d00]">
-              Coming Soon
-            </span>
-          </div>
-        </div>
-
-        {/* Feature tabs section */}
-        <div className="mb-4">
-          <p className="text-[12px] font-bold text-[#0071e3] uppercase tracking-widest text-center mb-2">What Complynt covers</p>
-          <h2 className="text-[clamp(22px,3vw,32px)] font-bold text-[#1d1d1f] tracking-tight text-center mb-8">
-            Every compliance area, in one place.
-          </h2>
-        </div>
-
-        {/* Tab bar */}
-        <div className="flex gap-1 bg-white border border-[#e5e5ea] rounded-[14px] p-1.5 mb-6 overflow-x-auto">
-          {TABS.map(t => (
-            <button
-              key={t.id}
-              onClick={() => setActiveTab(t.id)}
-              className={`flex items-center gap-1.5 px-3.5 py-2 rounded-[10px] text-[13px] font-semibold whitespace-nowrap transition-all border-0 cursor-pointer flex-1 justify-center ${
-                activeTab === t.id
-                  ? 'bg-[#0071e3] text-white shadow-sm'
-                  : 'text-[#6e6e73] bg-transparent hover:bg-[#f5f5f7]'
-              }`}
-            >
-              <span className={activeTab === t.id ? 'text-white' : 'text-[#6e6e73]'}>{t.icon}</span>
-              {t.label}
-            </button>
-          ))}
-        </div>
-
-        {/* Tab content */}
-        <div className="bg-white border border-[#e5e5ea] rounded-[20px] p-7">
-          <div className="mb-6">
-            <h3 className="text-[22px] font-bold text-[#1d1d1f] tracking-tight mb-2">{tab.headline}</h3>
-            <p className="text-[14px] text-[#6e6e73] leading-relaxed max-w-[640px]">{tab.sub}</p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {tab.items.map(item => (
-              <div key={item.title} className="flex gap-3 p-4 bg-[#f5f5f7] rounded-[14px]">
-                <div className="w-5 h-5 rounded-full bg-[#e8f2ff] flex items-center justify-center shrink-0 mt-0.5">
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0071e3" strokeWidth="3" strokeLinecap="round">
-                    <polyline points="20,6 9,17 4,12"/>
+              {/* health ring */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '14px 16px', background: 'rgba(0,113,227,0.1)', border: '1px solid rgba(0,113,227,0.18)', borderRadius: 14, marginBottom: 14 }}>
+                <div style={{ position: 'relative', width: 58, height: 58, flexShrink: 0 }}>
+                  <svg width="58" height="58" viewBox="0 0 58 58" style={{ transform: 'rotate(-90deg)' }}>
+                    <circle cx="29" cy="29" r="23" fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth="5"/>
+                    <circle cx="29" cy="29" r="23" fill="none" stroke="#0071e3" strokeWidth="5" strokeLinecap="round" strokeDasharray="145" className="ring-anim"/>
                   </svg>
+                  <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
+                    <span style={{ color: '#fff', fontSize: 17, fontWeight: 900, lineHeight: 1 }}>87</span>
+                    <span style={{ color: 'rgba(255,255,255,0.35)', fontSize: 8 }}>/ 100</span>
+                  </div>
                 </div>
                 <div>
-                  <div className="text-[13px] font-semibold text-[#1d1d1f] mb-0.5">{item.title}</div>
-                  <div className="text-[12px] text-[#6e6e73] leading-relaxed">{item.desc}</div>
+                  <div style={{ color: 'rgba(255,255,255,0.45)', fontSize: 10, marginBottom: 6 }}>Health score</div>
+                  <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                    <span style={{ background: 'rgba(52,199,89,0.15)', color: '#34c759', fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 100 }}>9 done</span>
+                    <span style={{ background: 'rgba(255,159,10,0.15)', color: '#ff9f0a', fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 100 }}>2 due soon</span>
+                  </div>
                 </div>
+              </div>
+
+              {/* items */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 7, marginBottom: 13 }}>
+                {[
+                  { l: 'HACCP Records', s: 'On track', ok: true },
+                  { l: 'Staff Training Certs', s: 'On track', ok: true },
+                  { l: 'Allergen Matrix', s: '14 days left', ok: false },
+                  { l: 'Food Business Reg', s: 'Complete', ok: true },
+                ].map(item => (
+                  <div key={item.l} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '9px 11px', background: 'rgba(255,255,255,0.04)', borderRadius: 10 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <div style={{ width: 16, height: 16, borderRadius: '50%', background: item.ok ? 'rgba(52,199,89,0.18)' : 'rgba(255,159,10,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                        {item.ok
+                          ? <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#34c759" strokeWidth="3" strokeLinecap="round"><polyline points="20,6 9,17 4,12"/></svg>
+                          : <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#ff9f0a" strokeWidth="3" strokeLinecap="round"><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        }
+                      </div>
+                      <span style={{ color: 'rgba(255,255,255,0.76)', fontSize: 11, fontWeight: 500 }}>{item.l}</span>
+                    </div>
+                    <span style={{ color: item.ok ? 'rgba(52,199,89,0.8)' : '#ff9f0a', fontSize: 10, fontWeight: 700 }}>{item.s}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* deadline strip */}
+              <div style={{ background: 'rgba(255,159,10,0.1)', border: '1px solid rgba(255,159,10,0.2)', borderRadius: 11, padding: '9px 13px', display: 'flex', alignItems: 'center', gap: 8 }}>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#ff9f0a" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <span style={{ color: 'rgba(255,255,255,0.65)', fontSize: 11 }}>Next: <strong style={{ color: '#fff' }}>Allergen Compliance</strong> · 14 days</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 110, background: 'linear-gradient(transparent, #020c15)', pointerEvents: 'none' }} />
+      </section>
+
+      {/* ════════ PENALTY TICKER ════════ */}
+      <div style={{ background: '#0a1825', borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)', padding: '13px 0', overflow: 'hidden' }}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <div style={{ flexShrink: 0, padding: '0 18px 0 22px', color: '#ff3b30', fontSize: 10, fontWeight: 900, letterSpacing: '0.12em', textTransform: 'uppercase', borderRight: '1px solid rgba(255,255,255,0.07)', marginRight: 18, whiteSpace: 'nowrap' }}>Real UK penalties</div>
+          <div className="ticker-wrap" style={{ flex: 1 }}>
+            <div className="ticker-inner">
+              {[...TICK_ITEMS, ...TICK_ITEMS].map((item, i) => (
+                <span key={i} style={{ display: 'inline-flex', alignItems: 'center', gap: 20, padding: '0 28px', color: 'rgba(255,255,255,0.42)', fontSize: 12, fontWeight: 500, whiteSpace: 'nowrap' }}>
+                  <span style={{ color: '#ff3b30', fontSize: 16 }}>·</span>
+                  {item}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ════════ STATS ════════ */}
+      <section ref={statsRef} style={{ background: '#fff', padding: 'clamp(64px,8vw,100px) clamp(20px,4vw,48px)' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div data-reveal className="reveal" style={{ textAlign: 'center', marginBottom: 60 }}>
+            <div style={{ color: '#0071e3', fontSize: 12, fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 12 }}>The cost of getting it wrong</div>
+            <h2 style={{ fontSize: 'clamp(26px,4vw,46px)', fontWeight: 900, color: '#1d1d1f', letterSpacing: '-1px', lineHeight: 1.08 }}>
+              Non-compliance is expensive.<br />Preventable is the point.
+            </h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 20 }}>
+            {[
+              { val: `£${c1.toLocaleString()}`, label: 'max fine for employing without Right to Work checks — per worker', accent: '#ff3b30' },
+              { val: `£${c2.toLocaleString()}`, label: 'fine for a single unlicensed alcohol sale — criminal offence', accent: '#ff9f0a' },
+              { val: `£${c3.toLocaleString()}`, label: 'average legal cost when a customer sues over allergen non-disclosure', accent: '#0071e3' },
+              { val: `${c4}%`, label: 'of food businesses inspected by an EHO have at least one compliance issue', accent: '#34c759' },
+            ].map((s, i) => (
+              <div key={i} data-reveal className={`reveal reveal-d${i + 1}`} style={{ background: '#f5f5f7', borderRadius: 20, padding: 'clamp(22px,3vw,32px) 22px', borderTop: `3px solid ${s.accent}` }}>
+                <div style={{ fontSize: 'clamp(28px,3vw,44px)', fontWeight: 900, color: '#1d1d1f', letterSpacing: '-1px', lineHeight: 1, marginBottom: 10 }}>{s.val}</div>
+                <p style={{ color: '#6e6e73', fontSize: 13, lineHeight: 1.55 }}>{s.label}</p>
               </div>
             ))}
           </div>
         </div>
+      </section>
 
-        {/* Bottom CTA strip */}
-        <div className="mt-8 bg-gradient-to-br from-[#0071e3] to-[#0058b0] rounded-[20px] px-8 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div>
-            <div className="text-white font-bold text-[18px] mb-1">Ready to stay compliant?</div>
-            <div className="text-white/75 text-[13px]">Free plan forever · No credit card · Set up in 5 minutes</div>
+      {/* ════════ FEATURES ════════ */}
+      <section style={{ background: '#f5f5f7', padding: 'clamp(64px,8vw,100px) clamp(20px,4vw,48px)' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div data-reveal className="reveal" style={{ textAlign: 'center', marginBottom: 60 }}>
+            <div style={{ color: '#0071e3', fontSize: 12, fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 12 }}>Everything you need</div>
+            <h2 style={{ fontSize: 'clamp(26px,4vw,46px)', fontWeight: 900, color: '#1d1d1f', letterSpacing: '-1px', lineHeight: 1.08, marginBottom: 14 }}>
+              Built for UK food businesses.<br />Nothing else.
+            </h2>
+            <p style={{ color: '#6e6e73', fontSize: 17, maxWidth: 520, margin: '0 auto', lineHeight: 1.62 }}>
+              Every feature maps to a real UK legal requirement — FHRS, Natasha&apos;s Law, Owen&apos;s Law, Right to Work. Zero filler.
+            </p>
           </div>
-          <Link
-            href="/uk"
-            onClick={() => localStorage.setItem('complynt_region', 'UK')}
-            className="bg-white text-[#0071e3] px-6 py-3 rounded-[12px] font-bold text-[14px] hover:bg-[#f0f0f0] transition-colors whitespace-nowrap shrink-0"
-          >
-            Start free →
-          </Link>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 18 }}>
+            {FEATURES.map((f, i) => (
+              <div key={i} data-reveal className={`reveal reveal-d${(i % 3) + 1}`}
+                style={{ background: '#fff', borderRadius: 20, padding: '26px 22px', border: '1px solid #e5e5ea', cursor: 'default', transition: 'box-shadow 0.2s, border-color 0.2s' }}
+                onMouseEnter={e => { const el = e.currentTarget as HTMLElement; el.style.boxShadow = '0 10px 36px rgba(0,0,0,0.08)'; el.style.borderColor = '#c8c8cc' }}
+                onMouseLeave={e => { const el = e.currentTarget as HTMLElement; el.style.boxShadow = 'none'; el.style.borderColor = '#e5e5ea' }}
+              >
+                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 14 }}>
+                  <div style={{ width: 42, height: 42, borderRadius: 12, background: 'rgba(0,113,227,0.08)', color: '#0071e3', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{f.icon}</div>
+                  <span style={{ background: '#e8f2ff', color: '#0071e3', fontSize: 10, fontWeight: 800, padding: '3px 9px', borderRadius: 100, marginTop: 2 }}>{f.tag}</span>
+                </div>
+                <h3 style={{ color: '#1d1d1f', fontSize: 16, fontWeight: 800, marginBottom: 9, letterSpacing: '-0.3px' }}>{f.title}</h3>
+                <p style={{ color: '#6e6e73', fontSize: 13, lineHeight: 1.6 }}>{f.body}</p>
+              </div>
+            ))}
+          </div>
         </div>
+      </section>
 
-        <p className="mt-6 text-[13px] text-[#a1a1a6] text-center">
-          Already have an account? <Link href="/login" className="text-[#0071e3] font-medium">Log in →</Link>
-        </p>
+      {/* ════════ EHO DARK SECTION ════════ */}
+      <section style={{ background: '#020c15', padding: 'clamp(64px,8vw,100px) clamp(20px,4vw,48px)', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(255,255,255,0.016) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.016) 1px, transparent 1px)', backgroundSize: '64px 64px', pointerEvents: 'none' }} />
+        <div style={{ maxWidth: 1100, margin: '0 auto', position: 'relative' }}>
+          <div data-reveal className="reveal" style={{ textAlign: 'center', marginBottom: 60 }}>
+            <div style={{ color: '#60a5fa', fontSize: 12, fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 12 }}>EHO Inspections</div>
+            <h2 style={{ fontSize: 'clamp(26px,4vw,46px)', fontWeight: 900, color: '#fff', letterSpacing: '-1px', lineHeight: 1.08, marginBottom: 14 }}>
+              What Environmental Health<br />Officers actually score you on.
+            </h2>
+            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 17, maxWidth: 500, margin: '0 auto', lineHeight: 1.62 }}>
+              Most businesses fail on the paperwork, not the hygiene. Here&apos;s exactly how EHOs split their scoring.
+            </p>
+          </div>
 
-      </main>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 18, marginBottom: 52 }}>
+            {EHO_AREAS.map((a, i) => (
+              <div key={i} data-reveal className={`reveal reveal-d${i + 1}`} style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 20, padding: '26px 22px' }}>
+                <div style={{ fontSize: 'clamp(30px,3vw,40px)', fontWeight: 900, color: '#0071e3', marginBottom: 9, letterSpacing: '-1px' }}>{a.pct}</div>
+                <div style={{ color: '#fff', fontSize: 15, fontWeight: 800, marginBottom: 10 }}>{a.area}</div>
+                <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 13, lineHeight: 1.62 }}>{a.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 0, borderTop: '1px solid rgba(255,255,255,0.07)' }}>
+            {[
+              { val: '1 in 3', label: 'UK food businesses have an FHRS rating of 3 stars or below' },
+              { val: '48h', label: 'how quickly an EHO can arrive after a complaint — no notice required' },
+              { val: '3 yrs', label: 'a downgraded FHRS rating stays publicly visible on the FSA website' },
+              { val: '£80k', label: 'maximum fine for serious offences under the Food Safety Act 1990' },
+            ].map((s, i) => (
+              <div key={i} data-reveal className={`reveal reveal-d${i + 1}`} style={{ textAlign: 'center', padding: '30px 18px', borderRight: i < 3 ? '1px solid rgba(255,255,255,0.07)' : 'none' }}>
+                <div style={{ color: '#fff', fontSize: 'clamp(24px,2.5vw,30px)', fontWeight: 900, letterSpacing: '-0.6px', marginBottom: 8 }}>{s.val}</div>
+                <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, lineHeight: 1.55 }}>{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ════════ QUIZ ════════ */}
+      <section style={{ background: '#fff', padding: 'clamp(64px,8vw,100px) clamp(20px,4vw,48px)' }}>
+        <div style={{ maxWidth: 700, margin: '0 auto' }}>
+          <div data-reveal className="reveal" style={{ textAlign: 'center', marginBottom: 48 }}>
+            <div style={{ color: '#0071e3', fontSize: 12, fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 12 }}>Free risk check</div>
+            <h2 style={{ fontSize: 'clamp(24px,4vw,42px)', fontWeight: 900, color: '#1d1d1f', letterSpacing: '-0.8px', lineHeight: 1.08, marginBottom: 14 }}>
+              Find your FHRS risk in 60&nbsp;seconds.
+            </h2>
+            <p style={{ color: '#6e6e73', fontSize: 16, lineHeight: 1.62 }}>Three questions. Instant result. No sign-up required.</p>
+          </div>
+
+          {!showResult ? (
+            <div data-reveal className="reveal">
+              {QUIZ_Q.map((q, qi) => (
+                <div key={qi} style={{ marginBottom: 24, padding: '22px 22px 20px', background: '#f5f5f7', borderRadius: 20 }}>
+                  <div style={{ display: 'flex', gap: 12, marginBottom: 16 }}>
+                    <div style={{ width: 26, height: 26, borderRadius: '50%', flexShrink: 0, background: quiz[qi] !== null ? '#0071e3' : '#e5e5ea', color: quiz[qi] !== null ? '#fff' : '#a1a1a6', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 800, transition: 'all 0.2s' }}>
+                      {quiz[qi] !== null
+                        ? <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round"><polyline points="20,6 9,17 4,12"/></svg>
+                        : qi + 1}
+                    </div>
+                    <p style={{ color: '#1d1d1f', fontSize: 14, fontWeight: 700, lineHeight: 1.5, margin: 0, paddingTop: 2 }}>{q.q}</p>
+                  </div>
+                  <div style={{ paddingLeft: 38, display: 'flex', flexDirection: 'column', gap: 7 }}>
+                    {q.opts.map((opt, oi) => (
+                      <button key={oi} onClick={() => setQuiz(p => { const n = [...p]; n[qi] = opt.score; return n })} style={{ textAlign: 'left', cursor: 'pointer', padding: '11px 15px', borderRadius: 12, fontSize: 13, fontWeight: 500, border: quiz[qi] === opt.score ? '2px solid #0071e3' : '2px solid #e5e5ea', background: quiz[qi] === opt.score ? '#e8f2ff' : '#fff', color: quiz[qi] === opt.score ? '#004aad' : '#1d1d1f', transition: 'all 0.15s' }}>
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ))}
+              <div style={{ textAlign: 'center' }}>
+                <button onClick={() => { if (quizDone) setShowResult(true) }} style={{ background: quizDone ? '#0071e3' : '#e5e5ea', color: quizDone ? '#fff' : '#a1a1a6', border: 'none', cursor: quizDone ? 'pointer' : 'default', padding: '14px 36px', borderRadius: 100, fontSize: 15, fontWeight: 800, transition: 'all 0.2s', boxShadow: quizDone ? '0 6px 24px rgba(0,113,227,0.3)' : 'none' }}>
+                  {quizDone ? 'See my risk assessment →' : 'Answer all 3 questions to continue'}
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div data-reveal className="reveal" style={{ border: `2px solid ${risk.border}`, background: risk.bg, borderRadius: 24, padding: 'clamp(28px,4vw,40px)', textAlign: 'center' }}>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, border: `1px solid ${risk.border}`, borderRadius: 100, padding: '5px 16px', marginBottom: 18 }}>
+                <span style={{ color: risk.color, fontSize: 12, fontWeight: 900, letterSpacing: '0.08em' }}>{risk.level}</span>
+              </div>
+              <h3 style={{ color: '#1d1d1f', fontSize: 'clamp(20px,3vw,26px)', fontWeight: 900, marginBottom: 12, letterSpacing: '-0.4px' }}>{risk.title}</h3>
+              <p style={{ color: '#6e6e73', fontSize: 15, lineHeight: 1.65, maxWidth: 460, margin: '0 auto 28px' }}>{risk.body}</p>
+              <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+                <Link href="/signup" style={{ background: '#0071e3', color: '#fff', fontWeight: 800, fontSize: 14, padding: '13px 28px', borderRadius: 100, textDecoration: 'none', boxShadow: '0 6px 20px rgba(0,113,227,0.35)' }}>Fix it with Complynt — free</Link>
+                <button onClick={() => { setQuiz([null, null, null]); setShowResult(false) }} style={{ background: 'transparent', border: '1px solid #e5e5ea', color: '#6e6e73', fontWeight: 600, fontSize: 14, padding: '13px 22px', borderRadius: 100, cursor: 'pointer' }}>Retake quiz</button>
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ════════ LAW COVERAGE ════════ */}
+      <section style={{ background: '#f5f5f7', padding: 'clamp(64px,8vw,100px) clamp(20px,4vw,48px)' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div data-reveal className="reveal" style={{ textAlign: 'center', marginBottom: 52 }}>
+            <div style={{ color: '#0071e3', fontSize: 12, fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 12 }}>UK coverage</div>
+            <h2 style={{ fontSize: 'clamp(24px,4vw,42px)', fontWeight: 900, color: '#1d1d1f', letterSpacing: '-0.8px', lineHeight: 1.08 }}>Every UK food law. One platform.</h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 16 }}>
+            {LAWS.map((l, i) => (
+              <div key={i} data-reveal className={`reveal reveal-d${(i % 3) + 1}`} style={{ background: '#fff', borderRadius: 16, padding: '20px 18px', border: '1px solid #e5e5ea' }}>
+                <div style={{ display: 'inline-block', background: '#e8f2ff', color: '#0071e3', fontSize: 10, fontWeight: 900, padding: '3px 10px', borderRadius: 100, marginBottom: 8 }}>{l.abbr}</div>
+                <div style={{ color: '#a1a1a6', fontSize: 10, marginBottom: 8 }}>{l.full}</div>
+                <p style={{ color: '#1d1d1f', fontSize: 13, lineHeight: 1.58 }}>{l.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ════════ FINAL CTA ════════ */}
+      <section style={{ background: 'linear-gradient(140deg, #004bb0 0%, #0071e3 55%, #0099ff 100%)', padding: 'clamp(72px,10vw,110px) clamp(20px,4vw,48px)', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px)', backgroundSize: '64px 64px', pointerEvents: 'none' }} />
+        <div data-reveal className="reveal" style={{ position: 'relative', maxWidth: 620, margin: '0 auto' }}>
+          <h2 style={{ color: '#fff', fontSize: 'clamp(28px,5vw,54px)', fontWeight: 900, letterSpacing: '-1.2px', lineHeight: 1.05, marginBottom: 18 }}>
+            Get compliant.<br />Stay compliant.
+          </h2>
+          <p style={{ color: 'rgba(255,255,255,0.72)', fontSize: 18, lineHeight: 1.64, marginBottom: 42 }}>
+            Join UK food businesses that replaced late-night spreadsheet panic with one calm dashboard. Free to start — no credit card, no contracts.
+          </p>
+          <Link href="/signup" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: '#fff', color: '#0071e3', fontWeight: 900, fontSize: 17, padding: '18px 40px', borderRadius: 100, textDecoration: 'none', boxShadow: '0 14px 40px rgba(0,0,0,0.18)', letterSpacing: '-0.2px' }}>
+            Start free today
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0071e3" strokeWidth="2.5" strokeLinecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg>
+          </Link>
+          <p style={{ color: 'rgba(255,255,255,0.42)', fontSize: 13, marginTop: 18 }}>Currently available for UK food businesses only · Australia coming soon</p>
+        </div>
+      </section>
+
+      {/* ════════ FOOTER ════════ */}
+      <footer style={{ background: '#020c15', padding: 'clamp(40px,6vw,56px) clamp(20px,4vw,48px) 32px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 32 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <div style={{ width: 26, height: 26, borderRadius: 8, background: '#0071e3', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+              </div>
+              <span style={{ color: '#fff', fontSize: 16, fontWeight: 800 }}>Complynt</span>
+            </div>
+            <div style={{ display: 'flex', gap: 28 }}>
+              {['Privacy', 'Terms', 'Contact'].map(l => (
+                <Link key={l} href="#" style={{ color: 'rgba(255,255,255,0.3)', fontSize: 13, fontWeight: 500 }}>{l}</Link>
+              ))}
+            </div>
+          </div>
+          <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: 22, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
+            <p style={{ color: 'rgba(255,255,255,0.22)', fontSize: 12 }}>© {new Date().getFullYear()} Complynt. Built for UK food businesses.</p>
+            <p style={{ color: 'rgba(255,255,255,0.16)', fontSize: 12 }}>Not legal advice. Consult a qualified solicitor for complex compliance matters.</p>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }

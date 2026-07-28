@@ -85,6 +85,68 @@ a { color: inherit; text-decoration: none; }
 }
 .toast.hidden { opacity: 0; }
 
+/* ── Homepage animations ── */
+@keyframes blob {
+  0%,100% { transform: translate(0,0) scale(1); }
+  33%      { transform: translate(40px,-60px) scale(1.07); }
+  66%      { transform: translate(-30px,40px) scale(0.96); }
+}
+@keyframes blob2 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  40%      { transform: translate(-50px,30px) scale(1.04); }
+  70%      { transform: translate(30px,-40px) scale(0.98); }
+}
+@keyframes blob3 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  25%      { transform: translate(20px,50px) scale(1.06); }
+  75%      { transform: translate(-40px,-20px) scale(0.94); }
+}
+@keyframes float-card {
+  0%,100% { transform: translateY(0) rotate(-2deg); }
+  50%      { transform: translateY(-14px) rotate(-2deg); }
+}
+@keyframes ticker-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes spin-ring {
+  from { stroke-dashoffset: 214; }
+  to   { stroke-dashoffset: 27; }
+}
+@keyframes fade-in-hero {
+  from { opacity:0; transform:translateY(18px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes pulse-dot {
+  0%,100% { box-shadow:0 0 0 0 rgba(52,199,89,.5); }
+  50%      { box-shadow:0 0 0 6px rgba(52,199,89,0); }
+}
+
+.hero-text-1 { animation: fade-in-hero 0.7s 0.1s both; }
+.hero-text-2 { animation: fade-in-hero 0.7s 0.25s both; }
+.hero-text-3 { animation: fade-in-hero 0.7s 0.4s both; }
+.hero-text-4 { animation: fade-in-hero 0.7s 0.55s both; }
+.hero-card   { animation: float-card 6s ease-in-out infinite; }
+.ring-anim   { animation: spin-ring 1.2s 0.8s cubic-bezier(.4,0,.2,1) both; }
+
+.ticker-wrap { overflow: hidden; white-space: nowrap; }
+.ticker-inner { display: inline-flex; gap: 0; animation: ticker-scroll 22s linear infinite; }
+
+.reveal {
+  opacity: 0; transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.is-visible { opacity: 1; transform: translateY(0); }
+.reveal-d1 { transition-delay: 0.1s; }
+.reveal-d2 { transition-delay: 0.2s; }
+.reveal-d3 { transition-delay: 0.3s; }
+.reveal-d4 { transition-delay: 0.4s; }
+
+.live-dot {
+  display:inline-block; width:7px; height:7px; border-radius:50%; background:#34c759;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
 /* ── Hero dashboard mockup ── */
 .mockup-frame {
   background: var(--bg); border: 1px solid var(--border); border-radius: 14px;
