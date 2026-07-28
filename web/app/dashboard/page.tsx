@@ -17,7 +17,8 @@ import TemperatureLogsPanel from '@/components/dashboard/TemperatureLogsPanel'
 import StaffTrainingPanel   from '@/components/dashboard/StaffTrainingPanel'
 import EHOSimulatorPanel    from '@/components/dashboard/EHOSimulatorPanel'
 import HACCPBuilderPanel    from '@/components/dashboard/HACCPBuilderPanel'
-import AllergenBuilderPanel from '@/components/dashboard/AllergenBuilderPanel'
+import AllergenBuilderPanel  from '@/components/dashboard/AllergenBuilderPanel'
+import DocumentVaultPanel   from '@/components/dashboard/DocumentVaultPanel'
 
 const TEST_EMAIL = 'testing@testing.com'
 
@@ -687,45 +688,8 @@ export default function DashboardPage() {
         )}
 
         {/* ── Documents ─────────────────────────────────────────────────────── */}
-        {view === 'documents' && (
-          <div className="p-5 flex-1">
-            <input className={`${inputCls} w-full max-w-[400px] mb-5`} type="text" placeholder="Search documents…" value={docSearch} onChange={e => setDocSearch(e.target.value)} />
-            {compliances.filter(c => (c.vaultDocs || []).length > 0).length === 0 ? (
-              <div className="text-center py-16 text-[#a1a1a6] text-[14px]">
-                No documents uploaded yet.<br />Open a compliance item and upload your first document.
-              </div>
-            ) : (
-              compliances.filter(c => (c.vaultDocs || []).length > 0).map(c => {
-                const docs = (c.vaultDocs || []).filter(d => !docSearch || d.name.toLowerCase().includes(docSearch.toLowerCase()))
-                if (docs.length === 0 && docSearch) return null
-                return (
-                  <div key={c.id} className="bg-white border border-[#e5e5ea] rounded-[14px] p-5 mb-4">
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-[14px] font-bold text-[#1d1d1f]">{c.name}</span>
-                      <span className="badge badge-gray">{docs.length} doc{docs.length !== 1 ? 's' : ''}</span>
-                    </div>
-                    {docs.map((d, i) => (
-                      <div key={i} className="flex items-center gap-3 py-3 border-t border-[#e5e5ea]">
-                        <div className="w-8 h-8 rounded-[8px] bg-[#f5f5f7] flex items-center justify-center text-[#6e6e73] shrink-0"><DocIcon /></div>
-                        <div className="flex-1 min-w-0">
-                          <div className="text-[13px] font-medium text-[#1d1d1f] truncate">{d.name}</div>
-                          <div className="text-[11px] text-[#a1a1a6] mt-0.5">
-                            Uploaded {new Date(d.uploadedAt).toLocaleDateString('en-GB')}
-                            {d.expiry && ` · Expires ${d.expiry}`}
-                          </div>
-                        </div>
-                        {d.url ? (
-                          <a href={d.url} target="_blank" rel="noreferrer" className="text-[12px] text-[#0071e3] font-medium hover:text-[#0058b0]">View</a>
-                        ) : (
-                          <span className="text-[11px] text-[#a1a1a6] italic">Demo file</span>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                )
-              })
-            )}
-          </div>
+        {view === 'documents' && user && (
+          <DocumentVaultPanel uid={user.uid} onToast={showToast} />
         )}
 
         {/* ── AI Assistant ──────────────────────────────────────────────────── */}
