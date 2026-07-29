@@ -330,7 +330,16 @@ export default function DashboardPage() {
               <path d="M2 17l10 5 10-5" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" fill="none"/>
             </svg>
           </div>
-          <span className="text-[15px] font-bold text-[#1d1d1f]">Complynt</span>
+          <span className="text-[15px] font-bold text-[#1d1d1f] flex-1">Complynt</span>
+          <button
+            className="md:hidden w-7 h-7 rounded-[6px] border border-[#e5e5ea] flex items-center justify-center text-[#6e6e73] bg-transparent cursor-pointer hover:bg-[#f5f5f7] transition-colors"
+            onClick={() => setSidebarOpen(false)}
+            aria-label="Close menu"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
         </div>
 
         <nav className="flex-1 overflow-y-auto px-3 py-3">
