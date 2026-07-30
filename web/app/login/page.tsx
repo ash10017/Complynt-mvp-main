@@ -267,9 +267,9 @@ export default function LoginPage() {
 
           <p className="text-[11.5px] text-[#a1a1a6] text-center mt-6">
             By continuing, you agree to our{' '}
-            <a href="#" className="text-[#0071e3]">Terms of Service</a>
+            <a href="/terms" className="text-[#0071e3]">Terms of Service</a>
             {' '}and{' '}
-            <a href="#" className="text-[#0071e3]">Privacy Policy</a>.
+            <a href="/privacy" className="text-[#0071e3]">Privacy Policy</a>.
           </p>
         </div>
       </div>
