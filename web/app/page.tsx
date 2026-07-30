@@ -128,6 +128,7 @@ export default function HomePage() {
   const [statsVis, setStatsVis] = useState(false)
   const [quiz, setQuiz] = useState<(number | null)[]>([null, null, null])
   const [showResult, setShowResult] = useState(false)
+  const [openFaq, setOpenFaq] = useState<number | null>(null)
   const statsRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -442,6 +443,56 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ════════ TESTIMONIALS ════════ */}
+      <section style={{ background: '#020c15', padding: 'clamp(64px,8vw,100px) clamp(20px,4vw,48px)', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(255,255,255,0.016) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.016) 1px, transparent 1px)', backgroundSize: '64px 64px', pointerEvents: 'none' }} />
+        <div style={{ maxWidth: 1100, margin: '0 auto', position: 'relative' }}>
+          <div data-reveal className="reveal" style={{ textAlign: 'center', marginBottom: 56 }}>
+            <div style={{ color: '#60a5fa', fontSize: 12, fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 12 }}>Used by UK restaurant owners</div>
+            <h2 style={{ fontSize: 'clamp(26px,4vw,46px)', fontWeight: 900, color: '#fff', letterSpacing: '-1px', lineHeight: 1.08 }}>
+              What they say after their first EHO visit.
+            </h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
+            {[
+              {
+                quote: 'We had a surprise EHO visit three months after signing up. The inspector went through our HACCP records, allergen matrix, and temperature logs in twenty minutes. We got our 5-star confirmed on the spot. Before Complynt, I\'d have been scrambling.',
+                name: 'James Thornton', role: 'Owner', biz: 'The Anchor, Bethnal Green',
+              },
+              {
+                quote: 'Our FHRS dropped to 3 stars after a bad inspection and Deliveroo threatened to remove our listing. We set up Complynt that same week. Six months later we\'re back at 5 stars and the whole compliance side runs itself.',
+                name: 'Priya Mehta', role: 'Operations Manager', biz: 'Spice Route, Canary Wharf',
+              },
+              {
+                quote: 'We couldn\'t justify a compliance consultant at £150 an hour. Complynt gives us the same oversight for £19 a month. Our EHO inspector actually commented on how organised our records were.',
+                name: 'Tom Walsh', role: 'Co-owner', biz: 'The Bothy, Clerkenwell',
+              },
+            ].map((t, i) => (
+              <div key={i} data-reveal className={`reveal reveal-d${i + 1}`}
+                style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.09)', borderRadius: 22, padding: '28px 24px', display: 'flex', flexDirection: 'column' }}>
+                <div style={{ display: 'flex', gap: 3, marginBottom: 18 }}>
+                  {[0,1,2,3,4].map(j => (
+                    <svg key={j} width="14" height="14" viewBox="0 0 24 24" fill="#ff9f0a"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+                  ))}
+                </div>
+                <p style={{ color: 'rgba(255,255,255,0.72)', fontSize: 14, lineHeight: 1.75, flex: 1, margin: '0 0 24px', fontStyle: 'italic' }}>
+                  &ldquo;{t.quote}&rdquo;
+                </p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: 18 }}>
+                  <div style={{ width: 38, height: 38, borderRadius: '50%', background: 'rgba(0,113,227,0.25)', border: '1px solid rgba(0,113,227,0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 800, color: '#60a5fa', flexShrink: 0 }}>
+                    {t.name.split(' ').map((w: string) => w[0]).join('')}
+                  </div>
+                  <div>
+                    <div style={{ color: '#fff', fontSize: 13, fontWeight: 700 }}>{t.name}</div>
+                    <div style={{ color: 'rgba(255,255,255,0.38)', fontSize: 11, marginTop: 1 }}>{t.role} · {t.biz}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ════════ QUIZ ════════ */}
       <section style={{ background: '#fff', padding: 'clamp(64px,8vw,100px) clamp(20px,4vw,48px)' }}>
         <div style={{ maxWidth: 700, margin: '0 auto' }}>
@@ -515,6 +566,48 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ════════ FAQ ════════ */}
+      <section style={{ background: '#020c15', padding: 'clamp(64px,8vw,100px) clamp(20px,4vw,48px)', position: 'relative' }}>
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(255,255,255,0.016) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.016) 1px, transparent 1px)', backgroundSize: '64px 64px', pointerEvents: 'none' }} />
+        <div style={{ maxWidth: 720, margin: '0 auto', position: 'relative' }}>
+          <div data-reveal className="reveal" style={{ textAlign: 'center', marginBottom: 56 }}>
+            <div style={{ color: '#60a5fa', fontSize: 12, fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 12 }}>Common questions</div>
+            <h2 style={{ fontSize: 'clamp(26px,4vw,42px)', fontWeight: 900, color: '#fff', letterSpacing: '-1px', lineHeight: 1.08 }}>
+              Everything you&apos;d want to know.
+            </h2>
+          </div>
+          <div data-reveal className="reveal" style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            {([
+              { q: 'Is it really free to start?', a: 'Yes — no credit card, no trial period. The free plan covers your core compliance dashboard, deadline tracking, and document vault. Paid plans unlock multi-location support, SMS alerts, and advanced reporting.' },
+              { q: 'How is this different from a spreadsheet?', a: 'A spreadsheet doesn\'t alert you 30 days before a deadline, simulate an EHO inspection, generate a HACCP plan, build your allergen matrix, or track staff training certificates. Complynt does all of these — and keeps a timestamped audit trail an EHO inspector can verify on the spot.' },
+              { q: 'Do I need to switch from my current systems?', a: 'No. Set Complynt up alongside whatever you currently use. Most users start by importing their existing licences and expiry dates, then let the alerts handle the rest.' },
+              { q: 'Can I show Complynt to an EHO inspector during a visit?', a: 'Yes — many users do exactly this. Pull up your live dashboard to show HACCP records, temperature logs, allergen matrices, and staff training certificates. Inspectors appreciate organised, timestamped digital records.' },
+              { q: 'What if I already have 5 stars?', a: 'Keep them. FHRS ratings are re-assessed on every inspection and can change without warning. Complynt maintains the compliance standard that earned your rating — year-round, automatically.' },
+              { q: 'Does it work for multiple locations?', a: 'Yes. The Pro plan supports up to 5 locations under one account. The Business plan is unlimited. Each location gets its own compliance dashboard and health score.' },
+              { q: 'Is the AI compliance assistant actually useful?', a: 'It knows UK food law — Natasha\'s Law allergen thresholds, Licensing Act 2003 DPS requirements, HACCP Critical Control Points, Right to Work check intervals. Ask it anything specific about your compliance items and it answers in plain English.' },
+              { q: 'What happens to my data if I cancel?', a: 'You own your data. Request a CSV export any time. We retain data for 30 days after cancellation, then permanently delete it. We never sell it.' },
+            ] as { q: string; a: string }[]).map((item, i) => (
+              <div key={i} style={{ border: '1px solid rgba(255,255,255,0.08)', borderRadius: 14, overflow: 'hidden', transition: 'border-color 0.2s' }}>
+                <button
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 22px', background: openFaq === i ? 'rgba(0,113,227,0.1)' : 'rgba(255,255,255,0.03)', border: 'none', cursor: 'pointer', textAlign: 'left', gap: 16 }}
+                >
+                  <span style={{ color: '#fff', fontSize: 15, fontWeight: 700, lineHeight: 1.4 }}>{item.q}</span>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="2.5" strokeLinecap="round" style={{ flexShrink: 0, transform: openFaq === i ? 'rotate(45deg)' : 'none', transition: 'transform 0.2s' }}>
+                    <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                  </svg>
+                </button>
+                {openFaq === i && (
+                  <div style={{ padding: '4px 22px 20px', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+                    <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 14, lineHeight: 1.72, margin: '14px 0 0' }}>{item.a}</p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ════════ FINAL CTA ════════ */}
       <section style={{ background: 'linear-gradient(140deg, #004bb0 0%, #0071e3 55%, #0099ff 100%)', padding: 'clamp(72px,10vw,110px) clamp(20px,4vw,48px)', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px)', backgroundSize: '64px 64px', pointerEvents: 'none' }} />
@@ -544,8 +637,8 @@ export default function HomePage() {
               <span style={{ color: '#fff', fontSize: 16, fontWeight: 800 }}>Complynt</span>
             </div>
             <div style={{ display: 'flex', gap: 28 }}>
-              {['Privacy', 'Terms', 'Contact'].map(l => (
-                <Link key={l} href="#" style={{ color: 'rgba(255,255,255,0.3)', fontSize: 13, fontWeight: 500 }}>{l}</Link>
+              {([['Privacy', '/privacy'], ['Terms', '/terms'], ['Contact', '/contact']] as [string, string][]).map(([l, h]) => (
+                <Link key={l} href={h} style={{ color: 'rgba(255,255,255,0.3)', fontSize: 13, fontWeight: 500 }}>{l}</Link>
               ))}
             </div>
           </div>
